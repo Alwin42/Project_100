@@ -29,7 +29,7 @@ A simple yet powerful web application built using **HTML**, **CSS**, and **JavaS
 
 ## bash
 
-git clone - https://github.com/Alwin42/Project_100/tree/main/DoNotes
+git clone https://github.com/Alwin42/Project_100/tree/main/DoNotes
 
 Navigate to the project directory:
 
