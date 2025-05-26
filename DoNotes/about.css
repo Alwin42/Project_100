@@ -1,77 +1,41 @@
-/* Base styles */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+*{
+    font-family: 'poppins', sans-serif;
+    margin: 0;
+    padding: 0;
 }
-body {
-  font-family: 'Segoe UI', sans-serif;
-  line-height: 1.6;
-  background-color: #f9f9f9;
-  color: #333;
+body
+{
+    background: url('./assets/bg.svg') no-repeat center center fixed;
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    margin: 1;
 }
-
-.container {
-  width: 90%;
-  max-width: 960px;
-  margin: auto;
-  padding: 20px;
-}
-
-/* Header styles */
-header {
-  background-color: #3b82f6;
-  color: #fff;
-  padding: 20px 0;
-}
-header .logo {
-  font-size: 1.8rem;
-  font-weight: bold;
-}
-header nav {
-  margin-top: 10px;
-}
-header nav a {
-  color: #e0f2fe;
-  margin-right: 15px;
-  text-decoration: none;
-}
-header nav a.active,
-header nav a:hover {
-  text-decoration: underline;
+.navbar
+{ 
+    display: block;
+    background-color: #000000;
+    color: white;
+    padding: 10px;
+    text-decoration: none;
 }
 
-/* About section */
-.about {
-  background-color: #fff;
-  padding: 30px;
-  margin-top: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-}
-.about h2 {
-  margin-bottom: 20px;
-  font-size: 2rem;
-  color: #111827;
-}
-.about h3 {
-  margin-top: 20px;
-  color: #1d4ed8;
-}
-.about ul {
-  list-style: none;
-  padding-left: 0;
-}
-.about ul li {
-  padding: 8px 0;
-  font-size: 1rem;
+.navbar ul
+{
+    font-size: 20px;
+    list-style: none;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 20px;
+    gap: 40px;
 }
 
-/* Footer styles */
-footer {
-  background-color: #e5e7eb;
-  text-align: center;
-  padding: 15px 0;
-  margin-top: 40px;
-  color: #555;
+li a
+{
+    color: white;
+    text-decoration: none;
+    padding: 10px;
+    margin-bottom: 5px;;
+    
 }
