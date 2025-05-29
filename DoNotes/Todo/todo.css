@@ -57,7 +57,7 @@
 .todo-app h1
 {
     font-size: 30px;
-    color: #000000;
+    color: #1B003B;
     text-align: left;
     margin-bottom: 20px;
     text-transform: uppercase;
@@ -94,15 +94,19 @@ button {
     border: none;
     outline: none;
     padding: 16px 50px;
-    background: #440263;
+    background: #1B003B;
     color: #fff;
     font-size: 16px;
     border-radius: 40px;
     cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 button:hover{
-    background: #07e0c3;
-    color:#440263
+    background:#A0EFC4;
+    color:#1B003B;
+    transform: scale(1.05); 
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.3);
 }
 
  ul li
