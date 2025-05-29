@@ -37,7 +37,7 @@
                 <button class="btn" onclick="window.location.href='./Todo/todo.html'">Get Started</button>
             </div>
         </div>
-        </div>
+        
         <div class="calander">
             <div class="left">
                 <p id="Date">01</p>
@@ -47,6 +47,7 @@
                 <p id="Month">January</p>
                 <p id="Year">2025</p> 
             </div>
+        </div>
         </div>
     </div>
     <script>
@@ -62,7 +63,7 @@
         date.innerHTML = today.getDate();
         day.innerHTML = weekDays[today.getDay()];
         month.innerHTML = allMonths[today.getMonth()];
-        year.innerHTML = today.getYear();
+        year.innerHTML = today.getFullYear();
     </script>
 </body>
 </html>

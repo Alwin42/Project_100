@@ -53,7 +53,7 @@ li a
 .container2
 {
     display:grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     gap: 5px;
     margin-top: 70px;
     margin-left: 90px;
@@ -91,8 +91,8 @@ li a
 }
 .btn
 {
-    background-color:#130177;
-    color: white;
+    background-color:#1B003B;
+    color: #A0EFC4;
     border: none;
     padding: 10px 20px;
     border-radius: 5px;
@@ -100,14 +100,20 @@ li a
     font-size: 16px;
     margin-top: 10px;
 }
+.btn:hover
+{
+    background-color:#A0EFC4;
+    color:#1B003B
+}
 .calander
 {
-    width : 300px;
-    height : 250px;
+    width : 350px;
+    height : 340px;
     background : white;
     display:flex;
     align-items:center;
     border-radius: 10px;
+    margin-top: 60px;
 }
 .calander .left , .right
 {
@@ -122,8 +128,8 @@ li a
 .right
 {
     width:42%;
-    background:#130177;
-    color:aliceblue;
+    background:#1B003B;
+    color:#A0EFC4;
     border-top-right-radius : 10px;
     border-bottom-right-radius : 10px;
     
@@ -132,4 +138,18 @@ li a
 .left
 {
     width: 58%;
+}
+#Date
+{
+    font-size:100px;
+    line-height: 90px;
+    color :#1B003B;
+    
+    
+
+}
+#Day
+{
+    color :#1B003B;
+    font-style:italic;
 }
