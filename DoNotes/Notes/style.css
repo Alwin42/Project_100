@@ -74,15 +74,23 @@ li a
 .container .btn
 {
     display: flex;
-    color: #ffffff;
+    color: #1B003B;
     font-size: 20px;
     align-items: center;
-    background: linear-gradient(120deg,#6603e7 , #05ffd5);
+    background: linear-gradient(120deg, #88E0BE,#A0EFC4 );
     outline: 0;
     border: 0;
     border-radius: 40px;
-    margin: 40px,0,20px;
+    margin-top: 30px;
     padding: 15px 25px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    
+}
+.btn:hover
+{
+    transform: scale(1.05); 
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.3);
 }
 .input-box
 {
