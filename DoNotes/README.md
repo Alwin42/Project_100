@@ -2,7 +2,7 @@
 
 A simple yet powerful web application built using **HTML**, **CSS**, and **JavaScript** that combines the functionalities of both a **Notes** app and a **To-Do List** app. This lightweight project is perfect for staying organized by jotting down notes and tracking daily tasks — all in one place!
 
-🔗 **Live Demo**: *([Add your link here](https://drive.google.com/file/d/1P-tw-1zmQBLz-QLh9IGk5bRKbworPn2Z/view?usp=sharing))*  
+🔗 **Live Demo**: *([link here](https://drive.google.com/file/d/1P-tw-1zmQBLz-QLh9IGk5bRKbworPn2Z/view?usp=sharing))*  
 
 
 ---
