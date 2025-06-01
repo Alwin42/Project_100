@@ -24,6 +24,7 @@ createBtn.addEventListener("click", () => {
     img.src = "../assets/delete.png";
     inputBox.appendChild(img);
     notesContainer.appendChild(inputBox);
+    saveNotes();
 });
 
 notesContainer.addEventListener("click", function (e) {
@@ -40,4 +41,10 @@ notesContainer.addEventListener("click", function (e) {
             }
         })
     }
+});
+const clearAllBtn = document.querySelector(".clear-all-btn");
+
+clearAllBtn.addEventListener("click", () => {
+    notesContainer.innerHTML = "";
+    saveNotes();
 });
