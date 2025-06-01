@@ -23,9 +23,9 @@ A simple yet powerful web application built using **HTML**, **CSS**, and **JavaS
 - Automatically save your tasks in your browser using local storage, so your data stays safe even after refreshing or closing the page.
 
 ### 🎨 UI
-- Clean and intuitive user interface
-- Responsive design for mobile and desktop
-- Visual distinction between Notes and To-Do sections
+- Clean and intuitive user interface.
+- Simple and easy to use.
+- Visual distinction between Notes ,To-Do sections and a Calender.
 
 ---
 # Clone the repository:
