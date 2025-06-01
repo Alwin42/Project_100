@@ -18,6 +18,7 @@ function addTask()
         li.appendChild(span);
     }
     todoInput.value = "";
+    savedata();
 
 }
 
@@ -30,5 +31,17 @@ listContainer.addEventListener("click",function(e)
     else if(e.target.tagName == "SPAN")
     {
         e.target.parentElement.remove();
+        savedata();
     }
 },false);
+
+function savedata()
+{
+    localStorage.setItem("data",listContainer.innerHTML);
+}
+
+function showtodo()
+{
+    listContainer.innerHTML = localStorage.getItem("data");
+}
+showtodo();
