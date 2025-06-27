@@ -2,8 +2,78 @@
 {% block title %}Home Page{% endblock %}
 
 {% block content %}
-<h2> Home page </h2>
-<p>Welcome to Agro-Tech, your one-stop solution for all agricultural needs!</p>
-<p>Explore our wide range of crops, get the latest weather updates, and connect with the
-community.</p>
+
+<section id="home" class="min-vh-100 d-flex align-items-center">
+  <div class="container text-center">
+    <div class="row align-items-center">
+      <div class="col-lg-6 mb-4 mb-lg-0">
+        <h1 class="fs-1">Welcome to Agro-Tech</h1>
+        <p class="lead">Your solution for all agricultural needs.</p>
+        <a href="{{ url_for('crops') }}">
+          <button class="btn text-white bg-success mt-3 fs-5">Buy Crops</button>
+        </a>
+      </div>
+
+      <div class="col-lg-6">
+        <img src="{{ url_for('static', filename='images/home-page-cover.svg') }}"
+             class="img-fluid rounded-circle" alt="Home Cover Image">
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<section id="about" class="min-vh-100 d-flex align-items-center">
+  <div class="container text-center">
+    <div class="row align-items-center flex-column-reverse flex-lg-row">
+
+
+      <div class="col-lg-6 mt-4 mt-lg-0">
+        <img src="{{ url_for('static', filename='images/about-page-cover.svg') }}"
+             class="img-fluid rounded" alt="About Cover Image">
+      </div>
+
+
+      <div class="col-lg-6">
+        <h1 class="fw-bold">Agro-Tech connects farmers, businesses, and dealers to promote better standards in farming.</h1>
+        <a href="{{ url_for('marketplace') }}">
+          <button class="btn text-white bg-success mt-3 fs-5">Explore Marketplace</button>
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<footer class="bg-dark text-light pt-4 pb-2 mt-5">
+  <div class="container">
+    <div class="row">
+
+  
+      <div class="col-md-6 mb-3">
+        <h5>Quick Links</h5>
+        <ul class="list-unstyled">
+          <li><a href="#home" class="text-light text-decoration-none">Home</a></li>
+          <li><a href="#about" class="text-light text-decoration-none">About</a></li>
+          <li><a href="{{ url_for('crops') }}" class="text-light text-decoration-none">Crops</a></li>
+          <li><a href="{{ url_for('marketplace') }}" class="text-light text-decoration-none">Marketplace</a></li>
+        </ul>
+      </div>
+
+
+      <div class="col-md-6 mb-3">
+        <h5>Contact Us</h5>
+        <p>Email: support@agrotech.com</p>
+        <p>Phone: +91 98765 43210</p>
+      </div>
+
+    </div>
+
+    <div class="text-center small">
+      &copy; 2025 Agro-Tech. All rights reserved.
+    </div>
+  </div>
+</footer>
 {% endblock %}
