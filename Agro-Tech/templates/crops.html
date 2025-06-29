@@ -3,52 +3,54 @@
 
 {% block content %}
 <div class="container mt-4">
-  <h1 class="mb-4">Crops</h1>
-  <p>Explore our wide range of crops that are essential for sustainable agriculture and food security.</p>
+  <div class="text-center mb-4">
+    <h1>Crops</h1>
+    <p class="lead">Discover the essential crops that sustain our world.</p>
+  </div>
+<h2>🌾 Cereals & Grains</h2>
+<div class="d-flex flex-wrap justify-content-center gap-4">
+  
+<div class="card" style="width: 18rem;">
+  <img src="{{ url_for('static', filename='images/crops/rice.jpg') }}" class="card-img-top object-fit-cover" style="height: 200px; object-fit: cover;">
+  <div class="card-body d-flex flex-column justify-content-center mt-2">
+    <h5 class="card-title">RICE</h5>
+    <p class="card-text">Rice (Basmati) ₹120 (per kg)</p>
+    <a href="#" class="btn btn-success mb-2 text-white">Contact Seller</a>
+    <a href="#" class="btn btn-primary">Buy</a>
+  </div>
+</div>
 
-  <div class="row mb-4">
-    <div class="col-md-6">
-      <h2>Featured Crops</h2>
-      <p>Discover the most popular crops cultivated in our India.</p>
-    </div>
+<div class="card" style="width: 18rem;">
+  <img src="{{ url_for('static', filename='images/crops/wheat.jpg') }}" class="card-img-top object-fit-cover" style="height: 200px; object-fit: cover;">
+  <div class="card-body d-flex flex-column justify-content-center mt-2">
+    <h5 class="card-title">Wheat</h5>
+    <p class="card-text">Wheat ₹35 (per kg)</p>
+    <a href="#" class="btn bg-warning-subtle mb-2 text-dark">Contact Seller</a>
+    <a href="#" class="btn btn-primary">Buy</a>
   </div>
-<div class="row row-cols-1 row-cols-md-2 g-4">
-  <div class="col">
-    <div class="card">
-      <img src="{{ url_for('static', filename='images/crops/wheat.jpg') }}" class="card-img-top" alt="...">
-      <div class="card-body">
-        <h5 class="card-title">Wheat</h5>
-        <p class="card-text">High Quality</p>
-      </div>
-    </div>
   </div>
-  <div class="col">
-    <div class="card">
-      <img src="{{ url_for('static', filename='images/crops/corn.jpg') }}"class="card-img-top" alt="...">
-      <div class="card-body">
-        <h5 class="card-title">Corn</h5>
-        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-      </div>
-    </div>
+  
+
+<div class="card" style="width: 18rem;">
+  <img src="{{ url_for('static', filename='images/crops/corn.jpg') }}" class="card-img-top object-fit-cover" style="height: 200px; object-fit: cover;">
+  <div class="card-body d-flex flex-column justify-content-center mt-2">
+    <h5 class="card-title">Corn</h5>
+    <p class="card-text">Maize (Corn)	₹30 (per kg)</p>
+    <a href="#" class="btn bg-primary-subtle mb-2 text-dark">Contact Seller</a>
+    <a href="#" class="btn btn-primary">Buy</a>
   </div>
-  <div class="col">
-    <div class="card">
-     <img src="{{ url_for('static', filename='images/crops/ragi.jpg') }}" class="card-img-top" alt="...">
-      <div class="card-body">
-        <h5 class="card-title">Ragi</h5>
-        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content.</p>
-      </div>
-    </div>
   </div>
-  <div class="col">
-    <div class="card">
-     <img src="{{ url_for('static', filename='images/crops/rice.jpg') }}" class="card-img-top" alt="...">
-      <div class="card-body">
-        <h5 class="card-title">Rice</h5>
-        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-      </div>
-    </div>
+
+  <div class="card" style="width: 18rem;">
+  <img src="{{ url_for('static', filename='images/crops/barley.jpg') }}" class="card-img-top object-fit-cover" style="height: 200px; object-fit: cover;">
+  <div class="card-body d-flex flex-column justify-content-center mt-2">
+    <h5 class="card-title">Barley</h5>
+    <p class="card-text">Barley (Jau)	₹25 (per kg)</p>
+    <a href="#" class="btn btn-primary mb-2 text-white">Contact Seller</a>
+    <a href="#" class="btn btn-primary">Buy</a>
   </div>
+  </div>
+
 </div>
 </div>
 {% endblock %}
