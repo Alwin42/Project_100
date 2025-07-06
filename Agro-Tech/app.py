@@ -1,9 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 
 app = Flask(__name__)
-app.secret_key = 'your_super_secret_key'  # ✅ Required for session to work
-
-# Dummy user database
+app.secret_key = 'your_super_secret_key' 
 users = {
     'Alwin': {
         'password': "1234",
