@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+
+<div class="container bg-secondary text-light mt-5 p-5 rounded shadow p-3 mb-5 rounded">
+    <ion-icon name="person-circle-outline" style="font-size: 50px; color: #ffffff;"></ion-icon>
+    <h3>Welcome, {{ username }}!</h3>
+    <!--profile section-->
+    
+    <p class="d-inline-flex gap-1">
+     <a class="btn btn-primary" data-bs-toggle="collapse" href="#Edit-profile" role="button" aria-expanded="false" aria-controls="collapseExample">
+    Edit Profile
+    </a>
+    <a class="btn btn-primary" data-bs-toggle="collapse" href="#change-password" role="button" aria-expanded="false" aria-controls="collapseExample">
+    Change Password
+    </a>
+    </p>
+    
+        <div class="collapse" id="Edit-profile">
+            <div class="card card-body bg-secondary border border-secondary shadow-lg p-3 mb-5 rounded">
+    <form class="row g-3">
+                <div class="col-md-4">
+                <label for="validationDefault01" class="form-label">First name</label>
+                <input type="text" class="form-control" id="validationDefault01" required>
+                </div>
+            <div class="col-md-4">
+            <label for="validationDefault02" class="form-label">Last name</label>
+            <input type="text" class="form-control" id="validationDefault02" required>
+            </div>
+        <div class="col-md-4">
+            <label for="validationDefaultUsername" class="form-label">Username</label>
+        <div class="input-group">
+            <span class="input-group-text" id="inputGroupPrepend2">@</span>
+            <input type="text" class="form-control" id="validationDefaultUsername" aria-describedby="inputGroupPrepend2" required>
+        </div>
+        </div>
+  <div class="col-md-6">
+    <label for="validationDefault03" class="form-label">City</label>
+    <input type="text" class="form-control" id="validationDefault03" required>
+  </div>
+        <div class="col-md-3">
+            <label for="validationDefault04" class="form-label">State</label>
+            <select class="form-select" id="validationDefault04" required>
+                <option selected disabled value="">Choose...</option>
+                <option>Kerala</option>
+                <option>Tamil-Nadu</option>
+                <option>Delhi</option>
+                <option>Karnataka</option>
+                <option>Punjab</option>
+            </select>
+        </div>
+  <div class="col-md-3">
+    <label for="validationDefault05" class="form-label">Zip</label>
+    <input type="text" class="form-control" id="validationDefault05" required>
+  </div>
+        <div class="col-12">
+            <button class="btn btn-primary" type="submit">Save</button>
+        </div>
+</form>
+        </div>
+    </div>
+
+    <!--Change password-->
+    <div class="collapse" id="change-password">
+        <label for="inputPassword5" class="form-label">Password</label>
+            <input type="password" id="inputPassword5" class="form-control" aria-describedby="passwordHelpBlock">
+                <div id="passwordHelpBlock" class="form-text">
+                    Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.
+                </div>
+                <button class="btn btn-primary mt-2" type="submit">Save changes</button>
+    </div>
+    <a href="{{ url_for('dashboard') }}">
+        <button class="btn bg-primary text-white mt-2 mb-2">Dashboard</button>
+    </a>
+    <a href="{{ url_for('logout') }}">
+        <button class="btn bg-danger text-white mt-2 mb-2">Logout</button>
+    </a>
+    <div class="card" style="width: 18rem;">
+
+    </div>  
+        <div class="card">
+                <div class="card-header">
+                    User Details
+                </div>
+            <div class="card-body">
+                 <p>First Name : {{ FirstName }}</p>
+                 <p>Last Name : {{ LastName }}</p>
+                 <p>Username : {{ Username }}</p>
+                 <p>City : {{ City }}</p>
+                 <p>State : {{ State }}</p>
+                 <p>Zip : {{ Zip }}</p>
+            <a href="{{ url_for('dashboard') }}">
+                <button class="btn bg-primary text-white mt-2 mb-2">Back</button>
+            </a>
+            <a href="{{ url_for('home') }}">
+                <button class="btn bg-primary text-white mt-2 mb-2">Home</button>
+            </a>
+            </div>
+        </div>
+</div>
+
+{% endblock %}
