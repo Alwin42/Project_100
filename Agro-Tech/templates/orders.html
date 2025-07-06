@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}Orders{% endblock %}
+
+{% block content %}
+<div class="mt-3 ms-3">
+    <h4 class="fs-2">Orders </h4>
+</div>
+    <div class="container mt-3">
+        <div class="card" style="width: 18rem;">
+            <img src="{{ url_for('static', filename='images/sample.jpg') }}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Sample product</h5>
+                    <p class="card-text">product details</p>
+                    <a href="#" class="btn btn-primary">Buy</a>
+                    <a href="#" class="btn btn-primary">Cancel</a>
+                </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
