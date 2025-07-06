@@ -69,5 +69,19 @@ def profile():
     return render_template('profile.html', username=username, email=user['email'],FirstName=user['First name'],LastName=user['Last name'] ,
                            Username=user['Username'], City=user['City'], State=user['State'], Zip=user['Zip'])
 
+@app.route('/cart')
+def cart():
+    if 'username' not in session:
+        return redirect(url_for('login'))
+    username = session['username']
+    return render_template('cart.html')
+
+@app.route('/orders')
+def orders():
+    if 'username' not in session:
+        return redirect(url_for('login'))
+    username = session['username']
+    return render_template('orders.html')
+
 if __name__ == '__main__':
     app.run(debug=True)
