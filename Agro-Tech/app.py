@@ -5,7 +5,13 @@ app.secret_key = 'your_super_secret_key'
 users = {
     'Alwin': {
         'password': "1234",
-        'email': "alwin@gmail.com"
+        'email': "alwin@gmail.com",
+        'First name': "Alwin",
+        'Last name': "Emmanuel",
+        'Username': "Alwin42",
+        'City': "Ernakulam",
+        'State': "Kerala",
+        'Zip': "682020",
     },
     'Admin': {
         'password': "admin123",
@@ -53,6 +59,15 @@ def dashboard():
 def logout():
     session.pop('username', None)
     return redirect(url_for('login'))
+
+@app.route('/profile')
+def profile():
+    if 'username' not in session:
+        return redirect(url_for('login'))
+    username = session['username']
+    user = users.get(username)
+    return render_template('profile.html', username=username, email=user['email'],FirstName=user['First name'],LastName=user['Last name'] ,
+                           Username=user['Username'], City=user['City'], State=user['State'], Zip=user['Zip'])
 
 if __name__ == '__main__':
     app.run(debug=True)
