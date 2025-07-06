@@ -2,8 +2,76 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block content %}
-<h2> User Dashboard</h2>
+<div class="container bg-dark text-light mt-5 p-5 rounded">
+<ion-icon name="person-circle-outline" style="font-size: 50px; color: #ffffff;"></ion-icon>
+
 <h3>Welcome, {{ username }}!</h3>
 <p>Email: {{ email }}</p>
 
+<ul class="nav nav-underline justify-content-left fs-5">
+  <li class="nav-item">
+    <a class="nav-link text-light"  href="#">Profile</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link text-light" href="#">Cart</a>
+  </li>
+   <li class="nav-item">
+    <a class="nav-link text-light" href="#">Orders</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link text-light" href="#">Payments</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link text-light" href="#">Reciepts</a>
+  </li>
+
+</ul>
+<div class="container mt-4">
+    <h4 class="text-center">Your Recent Activities</h4>
+    <div class="row">
+        <div class="col-md-4">
+        <div class="card bg-light mb-3">
+            <div class="card-body">
+            <h5 class="card-title">Recent Purchases</h5>
+            <p class="card-text">You have purchased 3 items in the last month.</p>
+            </div>
+        </div>
+        <div class="card bg-light mb-3">
+            <div class="card-body">
+            <h5 class="card-title">Recent Purchases</h5>
+            <p class="card-text">You have purchased 3 items in the last month.</p>
+            </div>
+        </div>
+        <div class="card bg-light mb-3">
+            <div class="card-body">
+            <h5 class="card-title">Recent Purchases</h5>
+            <p class="card-text">You have purchased 3 items in the last month.</p>
+            </div>
+        </div>
+        </div>
+</div>
+
+</div>
+
+<div class="row">
+  <div class="col-sm-6 mb-3 mb-sm-0">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Special title treatment</h5>
+        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+        <a href="#" class="btn btn-primary">Go somewhere</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Special title treatment</h5>
+        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+        <a href="#" class="btn btn-primary">Go somewhere</a>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
 {% endblock %}
