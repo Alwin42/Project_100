@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}Payments{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h4 class="fs-2">Payments</h4>
+    <div class="mt-3">
+        <p>Welcome, {{ username }}! Here you can manage your payment methods and view your payment history.</p>
+    </div>
+    <div class="card mt-3">
+        <div class="card-body">
+            <h5 class="card-title">Payment Methods</h5>
+            <p class="card-text">Add, edit, or remove your payment methods.</p>
+            <a href="#" class="btn btn-primary">Add Payment Method</a> 
+            <div class="progress mt-3" role="progressbar" aria-label="Basic example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+  <div class="progress-bar w-75"></div>
+</div>
+
+</div>
+{% endblock %}

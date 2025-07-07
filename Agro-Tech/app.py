@@ -83,5 +83,12 @@ def orders():
     username = session['username']
     return render_template('orders.html')
 
+@app.route('/payment')
+def payment():
+    if 'username' not in session:
+        return redirect(url_for('login'))
+    username = session['username']
+    return render_template('payment.html', username=username)
+
 if __name__ == '__main__':
     app.run(debug=True)
