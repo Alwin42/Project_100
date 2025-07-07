@@ -90,5 +90,9 @@ def payment():
     username = session['username']
     return render_template('payment.html', username=username)
 
+@app.route('/seller')
+def seller():
+    return render_template('seller.html')
+
 if __name__ == '__main__':
     app.run(debug=True)
