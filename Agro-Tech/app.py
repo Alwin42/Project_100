@@ -1,23 +1,10 @@
+
 from flask import Flask, render_template, request, redirect, url_for, session
 
+
 app = Flask(__name__)
-app.secret_key = 'your_super_secret_key' 
-users = {
-    'Alwin': {
-        'password': "1234",
-        'email': "alwin@gmail.com",
-        'First name': "Alwin",
-        'Last name': "Emmanuel",
-        'Username': "Alwin42",
-        'City': "Ernakulam",
-        'State': "Kerala",
-        'Zip': "682020",
-    },
-    'Admin': {
-        'password': "admin123",
-        'email': "admin123@gmail.com"
-    }
-}
+
+app.secret_key = 'key' 
 
 @app.route('/')
 def home():
