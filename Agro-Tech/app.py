@@ -5,6 +5,13 @@ from flask import Flask, render_template, request, redirect, url_for, session
 app = Flask(__name__)
 
 app.secret_key = 'key' 
+users = {
+    'Alwin': {
+        'username': 'Alwin',
+        'password': 'apple222',
+        'email': 'john@gmail.com',
+    },
+}
 
 @app.route('/')
 def home():
