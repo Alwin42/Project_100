@@ -7,268 +7,118 @@
     <h1>Crops</h1>
     <p class="lead">Discover the essential crops that sustain our world.</p>
   </div>
-<h2 class=" mb-4">🌾 Cereals & Grains</h2>
-<div class="d-flex flex-wrap justify-content-center gap-4">
-  
-<div class="card" style="width: 18rem;">
-  <img src="{{ url_for('static', filename='images/crops/rice.jpg') }}" class="card-img-top object-fit-cover" style="height: 200px; object-fit: cover;">
-  <div class="card-body d-flex flex-column justify-content-center mt-2">
-    <h5 class="card-title">RICE</h5>
-    <p class="card-text">Rice (Basmati) ₹120 (per kg)</p>
-    <a href="{{ url_for('seller') }}" class="btn bg-primary-subtle mb-2 text-dark">Contact Seller</a>
-    <a href="#" class="btn btn-primary">Buy</a>
-  </div>
-</div>
 
-<div class="card" style="width: 18rem;">
-  <img src="{{ url_for('static', filename='images/crops/wheat.jpg') }}" class="card-img-top object-fit-cover" style="height: 200px; object-fit: cover;">
-  <div class="card-body d-flex flex-column justify-content-center mt-2">
-    <h5 class="card-title">Wheat</h5>
-    <p class="card-text">Wheat ₹35 (per kg)</p>
-    <a href="{{ url_for('seller') }}" class="btn bg-primary-subtle mb-2 text-dark">Contact Seller</a>
-    <a href="#" class="btn btn-primary">Buy</a>
-  </div>
-  </div>
-  
-
-<div class="card" style="width: 18rem;">
-  <img src="{{ url_for('static', filename='images/crops/corn.jpg') }}" class="card-img-top object-fit-cover" style="height: 200px; object-fit: cover;">
-  <div class="card-body d-flex flex-column justify-content-center mt-2">
-    <h5 class="card-title">Corn</h5>
-    <p class="card-text">Maize (Corn)	₹30 (per kg)</p>
-    <a href="{{ url_for('seller') }}" class="btn bg-primary-subtle mb-2 text-dark">Contact Seller</a>
-    <a href="#" class="btn btn-primary">Buy</a>
-  </div>
+  <!-- Cereals Section -->
+  <h2 class="mb-4">🌾 Cereals & Grains</h2>
+  <div class="row g-4">
+    {% for crop in [
+      {'name': 'Rice', 'img': 'rice.jpg', 'price': '₹120', 'unit': 'per kg'},
+      {'name': 'Wheat', 'img': 'wheat.jpg', 'price': '₹35', 'unit': 'per kg'},
+      {'name': 'Corn', 'img': 'corn.jpg', 'price': '₹30', 'unit': 'per kg'},
+      {'name': 'Barley', 'img': 'barley.jpg', 'price': '₹25', 'unit': 'per kg'}
+    ] %}
+    <div class="col-md-3 col-sm-6">
+      <div class="card h-100">
+        <img src="{{ url_for('static', filename='images/crops/' + crop.img) }}" class="card-img-top" style="height: 200px; object-fit: cover;">
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title">{{ crop.name }}</h5>
+          <p class="card-text">{{ crop.name }} {{ crop.price }} ({{ crop.unit }})</p>
+          <a href="{{ url_for('seller') }}" class="btn btn-outline-secondary mb-2">Contact Seller</a>
+          <a href="#" class="btn btn-primary mb-2">Buy</a>
+          <button class="btn btn-success toast-btn mt-auto" data-product="{{ crop.name }}">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
   </div>
 
-  <div class="card" style="width: 18rem;">
-  <img src="{{ url_for('static', filename='images/crops/barley.jpg') }}" class="card-img-top object-fit-cover" style="height: 200px; object-fit: cover;">
-  <div class="card-body d-flex flex-column justify-content-center mt-2">
-    <h5 class="card-title">Barley</h5>
-    <p class="card-text">Barley (Jau)	₹25 (per kg)</p>
-    <a href="{{ url_for('seller') }}" class="btn bg-primary-subtle mb-2 text-dark">Contact Seller</a>
-    <a href="#" class="btn btn-primary">Buy</a>
-  </div>
-  </div>
-
-</div>
-<!--Vegetable section-->
-<h2 class="mt-5 mb-4">🌿 Vegetables</h2>
-<div class="d-flex flex-wrap justify-content-center gap-4">
-  
-<div class="card" style="width: 18rem;">
-  <img src="{{ url_for('static', filename='images/crops/Cabbage.jpg') }}" class="card-img-top object-fit-cover" style="height: 200px; object-fit: cover;">
-  <div class="card-body d-flex flex-column justify-content-center mt-2">
-    <h5 class="card-title">Cabbage</h5>
-    <p class="card-text"> ₹25 (per kg)</p>
-    <a href="{{ url_for('seller') }}" class="btn bg-primary-subtle mb-2 text-dark">Contact Seller</a>
-    <a href="#" class="btn btn-primary">Buy</a>
-  </div>
-</div>
-
-<div class="card" style="width: 18rem;">
-  <img src="{{ url_for('static', filename='images/crops/tomato.jpg') }}" class="card-img-top object-fit-cover" style="height: 200px; object-fit: cover;">
-  <div class="card-body d-flex flex-column justify-content-center mt-2">
-    <h5 class="card-title">Tomato</h5>
-    <p class="card-text">₹40 (per kg)</p>
-    <a href="{{ url_for('seller') }}" class="btn bg-primary-subtle mb-2 text-dark">Contact Seller</a>
-    <a href="#" class="btn btn-primary">Buy</a>
-  </div>
-  </div>
-  
-
-<div class="card" style="width: 18rem;">
-  <img src="{{ url_for('static', filename='images/crops/Green-Chilli.jpg') }}" class="card-img-top object-fit-cover" style="height: 200px; object-fit: cover;">
-  <div class="card-body d-flex flex-column justify-content-center mt-2">
-    <h5 class="card-title">Green Chilli</h5>
-    <p class="card-text">₹80 (per kg)</p>
-    <a href="{{ url_for('seller') }}" class="btn bg-primary-subtle mb-2 text-dark">Contact Seller</a>
-    <a href="#" class="btn btn-primary">Buy</a>
-  </div>
+  <!-- Vegetables Section -->
+  <h2 class="mt-5 mb-4">🌿 Vegetables</h2>
+  <div class="row g-4">
+    {% for veg in [
+      {'name': 'Cabbage', 'img': 'Cabbage.jpg', 'price': '₹25'},
+      {'name': 'Tomato', 'img': 'tomato.jpg', 'price': '₹40'},
+      {'name': 'Green Chilli', 'img': 'Green-Chilli.jpg', 'price': '₹80'},
+      {'name': 'Onion', 'img': 'onion.jpg', 'price': '₹40'},
+      {'name': 'Potato', 'img': 'potato.jpg', 'price': '₹25'},
+      {'name': 'Beetroot', 'img': 'Beetroot.jpg', 'price': '₹48'},
+      {'name': 'Cauliflower', 'img': 'Cauliflower.jpg', 'price': '₹35'},
+      {'name': 'Carrot', 'img': 'Carrot.jpg', 'price': '₹30'}
+    ] %}
+    <div class="col-md-3 col-sm-6">
+      <div class="card h-100">
+        <img src="{{ url_for('static', filename='images/crops/' + veg.img) }}" class="card-img-top" style="height: 200px; object-fit: cover;">
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title">{{ veg.name }}</h5>
+          <p class="card-text">{{ veg.price }} per kg</p>
+          <a href="{{ url_for('seller') }}" class="btn btn-outline-secondary mb-2">Contact Seller</a>
+          <a href="#" class="btn btn-primary mb-2">Buy</a>
+          <button class="btn btn-success toast-btn mt-auto" data-product="{{ veg.name }}">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
   </div>
 
-  <div class="card" style="width: 18rem;">
-  <img src="{{ url_for('static', filename='images/crops/onion.jpg') }}" class="card-img-top object-fit-cover" style="height: 200px; object-fit: cover;">
-  <div class="card-body d-flex flex-column justify-content-center mt-2">
-    <h5 class="card-title">Onion</h5>
-    <p class="card-text">₹40 (per kg)</p>
-    <a href="{{ url_for('seller') }}" class="btn bg-primary-subtle mb-2 text-dark">Contact Seller</a>
-    <a href="#" class="btn btn-primary">Buy</a>
-  </div>
-  </div>
-
-  <div class="card" style="width: 18rem;">
-  <img src="{{ url_for('static', filename='images/crops/potato.jpg') }}" class="card-img-top object-fit-cover" style="height: 200px; object-fit: cover;">
-  <div class="card-body d-flex flex-column justify-content-center mt-2">
-    <h5 class="card-title">Potato</h5>
-    <p class="card-text">₹25 (per kg)</p>
-    <a href="{{ url_for('seller') }}" class="btn bg-primary-subtle mb-2 text-dark">Contact Seller</a>
-    <a href="#" class="btn btn-primary">Buy</a>
-  </div>
-  </div>
-
-    <div class="card" style="width: 18rem;">
-  <img src="{{ url_for('static', filename='images/crops/Beetroot.jpg') }}" class="card-img-top object-fit-cover" style="height: 200px; object-fit: cover;">
-  <div class="card-body d-flex flex-column justify-content-center mt-2">
-    <h5 class="card-title">Beetroot</h5>
-    <p class="card-text">₹48 (per kg)</p>
-    <a href="{{ url_for('seller') }}" class="btn bg-primary-subtle mb-2 text-dark">Contact Seller</a>
-    <a href="#" class="btn btn-primary">Buy</a>
-  </div>
+  <!-- Fruits Section -->
+  <h2 class="mt-5 mb-4">🍋 Fruits</h2>
+  <div class="row g-4">
+    {% for fruit in [
+      {'name': 'Banana', 'img': 'Banana.jpg', 'price': '₹20 – ₹40'},
+      {'name': 'Mango (Alphonso)', 'img': 'Mango.jpg', 'price': '₹100 – ₹200'},
+      {'name': 'Apple (Kashmir)', 'img': 'Apple.jpg', 'price': '₹150 – ₹250'},
+      {'name': 'Papaya', 'img': 'Papaya.jpg', 'price': '₹20 – ₹35'},
+      {'name': 'Orange', 'img': 'Orange.jpg', 'price': '₹30 – ₹60'},
+      {'name': 'Pomegranate', 'img': 'Pomegranate.jpg', 'price': '₹80 – ₹150'},
+      {'name': 'Pineapple', 'img': 'Pineapple.jpg', 'price': '₹90 – ₹170'},
+      {'name': 'Grapes', 'img': 'Grapes.jpg', 'price': '₹50 – ₹150'}
+    ] %}
+    <div class="col-md-3 col-sm-6">
+      <div class="card h-100">
+        <img src="{{ url_for('static', filename='images/crops/' + fruit.img) }}" class="card-img-top" style="height: 200px; object-fit: cover;">
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title">{{ fruit.name }}</h5>
+          <p class="card-text">{{ fruit.price }} per kg</p>
+          <a href="{{ url_for('seller') }}" class="btn btn-outline-secondary mb-2">Contact Seller</a>
+          <a href="#" class="btn btn-primary mb-2">Buy</a>
+          <button class="btn btn-success toast-btn mt-auto" data-product="{{ fruit.name }}">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
   </div>
 
-    <div class="card" style="width: 18rem;">
-  <img src="{{ url_for('static', filename='images/crops/Cauliflower.jpg') }}" class="card-img-top object-fit-cover" style="height: 200px; object-fit: cover;">
-  <div class="card-body d-flex flex-column justify-content-center mt-2">
-    <h5 class="card-title">Cauliflower</h5>
-    <p class="card-text">₹35 (per kg)</p>
-    <a href="{{ url_for('seller') }}" class="btn bg-primary-subtle mb-2 text-dark">Contact Seller</a>
-    <a href="#" class="btn btn-primary">Buy</a>
-  </div>
-  </div>
-
-    <div class="card" style="width: 18rem;">
-  <img src="{{ url_for('static', filename='images/crops/Carrot.jpg') }}" class="card-img-top object-fit-cover" style="height: 200px; object-fit: cover;">
-  <div class="card-body d-flex flex-column justify-content-center mt-2">
-    <h5 class="card-title">Carrot</h5>
-    <p class="card-text">₹30 (per kg)</p>
-    <a href="{{ url_for('seller') }}" class="btn bg-primary-subtle mb-2 text-dark">Contact Seller</a>
-    <a href="#" class="btn btn-primary">Buy</a>
-  </div>
-  </div>
-</div>
-<!--Fruits Section-->
-
-<h2 class="mt-5 mb-4">🍋 Fruits</h2>
-<div class="d-flex flex-wrap justify-content-center gap-4">
-  
-<div class="card" style="width: 18rem;">
-  <img src="{{ url_for('static', filename='images/crops/Banana.jpg') }}" class="card-img-top object-fit-cover" style="height: 200px; object-fit: cover;">
-  <div class="card-body d-flex flex-column justify-content-center mt-2">
-    <h5 class="card-title">Banana</h5>
-    <p class="card-text">₹20 – ₹40 (per kg)</p>
-    <a href="{{ url_for('seller') }}" class="btn bg-primary-subtle mb-2 text-dark">Contact Seller</a>
-    <a href="#" class="btn btn-primary">Buy</a>
-  </div>
-</div>
-
-<div class="card" style="width: 18rem;">
-  <img src="{{ url_for('static', filename='images/crops/Mango.jpg') }}" class="card-img-top object-fit-cover" style="height: 200px; object-fit: cover;">
-  <div class="card-body d-flex flex-column justify-content-center mt-2">
-    <h5 class="card-title">Mango (Alphonso)</h5>
-    <p class="card-text">	₹100 – ₹200 (per kg)</p>
-    <a href="{{ url_for('seller') }}" class="btn bg-primary-subtle mb-2 text-dark">Contact Seller</a>
-    <a href="#" class="btn btn-primary">Buy</a>
-  </div>
-  </div>
-  
-
-<div class="card" style="width: 18rem;">
-  <img src="{{ url_for('static', filename='images/crops/Apple.jpg') }}" class="card-img-top object-fit-cover" style="height: 200px; object-fit: cover;">
-  <div class="card-body d-flex flex-column justify-content-center mt-2">
-    <h5 class="card-title">Apple (Kashmir)</h5>
-    <p class="card-text">	₹150 – ₹250 (per kg)</p>
-    <a href="{{ url_for('seller') }}" class="btn bg-primary-subtle mb-2 text-dark">Contact Seller</a>
-    <a href="#" class="btn btn-primary">Buy</a>
-  </div>
-  </div>
-
-  <div class="card" style="width: 18rem;">
-  <img src="{{ url_for('static', filename='images/crops/Papaya.jpg') }}" class="card-img-top object-fit-cover" style="height: 200px; object-fit: cover;">
-  <div class="card-body d-flex flex-column justify-content-center mt-2">
-    <h5 class="card-title">Papaya</h5>
-    <p class="card-text">	₹20 – ₹35 (per kg)</p>
-    <a href="{{ url_for('seller') }}" class="btn bg-primary-subtle mb-2 text-dark">Contact Seller</a>
-    <a href="#" class="btn btn-primary">Buy</a>
-  </div>
-  </div>
-
-
-  <div class="card" style="width: 18rem;">
-  <img src="{{ url_for('static', filename='images/crops/Orange.jpg') }}" class="card-img-top object-fit-cover" style="height: 200px; object-fit: cover;">
-  <div class="card-body d-flex flex-column justify-content-center mt-2">
-    <h5 class="card-title">Orange	</h5>
-    <p class="card-text">		₹30 – ₹60 (per kg)</p>
-    <a href="{{ url_for('seller') }}" class="btn bg-primary-subtle mb-2 text-dark">Contact Seller</a>
-    <a href="#" class="btn btn-primary">Buy</a>
-  </div>
-  </div>
-
-  <div class="card" style="width: 18rem;">
-  <img src="{{ url_for('static', filename='images/crops/Pomegranate.jpg') }}" class="card-img-top object-fit-cover" style="height: 200px; object-fit: cover;">
-  <div class="card-body d-flex flex-column justify-content-center mt-2">
-    <h5 class="card-title">Pomegranate</h5>
-    <p class="card-text">₹80 – ₹150 (per kg)</p>
-    <a href="{{ url_for('seller') }}" class="btn bg-primary-subtle mb-2 text-dark">Contact Seller</a>
-    <a href="#" class="btn btn-primary">Buy</a>
-  </div>
-  </div>
-
-  <div class="card" style="width: 18rem;">
-  <img src="{{ url_for('static', filename='images/crops/Pineapple.jpg') }}" class="card-img-top object-fit-cover" style="height: 200px; object-fit: cover;">
-  <div class="card-body d-flex flex-column justify-content-center mt-2">
-    <h5 class="card-title">Pineapple</h5>
-    <p class="card-text">₹90 – ₹170 (per kg)</p>
-    <a href="{{ url_for('seller') }}" class="btn bg-primary-subtle mb-2 text-dark">Contact Seller</a>
-    <a href="#" class="btn btn-primary">Buy</a>
-  </div>
-  </div>
-<div class="card" style="width: 18rem;">
-  <img src="{{ url_for('static', filename='images/crops/Grapes.jpg') }}" class="card-img-top object-fit-cover" style="height: 200px; object-fit: cover;">
-  <div class="card-body d-flex flex-column justify-content-center mt-2">
-    <h5 class="card-title">Grapes</h5>
-    <p class="card-text">₹50 – ₹150 (per kg)</p>
-    <a href="{{ url_for('seller') }}" class="btn bg-primary-subtle mb-2 text-dark">Contact Seller</a>
-    <a href="#" class="btn btn-primary">Buy</a>
-  </div>
+  <!-- Spices Section -->
+  <h2 class="mt-5 mb-4">🧂 Spices</h2>
+  <div class="row g-4">
+    {% for spice in [
+      {'name': 'Turmeric', 'img': 'Turmeric.jpg', 'price': '₹80'},
+      {'name': 'Ginger (Dry)', 'img': 'Ginger.jpg', 'price': '₹300'},
+      {'name': 'Garlic', 'img': 'Garlic.jpg', 'price': '₹150'},
+      {'name': 'Red Chilli (Dry)', 'img': 'Red-Chilli.jpg', 'price': '₹250'}
+    ] %}
+    <div class="col-md-3 col-sm-6">
+      <div class="card h-100">
+        <img src="{{ url_for('static', filename='images/crops/' + spice.img) }}" class="card-img-top" style="height: 200px; object-fit: cover;">
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title">{{ spice.name }}</h5>
+          <p class="card-text">{{ spice.price }} per kg</p>
+          <a href="{{ url_for('seller') }}" class="btn btn-outline-secondary mb-2">Contact Seller</a>
+          <a href="#" class="btn btn-primary mb-2">Buy</a>
+          <button class="btn btn-success toast-btn mt-auto" data-product="{{ spice.name }}">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
   </div>
 
 </div>
-<!--Spice section-->
-<h2 class=" mb-4 mt-5">🧂 Spices</h2>
-<div class="d-flex flex-wrap justify-content-center gap-4">
-  
-<div class="card" style="width: 18rem;">
-  <img src="{{ url_for('static', filename='images/crops/Turmeric.jpg') }}" class="card-img-top object-fit-cover" style="height: 200px; object-fit: cover;">
-  <div class="card-body d-flex flex-column justify-content-center mt-2">
-    <h5 class="card-title">Turmeric</h5>
-    <p class="card-text">₹80 (per kg)</p>
-    <a href="{{ url_for('seller') }}" class="btn bg-primary-subtle mb-2 text-dark">Contact Seller</a>
-    <a href="#" class="btn btn-primary">Buy</a>
-  </div>
-</div>
 
-<div class="card" style="width: 18rem;">
-  <img src="{{ url_for('static', filename='images/crops/Ginger.jpg') }}" class="card-img-top object-fit-cover" style="height: 200px; object-fit: cover;">
-  <div class="card-body d-flex flex-column justify-content-center mt-2">
-    <h5 class="card-title">Ginger (Dry)</h5>
-    <p class="card-text">₹300 (per kg)</p>
-    <a href="{{ url_for('seller') }}" class="btn bg-primary-subtle mb-2 text-dark">Contact Seller</a>
-    <a href="#" class="btn btn-primary">Buy</a>
-  </div>
-  </div>
-  
+<!-- Toast container -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3"></div>
 
-<div class="card" style="width: 18rem;">
-  <img src="{{ url_for('static', filename='images/crops/Garlic.jpg') }}" class="card-img-top object-fit-cover" style="height: 200px; object-fit: cover;">
-  <div class="card-body d-flex flex-column justify-content-center mt-2">
-    <h5 class="card-title">Garlic</h5>
-    <p class="card-text"> ₹150 (per kg)</p>
-    <a href="{{ url_for('seller') }}" class="btn bg-primary-subtle mb-2 text-dark">Contact Seller</a>
-    <a href="#" class="btn btn-primary">Buy</a>
-  </div>
-  </div>
-
-  <div class="card" style="width: 18rem;">
-  <img src="{{ url_for('static', filename='images/crops/Red-Chilli.jpg') }}" class="card-img-top object-fit-cover" style="height: 200px; object-fit: cover;">
-  <div class="card-body d-flex flex-column justify-content-center mt-2">
-    <h5 class="card-title">Red Chilli (Dry)</h5>
-    <p class="card-text"> ₹250 (per kg)</p>
-    <a href="{{ url_for('seller') }}" class="btn bg-primary-subtle mb-2 text-dark">Contact Seller</a>
-    <a href="#" class="btn btn-primary">Buy</a>
-  </div>
-  </div>
-
-</div>
-</div>
+<!-- Bootstrap Bundle (for toast support) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Custom JS for toast notifications -->
+<script src="{{ url_for('static', filename='js/toast.js') }}"></script>
 {% endblock %}
