@@ -1,167 +1,125 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 {% block title %}Market{% endblock %}
 
 {% block content %}
 <div class="container mt-3">
-    <h1 class="text-center mb-4">Market</h1>
-    <p class="text-center">
-"Explore a wide selection of seeds, equipment, and tools available for agricultural purchase."</p>
-<ul class="nav nav-underline">
-  <li class="nav-item">
-    <a class="nav-link active" aria-current="page" href="#seeds">Seeds</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link active" href="#fertilizers">Fertilizers</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link active" href="#equipments">Equipments</a>
-  </li>
-</ul>
-</div>
- <div class="container">
-        <section id="seeds">
-        <div class="my-5">
-            <h1 class="text-center my-4">Seeds</h1>
-            <div class="row">
-                <div class="col-lg-3 col-md-6 mb-4">
-                    <div class="card h-100 text-center shadow-lg border border-secondary-subtle">
-                        <img src="{{ url_for('static', filename='images/marketplace/rice-seeds.png') }}" class="card-img-top" alt="Paddy Seeds" style="object-fit: cover; height: 300px;">
-                        <div class="card-body">
-                            <h5 class="card-title">Paddy (Grade A)</h5>
-                            <p class="card-text fw-bold text-success">₹2,300 /quintal</p>
-                            <a href="#" class="btn btn-primary">Buy</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 mb-4">
-                    <div class="card h-100 text-center shadow-lg border border-secondary-subtle">
-                        <img src="{{ url_for('static', filename='images/marketplace/ragi-seeds.jpg') }}" class="card-img-top" alt="Ragi Seeds" style="object-fit: cover; height: 300px;">
-                        <div class="card-body">
-                            <h5 class="card-title">Ragi</h5>
-                            <p class="card-text fw-bold text-success">₹4,290 /quintal</p>
-                            <a href="#" class="btn btn-primary">Buy</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 mb-4">
-                    <div class="card h-100 text-center shadow-lg border border-secondary-subtle">
-                        <img src="{{ url_for('static', filename='images/marketplace/wheat-seeds.jpg') }}" class="card-img-top" alt="Wheat Seeds" style="object-fit: cover; height: 300px;">
-                        <div class="card-body">
-                            <h5 class="card-title">Wheat</h5>
-                            <p class="card-text fw-bold text-success">₹2,425 /quintal</p>
-                            <a href="#" class="btn btn-primary">Buy</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 mb-4">
-                    <div class="card h-100 text-center shadow-lg border border-secondary-subtle">
-                        <img src="{{ url_for('static', filename='images/marketplace/barley-seeds.jpg') }}" class="card-img-top" alt="Barley Seeds" style="object-fit: cover; height: 300px;">
-                        <div class="card-body">
-                            <h5 class="card-title">Barley</h5>
-                            <p class="card-text fw-bold text-success">₹1,980 /quintal</p>
-                            <a href="#" class="btn btn-primary">Buy</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-</section>
 
-<section id="fertilizers">
-        <div class="my-5">
-            <h1 class="text-center my-4">Fertilizers</h1>
-            <div class="row">
-                <div class="col-lg-3 col-md-6 mb-4">
-                    <div class="card h-100 text-center shadow-lg border border-secondary-subtle">
-                        <img src="{{ url_for('static', filename='images/marketplace/urea.png') }}" class="card-img-top" alt="Urea" style="object-fit: cover; height: 300px;">
-                        <div class="card-body">
-                            <h5 class="card-title">Urea</h5>
-                            <p class="card-text fw-bold text-success">₹260 /50kg</p>
-                            <a href="#" class="btn btn-primary">Buy</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 mb-4">
-                    <div class="card h-100 text-center shadow-lg border border-secondary-subtle">
-                        <img src="{{ url_for('static', filename='images/marketplace/neem-cake.png') }}" class="card-img-top" alt="Neem-Cake" style="object-fit: cover; height: 300px;">
-                        <div class="card-body">
-                            <h5 class="card-title">Neem-Cake</h5>
-                            <p class="card-text fw-bold text-success">₹20 – ₹75 per kg</p>
-                            <a href="#" class="btn btn-primary">Buy</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 mb-4">
-                    <div class="card h-100 text-center shadow-lg border border-secondary-subtle">
-                        <img src="{{ url_for('static', filename='images/marketplace/vermi-compost.png') }}" class="card-img-top" alt="Vermi-Compost" style="object-fit: cover; height: 300px;">
-                        <div class="card-body">
-                            <h5 class="card-title">Vermi-Compost</h5>
-                            <p class="card-text fw-bold text-success">₹10 – ₹80 per kg</p>
-                            <a href="#" class="btn btn-primary">Buy</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 mb-4">
-                    <div class="card h-100 text-center shadow-lg border border-secondary-subtle">
-                        <img src="{{ url_for('static', filename='images/marketplace/bio-fertilizer.png') }}" class="card-img-top" alt="Rhizobium Bio-Fertilizer" style="object-fit: cover; height: 300px;">
-                        <div class="card-body">
-                            <h5 class="card-title">Rhizobium Bio-Fertilizer</h5>
-                            <p class="card-text fw-bold text-success">₹40 – ₹500 per kg/liter</p>
-                            <a href="#" class="btn btn-primary">Buy</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-</section>
+  <!-- Page header -->
+  <h1 class="text-center mb-2">Market</h1>
+  <p class="text-center mb-4">
+    Explore a wide selection of seeds, fertilizers and equipment for your farm.
+  </p>
 
-<section id="equipments">
-        <div class="my-5">
-            <h1 class="text-center my-4">Equipments</h1>
-            <div class="row">
-                <div class="col-lg-3 col-md-6 mb-4">
-                    <div class="card h-100 text-center shadow-lg border border-secondary-subtle">
-                        <img src="{{ url_for('static', filename='images/marketplace/drip-system.png') }}" class="card-img-top" alt="Drip-system" style="object-fit: cover; height: 300px;">
-                        <div class="card-body">
-                            <h5 class="card-title">Drip-system</h5>
-                            <p class="card-text fw-bold text-success">₹5,300</p>
-                            <a href="#" class="btn btn-primary">Buy</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 mb-4">
-                    <div class="card h-100 text-center shadow-lg border border-secondary-subtle">
-                        <img src="{{ url_for('static', filename='images/marketplace/irigation.png') }}" class="card-img-top" alt="Irrigation System" style="object-fit: cover; height: 300px;">
-                        <div class="card-body">
-                            <h5 class="card-title">Irrigation System</h5>
-                            <p class="card-text fw-bold text-success">₹8,290</p>
-                            <a href="#" class="btn btn-primary">Buy</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 mb-4">
-                    <div class="card h-100 text-center shadow-lg border border-secondary-subtle">
-                        <img src="{{ url_for('static', filename='images/marketplace/solar-pump.png') }}" class="card-img-top" alt="Solar Pumps" style="object-fit: cover; height: 300px;">
-                        <div class="card-body">
-                            <h5 class="card-title">Solar Pumps</h5>
-                            <p class="card-text fw-bold text-success">₹49,000</p>
-                            <a href="#" class="btn btn-primary">Buy</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 mb-4">
-                    <div class="card h-100 text-center shadow-lg border border-secondary-subtle">
-                        <img src="{{ url_for('static', filename='images/marketplace/sprayers.png') }}" class="card-img-top" alt="Sprayers" style="object-fit: cover; height: 300px;">
-                        <div class="card-body">
-                            <h5 class="card-title">Sprayers</h5>
-                            <p class="card-text fw-bold text-success">₹3,000</p>
-                            <a href="#" class="btn btn-primary">Buy</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+  <!-- Anchor navigation -->
+  <ul class="nav nav-underline justify-content-center mb-5">
+    <li class="nav-item"><a class="nav-link active" href="#seeds">Seeds</a></li>
+    <li class="nav-item"><a class="nav-link" href="#fertilizers">Fertilizers</a></li>
+    <li class="nav-item"><a class="nav-link" href="#equipments">Equipments</a></li>
+  </ul>
+
+  <!-- ------------------------------------------------------------------ -->
+  <!-- SEEDS SECTION ----------------------------------------------------- -->
+  <!-- ------------------------------------------------------------------ -->
+  <section id="seeds" class="my-5">
+    <h2 class="mb-4">🌱 Seeds</h2>
+    <div class="row g-4">
+      {# 4‑column grid = col-md-3 ; stacks to 2 on sm, 1 on xs #}
+      {% for seed in [
+          {'name':'Paddy (Grade A)', 'img':'rice-seeds.png',  'price':'₹2 300 /quintal'},
+          {'name':'Ragi',            'img':'ragi-seeds.jpg',  'price':'₹4 290 /quintal'},
+          {'name':'Wheat',           'img':'wheat-seeds.jpg', 'price':'₹2 425 /quintal'},
+          {'name':'Barley',          'img':'barley-seeds.jpg','price':'₹1 980 /quintal'}
+      ] %}
+      <div class="col-md-3 col-sm-6">
+        <div class="card h-100">
+          <img
+            src="{{ url_for('static', filename='images/marketplace/' ~ seed.img) }}"
+            class="card-img-top"
+            style="height:200px;object-fit:cover"
+            alt="{{ seed.name }} image"
+          >
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title">{{ seed.name }}</h5>
+            <p class="card-text">{{ seed.price }}</p>
+            <a href="{{ url_for('seller') }}" class="btn btn-outline-secondary mb-2">Contact Seller</a>
+            <a href="#" class="btn btn-primary mb-2">Buy</a>
+            <button class="btn btn-success toast-btn mt-auto" data-product="{{ seed.name }}">Add to Cart</button>
+          </div>
         </div>
-</section>
+      </div>
+      {% endfor %}
     </div>
-     
+  </section>
+
+  <!-- ------------------------------------------------------------------ -->
+  <!-- FERTILIZERS SECTION ---------------------------------------------- -->
+  <!-- ------------------------------------------------------------------ -->
+  <section id="fertilizers" class="my-5">
+    <h2 class="text-center mb-4">🪴 Fertilizers</h2>
+    <div class="row g-4">
+      {% for fert in [
+          {'name':'Urea','img':'urea.png','price':'₹260 / 50 kg'},
+          {'name':'Neem Cake','img':'neem-cake.png','price':'₹20 – ₹75 /kg'},
+          {'name':'Vermi‑Compost','img':'vermi-compost.png','price':'₹10 – ₹80 /kg'},
+          {'name':'Rhizobium Bio‑Fertilizer','img':'bio-fertilizer.png','price':'₹40 – ₹500 /kg (ltr)'}
+      ] %}
+      <div class="col-md-3 col-sm-6">
+        <div class="card h-100 text-center shadow-sm border border-secondary-subtle">
+          <img
+            src="{{ url_for('static', filename='images/marketplace/' ~ fert.img) }}"
+            class="card-img-top"
+            alt="{{ fert.name }}"
+            style="height:200px;object-fit:cover"
+          >
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title">{{ fert.name }}</h5>
+            <p class="card-text fw-bold text-success">{{ fert.price }}</p>
+            <a href="#" class="btn btn-primary mt-auto">Buy</a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+
+  <!-- ------------------------------------------------------------------ -->
+  <!-- EQUIPMENTS SECTION ------------------------------------------------ -->
+  <!-- ------------------------------------------------------------------ -->
+  <section id="equipments" class="my-5">
+    <h2 class="text-center mb-4">⚙️ Equipments</h2>
+    <div class="row g-4">
+      {% for eq in [
+          {'name':'Drip System','img':'drip-system.png','price':'₹5 300'},
+          {'name':'Irrigation System','img':'irigation.png','price':'₹8 290'},
+          {'name':'Solar Pumps','img':'solar-pump.png','price':'₹49 000'},
+          {'name':'Sprayers','img':'sprayers.png','price':'₹3 000'}
+      ] %}
+      <div class="col-md-3 col-sm-6">
+        <div class="card h-100 text-center shadow-sm border border-secondary-subtle">
+          <img
+            src="{{ url_for('static', filename='images/marketplace/' ~ eq.img) }}"
+            class="card-img-top"
+            alt="{{ eq.name }}"
+            style="height:200px;object-fit:cover"
+          >
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title">{{ eq.name }}</h5>
+            <p class="card-text fw-bold text-success">{{ eq.price }}</p>
+            <a href="#" class="btn btn-primary mt-auto">Buy</a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+
+</div>  <!-- /container -->
+
+<!-- Toast container (required once per page) -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3"></div>
+
+<!-- Bootstrap JS (includes Popper) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Custom toast logic -->
+<script src="{{ url_for('static', filename='js/toast.js') }}"></script>
 {% endblock %}
