@@ -84,6 +84,10 @@ def payment():
     username = session['username']
     return render_template('payment.html', username=username)
 
+@app.route('/receipts')
+def receipts():
+    return render_template('receipts.html')
+
 @app.route('/seller')
 def seller():
     return render_template('seller.html')
