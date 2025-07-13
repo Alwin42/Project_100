@@ -10,6 +10,11 @@ users = {
         'username': 'Alwin',
         'password': 'apple222',
         'email': 'john@gmail.com',
+        'first_name': 'Alwin',
+        'last_name': 'Emmanuel',
+        'city': 'Kochi',
+        'state': 'Kerala',
+        'zip': '682001'
     },
 }
 
@@ -56,12 +61,17 @@ def logout():
 
 @app.route('/profile')
 def profile():
-    if 'username' not in session:
-        return redirect(url_for('login'))
     username = session['username']
     user = users.get(username)
-    return render_template('profile.html', username=username, email=user['email'],FirstName=user['First name'],LastName=user['Last name'] ,
-                           Username=user['Username'], City=user['City'], State=user['State'], Zip=user['Zip'])
+    return render_template(
+        'profile.html',
+        username=user['username'],
+        first_name=user['first_name'],
+        last_name=user['last_name'],
+        city=user['city'],
+        state_selected=user['state'],
+        zip=user['zip']
+    )
 
 @app.route('/cart')
 def cart():
@@ -76,6 +86,10 @@ def orders():
         return redirect(url_for('login'))
     username = session['username']
     return render_template('orders.html')
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    return render_template('register.html')
 
 @app.route('/payment')
 def payment():
