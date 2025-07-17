@@ -1,70 +1,44 @@
-# Agro-Tech 🌾
+# 🌾 Agro-Tech
 
 A modern web platform connecting farmers, businesses, and sellers to create a thriving agricultural marketplace.
 
-## ## About The Project
+---
 
-Agro-Tech aims to bridge the gap between agricultural producers and the market. It provides a simple, accessible digital platform for farmers to list their produce, for businesses to source fresh products directly, and for sellers to engage with a wider network. Our goal is to empower farmers by giving them direct market access and to provide businesses with a transparent and efficient supply chain.
+## 📖 About The Project
 
-***
+Agro-Tech aims to bridge the gap between agricultural producers and the market. It provides a simple, accessible digital platform for:
 
-### ### ✨ Features
+- Farmers to list their produce  
+- Businesses to source fresh products directly  
+- Sellers to engage with a wider network
 
-* **User Authentication:** Secure registration and login for farmers, businesses, and sellers.
-* **Product Listings:** Farmers can easily upload and manage listings for their produce.
-* **Marketplace Browse:** Users can search, filter, and browse available products.
-* **User Profiles:** View profiles of farmers and sellers to build trust and community.
-* **Direct Interaction:** A platform to facilitate communication between buyers and sellers.
+**Goal:** Empower farmers with direct market access and provide businesses with a transparent, efficient supply chain.
 
-***
+---
 
-### ### 🛠️ Tech Stack
+## ✨ Features
 
-This project is built with a simple and robust technology stack:
+- **User Authentication:** Secure registration and login for farmers, businesses, and sellers  
+- **Product Listings:** Farmers can upload and manage listings for their produce  
+- **Marketplace Browse:** Users can search, filter, and browse available products  
+- **User Profiles:** View profiles of farmers and sellers to build trust  
+- **Direct Interaction:** Platform for communication between buyers and sellers
 
-* **Frontend:** HTML, Bootstrap CSS
-* **Backend:** Flask (Python Framework)
-* **Database:** SQLite3
+---
 
-***
+## 🛠️ Tech Stack
 
-### ### 🚀 Getting Started
+- **Frontend:** HTML, Bootstrap CSS  
+- **Backend:** Flask (Python Framework)  
+- **Database:** SQLite3
 
-To get a local copy up and running, follow these simple steps.
+---
 
-#### Prerequisites
+## 🚀 Getting Started
 
-Make sure you have Python 3 and `pip` installed on your system.
+Follow the steps below to run the project locally.
 
-#### Installation
+### ✅ Prerequisites
 
-1.  **Clone the repository:**
-    ```sh
-    git clone [https://github.com/Alwin42/Project_100/Agro-Tech.git](link)
-    ```
-2.  **Navigate to the project directory:**
-    ```sh
-    cd Agro-Tech
-    ```
-3.  **Create and activate a virtual environment:**
-    * **macOS/Linux:**
-        ```sh
-        python3 -m venv venv
-        source venv/bin/activate
-        ```
-    * **Windows:**
-        ```sh
-        python -m venv venv
-        .\venv\Scripts\activate
-        ```
-4.  **Install the required packages:**
-    ```sh
-    pip install -r requirements.txt
-    ```
-5.  **Run the Flask application:**
-    ```sh
-    flask run
-    ```
-    Open your browser and go to `http://127.0.0.1:5000` to see the application live.
-
-***
+- Python 3.x
+- pip
