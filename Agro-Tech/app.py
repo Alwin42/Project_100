@@ -1,10 +1,62 @@
-
+from datetime import datetime, timezone
 from flask import Flask, render_template, request, redirect, url_for, session
-
+import sqlite3
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 
 app.secret_key = 'key' 
+
+DB_PATH = "/home/alwin42/Programs/Projects_100/Agro-Tech/agrodata.db"
+app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{DB_PATH}"
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+db = SQLAlchemy(app)
+def init_db():
+    conn =sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS users (
+            id INTEGER PRIMARY KEY,
+            name TEXT NOT NULL,
+            age INTEGER NOT NULL
+        )
+    ''')
+    conn.commit()
+    conn.close()
+
+# Get all users from the databse
+def get_users():
+    conn=sqlite3.connect(DB_PATH)
+    cursor=conn.cursor()
+    cursor.execute('SELECT * FROM users')
+    users = cursor.fetchall()
+    conn.close()
+    return users
+
+# Add a user to the database
+def add_user(name, age):
+    conn=sqlite3.connect(DB_PATH)
+    cursor=conn.cursor()
+    cursor.execute('INSERT INTO users (name, age) VALUES (?, ?)',(name, age))
+    conn.commit()
+    conn.close()
+
+# Update user's details
+def update_user(id, name, age):
+    conn=sqlite3.connect(DB_PATH)
+    cursor=conn.cursor()
+    cursor.execute('UPDATE users SET name = ?, age = ? WHERE id = ?',(name, age, id))
+    conn.commit()
+    conn.close()
+
+# Delete a user by ID
+def delete_user(id):
+    conn=sqlite3.connect(DB_PATH)
+    cursor=conn.cursor()
+    cursor.execute('DELETE FROM users WHERE id = ?', (id,))
+    conn.commit()
+    conn.close()
 users = {
     'Alwin': {
         'username': 'Alwin',
