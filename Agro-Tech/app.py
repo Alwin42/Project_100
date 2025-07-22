@@ -99,18 +99,35 @@ def logout():
 def profile():
     if 'username' not in session:
         return redirect(url_for('login'))
+    
+    username = session['username']
+    
+    conn = sqlite3.connect('agrodata.db')
+    conn.row_factory = sqlite3.Row  
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM users WHERE username = ?', (username,))
+    user_details = cursor.fetchone()
+    conn.close()
+
+    if user_details:
+       
+        session['name'] = user_details['name']
+        session['city'] = user_details['city']
+        session['state'] = user_details['state']
+        session['zip'] = user_details['zip']
+
+        return render_template(
+            'profile.html',
+            username=user_details['username'],
+            name=user_details['name'],
+            city=user_details['city'],
+            state=user_details['state'],
+            zip=user_details['zip'],
+            role=user_details['role']
+        )
     else:
-        username = session['username']
-        conn = sqlite3.connect('agrodata.db')
-        cursor = conn.cursor()
-        cursor.execute('SELECT * FROM users WHERE username=?', (username,))
-        user_details = cursor.fetchone()
-        conn.close()
-        
-        if user_details:
-            return render_template('profile.html',)
-        else:
-            flash('User not found', 'error')
+        flash('User not found', 'error')
+        return redirect(url_for('login'))
 
 @app.route('/cart')
 def cart():
