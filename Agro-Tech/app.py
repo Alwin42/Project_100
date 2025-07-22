@@ -17,8 +17,8 @@ def init_db():
             username TEXT NOT NULL,
             password TEXT NOT NULL,
             city TEXT NOT NULL,
-            state TEXT NOT NULL,
-            zip TEXT NOT NULL              
+            state TEXT,
+            zip TEXT               
         )
     ''')
     conn.commit()
@@ -28,6 +28,31 @@ def init_db():
 @app.route('/')
 def home():
     return render_template('index.html')
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        name = request.form['name']
+        username = request.form['username']
+        password = request.form['password']
+        city = request.form['city']
+        state = request.form['state']
+        zip_code = request.form['zip']
+        role = request.form['role']
+        
+        conn = sqlite3.connect('agrodata.db')
+        cursor = conn.cursor()
+        cursor.execute('''
+                    INSERT INTO users (name, username, password, city, state, zip, role)
+                    VALUES (?, ?, ?, ?, ?, ?, ?)''', (name, username, password, city, state, zip_code, role))
+        conn.commit()
+        conn.close()
+        return redirect(url_for('login'))
+    else:
+        if 'username' in session:
+            return redirect(url_for('dashboard'))
+    
+    return render_template('register.html')
 
 @app.route('/crops')
 def crops():
@@ -43,23 +68,17 @@ def login():
         username = request.form['username']
         password = request.form['password']
 
-        with sqlite3.connect('agrodata.db') as conn:
-            cursor = conn.cursor()
-            cursor.execute('SELECT * FROM users WHERE username=? AND password=?', (username, password))
-            user = cursor.fetchone()
-
-            if user:
-                session['user'] = {
-                    'id': user[0],
-                    'name': user[1],
-                    'username': user[2],
-                    'city': user[4],
-                    'state': user[5],
-                    'zip': user[6]
-                }
-                return redirect(url_for('dashboard'))
-            else:
-                flash('Invalid username or password', 'error')
+        conn = sqlite3.connect('agrodata.db')
+        cursor = conn.cursor()
+        cursor.execute('SELECT * FROM users WHERE username=? AND password=?', (username, password))
+        user_details = cursor.fetchone()
+        conn.close()
+        if user_details:
+            session['username'] = user_details[2]
+            
+            return redirect(url_for('dashboard'))
+        else:
+            return redirect(url_for('login'))
                 
     return render_template('login.html')
 
@@ -80,9 +99,18 @@ def logout():
 def profile():
     if 'username' not in session:
         return redirect(url_for('login'))
-    
-    
-    return render_template('profile.html')
+    else:
+        username = session['username']
+        conn = sqlite3.connect('agrodata.db')
+        cursor = conn.cursor()
+        cursor.execute('SELECT * FROM users WHERE username=?', (username,))
+        user_details = cursor.fetchone()
+        conn.close()
+        
+        if user_details:
+            return render_template('profile.html',)
+        else:
+            flash('User not found', 'error')
 
 @app.route('/cart')
 def cart():
@@ -98,30 +126,7 @@ def orders():
     username = session['username']
     return render_template('orders.html')
 
-@app.route('/register', methods=['GET', 'POST'])
-def register():
-    if request.method == 'POST':
-        name = request.form['name']
-        username = request.form['username']
-        password = request.form['password']
-        city = request.form['city']
-        state = request.form['state']
-        zip_code = request.form['zip']
-        role = request.form['role']
 
-        with sqlite3.connect('agrodata.db') as conn:
-            cursor = conn.cursor()
-            try:
-                cursor.execute('''
-                    INSERT INTO users (name,username,password,city,
-                               state,role) VALUES (?,?,?,?,?,? )''')
-                conn.commit()
-                flash('Registration successful!', 'success')
-                return redirect(url_for('login'))
-            except sqlite3.IntegrityError:
-                flash('Username already exists. Please choose a different one.', 'error')
-                return redirect(url_for('register'))
-    return render_template('register.html')
 
 @app.route('/payment')
 def payment():
