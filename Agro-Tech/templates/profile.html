@@ -36,7 +36,7 @@
                     <select class="form-select" id="validationDefault04" name="state" required>
                         <option disabled value="">Choose...</option>
                         {% for state in ['Kerala', 'Tamil-Nadu', 'Delhi', 'Karnataka', 'Punjab'] %}
-                            <option value="{{ state }}" {% if state == state %}selected{% endif %}>{{ state }}</option>
+                            <option value="{{ state }}" {% if state == state %} selected {% endif %}>{{ state }}</option>
                         {% endfor %}
                     </select>
                 </div>
