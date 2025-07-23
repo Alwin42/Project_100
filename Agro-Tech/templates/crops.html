@@ -23,7 +23,7 @@
         <div class="card-body d-flex flex-column">
           <h5 class="card-title">{{ crop.name }}</h5>
           <p class="card-text">{{ crop.name }} {{ crop.price }} ({{ crop.unit }})</p>
-          <a href="{{ url_for('seller') }}" class="btn btn-outline-secondary mb-2">Contact Seller</a>
+          <a href="{{ url_for('routes.seller') }}" class="btn btn-outline-secondary mb-2">Contact Seller</a>
           <a href="#" class="btn btn-primary mb-2">Buy</a>
           <button class="btn btn-success toast-btn mt-auto" data-product="{{ crop.name }}">Add to Cart</button>
         </div>
@@ -51,7 +51,7 @@
         <div class="card-body d-flex flex-column">
           <h5 class="card-title">{{ veg.name }}</h5>
           <p class="card-text">{{ veg.price }} per kg</p>
-          <a href="{{ url_for('seller') }}" class="btn btn-outline-secondary mb-2">Contact Seller</a>
+          <a href="{{ url_for('routes.seller') }}" class="btn btn-outline-secondary mb-2">Contact Seller</a>
           <a href="#" class="btn btn-primary mb-2">Buy</a>
           <button class="btn btn-success toast-btn mt-auto" data-product="{{ veg.name }}">Add to Cart</button>
         </div>
@@ -79,7 +79,7 @@
         <div class="card-body d-flex flex-column">
           <h5 class="card-title">{{ fruit.name }}</h5>
           <p class="card-text">{{ fruit.price }} per kg</p>
-          <a href="{{ url_for('seller') }}" class="btn btn-outline-secondary mb-2">Contact Seller</a>
+          <a href="{{ url_for('routes.seller') }}" class="btn btn-outline-secondary mb-2">Contact Seller</a>
           <a href="#" class="btn btn-primary mb-2">Buy</a>
           <button class="btn btn-success toast-btn mt-auto" data-product="{{ fruit.name }}">Add to Cart</button>
         </div>
@@ -103,7 +103,7 @@
         <div class="card-body d-flex flex-column">
           <h5 class="card-title">{{ spice.name }}</h5>
           <p class="card-text">{{ spice.price }} per kg</p>
-          <a href="{{ url_for('seller') }}" class="btn btn-outline-secondary mb-2">Contact Seller</a>
+          <a href="{{ url_for('routes.seller') }}" class="btn btn-outline-secondary mb-2">Contact Seller</a>
           <a href="#" class="btn btn-primary mb-2">Buy</a>
           <button class="btn btn-success toast-btn mt-auto" data-product="{{ spice.name }}">Add to Cart</button>
         </div>

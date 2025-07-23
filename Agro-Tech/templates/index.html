@@ -9,10 +9,10 @@
       <div class="col-lg-6 mb-4 mb-lg-0">
         <h1 class="fs-1">Welcome to Agro-Tech</h1>
         <p class="lead">Your solution for all agricultural needs.</p>
-        <a href="{{ url_for('crops') }}">
+        <a href="{{ url_for('routes.crops') }}">
           <button class="btn text-white bg-success mt-3 fs-5">Buy Crops</button>
         </a>
-        <a href="{{ url_for('marketplace') }}">
+        <a href="{{ url_for('routes.marketplace') }}">
           <button class="btn text-white bg-success mt-3 fs-5">Explore Marketplace</button>
         </a>
       </div>
@@ -40,7 +40,7 @@
 
       <div class="col-lg-6">
         <h1 class="fw-bold">Agro-Tech connects farmers, businesses, and dealers to promote better standards in farming.</h1>
-        <a href="{{ url_for('marketplace') }}">
+        <a href="{{ url_for('routes.marketplace') }}">
           <button class="btn text-white bg-success mt-3 fs-5">Explore Marketplace</button>
         </a>
       </div>
@@ -60,8 +60,8 @@
         <ul class="list-unstyled">
           <li><a href="#home" class="text-light text-decoration-none">Home</a></li>
           <li><a href="#about" class="text-light text-decoration-none">About</a></li>
-          <li><a href="{{ url_for('crops') }}" class="text-light text-decoration-none">Crops</a></li>
-          <li><a href="{{ url_for('marketplace') }}" class="text-light text-decoration-none">Marketplace</a></li>
+          <li><a href="{{ url_for('routes.crops') }}" class="text-light text-decoration-none">Crops</a></li>
+          <li><a href="{{ url_for('routes.marketplace') }}" class="text-light text-decoration-none">Marketplace</a></li>
         </ul>
       </div>
 

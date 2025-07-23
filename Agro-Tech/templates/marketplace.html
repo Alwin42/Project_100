@@ -41,7 +41,7 @@
           <div class="card-body d-flex flex-column">
             <h5 class="card-title">{{ seed.name }}</h5>
             <p class="card-text">{{ seed.price }}</p>
-            <a href="{{ url_for('seller') }}" class="btn btn-outline-secondary mb-2">Contact Seller</a>
+            <a href="{{ url_for('routes.seller') }}" class="btn btn-outline-secondary mb-2">Contact Seller</a>
             <a href="#" class="btn btn-primary mb-2">Buy</a>
             <button class="btn btn-success toast-btn mt-auto" data-product="{{ seed.name }}">Add to Cart</button>
           </div>
