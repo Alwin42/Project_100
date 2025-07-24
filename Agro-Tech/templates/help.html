@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+{% block title %}Help{% endblock %}
+
+{% block content %}
+<body class="bg-light">
+  <div class="container shadow-lg bg-white p-5 mt-5 rounded">
+    
+    <h1 class="mb-3">Help & Support Center</h1>
+    <div class="my-3">
+        <a href="{{ url_for('routes.dashboard') }}" class="btn btn-dark me-2">Dashboard</a>
+        <a href="{{ url_for('routes.logout') }}" class="btn btn-danger">Logout</a>
+        <button type="button" class="btn btn-success">Call Customer Support</button>
+    </div>  
+        <ul class="nav nav-underline">
+            <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#Billing">Billing & Payments</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link" href="#Technical">Technical Support</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link" href="#Account">Account Management</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link" href="#Complaints" >Complaints & Feedback</a>
+            </li>
+    </ul>
+    <section id="Billing">
+        <div class="container mt-3">
+            <h3>Payment Issues & Failed Transactions</h3>
+            <h5>My payment was declined - what should I do?</h5>
+            <ul>
+                <li>Check if your card has enough money or isn't expired</li>
+                <li>Make sure you entered the correct card details (number, CVV, expiry date) </li>
+                <li>Contact your bank - they might have blocked the transaction for security </li>
+                <li>Try a different payment method (different card, UPI, net banking) </li>
+            </ul>
+        </div>
+        <div class="container mt-3">
+            <h3>Payment deducted but order not confirmed</h3>
+            <ul>
+                <li>Don't worry! Your money is safe and will be returned within 3-5 business days</li>
+                <li>Submit a ticket with your transaction ID for faster resolution</li>
+                <li>Check your email for any confirmation messages</li>
+                <button type="button" class="btn bg-secondary text-white mt-2 shadow ">Raise Ticket</button>
+            </ul>
+        </div>
+        <div class="container mt-3">
+            <h3>📦 Orders & Services</h3>
+            <ul>
+                <li>Track my order - Check where your order is and when it will arrive</li>
+                <li>Cancel or modify order - Make changes before your order ships</li>
+                <li>Return or exchange - Send back items or swap for different ones</li>
+                <button type="button" class="btn bg-secondary text-white mt-2 shadow ">Raise Ticket</button>
+            </ul>
+        </div>
+    </section>
+    <hr>
+    <section id="Technical">
+        <div class="container mt-5">
+            <h3>🔧 Technical Problems</h3>
+            <ul>
+                <li>Login & Authentication Problems</li>
+                <li>Feature Not Working Properly</li>
+                <li>Mobile App Troubleshooting</li>
+                <li>Browser Compatibility Problems</li>
+            </ul>
+            <button type="button" class="btn bg-secondary text-white mt-2 mb-3 shadow ">Raise Ticket</button>
+        </div>
+        <p>
+                Account locked or suspended
+
+                Too many failed login attempts can temporarily lock your account
+
+                Wait 30 minutes before trying again
+
+                Contact customer support if account remains locked
+
+                Provide ID proof for account verification if needed
+        </p>
+        <div class="container mt-2">
+        <h3>🆘 Still Having Issues?</h3>
+            <p>Contact Technical Support:</p>
+            <h4>🔴 Critical Issues (Website down, payment failures)</h4>
+            <li>Phone: +91-253-2999034 (24/7 support)</li>
+            <li>WhatsApp: +91-98765-43210</li>
+            <br>
+            <h4>🟡 General Technical Issues</h4>
+            <li>Live Chat: Available 9 AM - 8 PM</li>
+            <li>Email: tech-support@agro-tech.com</li>
+            <li>Response time: Within 2 hours</li>
+        <button type="button" class="btn bg-secondary text-white mt-2 shadow ">Call Technician</button>
+        </div>
+        <hr>
+    </section>
+    <section id="Account">
+        <div class="container mt-5">
+            <h3>👤 Account Management</h3>
+            <ul>
+                <li>Update Profile Information</li>
+                <li>Change Password or Security Settings</li>
+                <li>Delete Account Permanently</li>
+                <li>Privacy Settings & Data Requests</li>
+            </ul>
+            <button type="button" class="btn bg-secondary text-white mt-2 mb-3 shadow ">Raise Ticket</button>
+        </div>
+        <hr>
+        </section>
+        <section id="Complaints">
+        <div class="container mt-5">
+            <h3>📢 Complaints & Feedback</h3>
+            <ul>
+                <li>File a Complaint about Service</li>
+                <li>Provide Feedback on Products</li>
+                <li>Report Inappropriate Content or Users</li>
+                <li>Suggest New Features or Improvements</li>
+            </ul>
+            <div class="form-floating">
+            <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
+            <label for="floatingTextarea2">Complaints</label>
+            </div>
+            <button type="button" class="btn bg-secondary text-white mt-2 mb-3 shadow ">Complaint</button>
+            <p>💬 We Value Your Feedback</p>
+            <div class="form-floating">
+            
+            <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
+            <label for="floatingTextarea2">Feedback</label>
+            </div>
+            
+            <button type="button" class="btn bg-secondary text-white mt-2 mb-3 shadow ">Share Your Feedback</button>
+        </div>
+  </div>
+  {% endblock %}
