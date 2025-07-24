@@ -4,6 +4,9 @@ import sqlite3
 
 routes = Blueprint('routes', __name__)
 
+@routes.route('/')
+def home():
+    return render_template('index.html')
 
 @routes.route('/register', methods=['GET', 'POST'])
 def register():
@@ -23,10 +26,10 @@ def register():
                     VALUES (?, ?, ?, ?, ?, ?, ?)''', (name, username, password, city, state, zip_code, role))
         conn.commit()
         conn.close()
-        return redirect(url_for('login'))
+        return redirect(url_for('routes.login'))
     else:
         if 'username' in session:
-            return redirect(url_for('dashboard'))
+            return redirect(url_for('routes.dashboard'))
     
     return render_template('register.html')
 
@@ -52,16 +55,16 @@ def login():
         if user_details:
             session['username'] = user_details[2]
             
-            return redirect(url_for('dashboard'))
+            return redirect(url_for('routes.dashboard'))
         else:
-            return redirect(url_for('login'))
+            return redirect(url_for('routes.login'))
                 
     return render_template('login.html')
 
 @routes.route('/dashboard')
 def dashboard():
     if 'username' not in session:
-        return redirect(url_for('login'))
+        return redirect(url_for('routes.login'))
 
     username = session['username']
     return render_template('dashboard.html', username=username,)
@@ -69,12 +72,12 @@ def dashboard():
 @routes.route('/logout')
 def logout():
     session.pop('username', None)
-    return redirect(url_for('login'))
+    return redirect(url_for('routes.login'))
 
 @routes.route('/profile')
 def profile():
     if 'username' not in session:
-        return redirect(url_for('login'))
+        return redirect(url_for('routes.login'))
     
     username = session['username']
     
@@ -103,19 +106,19 @@ def profile():
         )
     else:
         flash('User not found', 'error')
-        return redirect(url_for('login'))
+        return redirect(url_for('routes.login'))
 
 @routes.route('/cart')
 def cart():
     if 'username' not in session:
-        return redirect(url_for('login'))
+        return redirect(url_for('routes.login'))
     username = session['username']
     return render_template('cart.html')
 
 @routes.route('/orders')
 def orders():
     if 'username' not in session:
-        return redirect(url_for('login'))
+        return redirect(url_for('routes.login'))
     username = session['username']
     return render_template('orders.html')
 
@@ -124,7 +127,7 @@ def orders():
 @routes.route('/payment')
 def payment():
     if 'username' not in session:
-        return redirect(url_for('login'))
+        return redirect(url_for('routes.login'))
     username = session['username']
     return render_template('payment.html', username=username)
 
@@ -135,3 +138,7 @@ def receipts():
 @routes.route('/seller')
 def seller():
     return render_template('seller.html')
+
+@routes.route('/help')
+def help():
+    return render_template('help.html')

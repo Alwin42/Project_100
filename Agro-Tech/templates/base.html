@@ -9,7 +9,7 @@
   <body>
   <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #3ea73e;">
   <div class="container-fluid">
-    <a class="navbar-brand fw-bold text-white" href="{{ url_for('home')}}">🌱 Agro-Tech</a>
+    <a class="navbar-brand fw-bold text-white" href="{{ url_for('routes.home')}}">🌱 Agro-Tech</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarAgro" aria-controls="navbarAgro" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -17,7 +17,7 @@
     <div class="collapse navbar-collapse" id="navbarAgro">
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active text-white" aria-current="page" href="{{url_for('home')}}">Home</a>
+          <a class="nav-link active text-white" aria-current="page" href="{{url_for('routes.home')}}">Home</a>
         </li>
         <li class="nav-item">
           <a class="nav-link text-white" href="{{url_for('routes.crops')}}">Crops</a>
