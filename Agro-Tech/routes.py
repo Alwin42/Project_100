@@ -167,3 +167,19 @@ def update_profile():
         
         flash('Profile updated successfully!', 'success')
         return redirect(url_for('routes.profile'))
+
+@routes.route('/profile/update/password', methods=['GET', 'POST'])
+def update_password():
+    if 'username' not in session:
+        return redirect(url_for('routes.login'))
+    
+    if request.method == 'POST':
+        new_password = request.form['new_password']
+        username = session['username']
+        conn = sqlite3.connect('agrodata.db')
+        cursor = conn.cursor()
+        cursor.execute('''UPDATE users Set password=? WHERE username=?''', (new_password, username))
+        conn.commit()
+        conn.close()
+        flash('Password updated successfully!', 'success')
+        return redirect(url_for('routes.login'))

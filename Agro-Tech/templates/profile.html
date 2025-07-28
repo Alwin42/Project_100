@@ -54,7 +54,7 @@
     <!-- Change Password Section -->
     <div class="collapse mt-3" id="change-password">
         <div class="card card-body bg-secondary border border-secondary shadow-lg text-white">
-            <form method="POST">
+            <form method="POST" action="{{ url_for('routes.update_password') }}">
                 <div class="mb-3">
                     <label for="inputPassword5" class="form-label">New Password</label>
                     <input type="password" id="inputPassword5" name="new_password" class="form-control" required>
