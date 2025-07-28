@@ -15,7 +15,7 @@
     <!-- Edit Profile Section -->
     <div class="collapse" id="Edit-profile">
         <div class="card card-body bg-secondary border border-secondary shadow-lg text-white">
-            <form class="row g-3" method="POST" action="">
+            <form class="row g-3" method="POST" action="{{ url_for('routes.update_profile') }}">
                 <div class="col-md-4">
                     <label for="validationDefault01" class="form-label">Name</label>
                     <input type="text" class="form-control" id="validationDefault01" name="name" value="{{ name }}" required>

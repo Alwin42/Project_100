@@ -142,3 +142,28 @@ def seller():
 @routes.route('/help')
 def help():
     return render_template('help.html')
+
+@routes.route('/profile/update', methods=['GET', 'POST'])
+def update_profile():
+    if 'username' not in session:
+        return redirect(url_for('routes.login'))
+    
+    if request.method == 'POST':
+        name = request.form['name']
+        city = request.form['city']
+        state = request.form['state']
+        zip_code = request.form['zip']
+        
+        username = session['username']
+        
+        conn = sqlite3.connect('agrodata.db')
+        cursor = conn.cursor()
+        cursor.execute('''
+                    UPDATE users 
+                    SET name=?, city=?, state=?, zip=? 
+                    WHERE username=?''', (name, city, state, zip_code, username))
+        conn.commit()
+        conn.close()
+        
+        flash('Profile updated successfully!', 'success')
+        return redirect(url_for('routes.profile'))
