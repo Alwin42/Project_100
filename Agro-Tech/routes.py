@@ -35,7 +35,13 @@ def register():
 
 @routes.route('/crops')
 def crops():
-    return render_template('crops.html')
+    conn = sqlite3.connect('agrodata.db')
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM products')
+    crops = cursor.fetchall()
+    conn.close()
+    return render_template('crops.html', crops=crops)
 
 @routes.route('/marketplace')
 def marketplace():
@@ -183,3 +189,4 @@ def update_password():
         conn.close()
         flash('Password updated successfully!', 'success')
         return redirect(url_for('routes.login'))
+ 

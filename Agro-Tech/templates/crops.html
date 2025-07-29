@@ -2,123 +2,32 @@
 {% block title %}Crops{% endblock %}
 
 {% block content %}
-<div class="container mt-4">
-  <div class="text-center mb-4">
-    <h1>Crops</h1>
-    <p class="lead">Discover the essential crops that sustain our world.</p>
-  </div>
+<div class="container my-5">
+    <h1 class="text-center mb-4">🌱 Freshly harvested crops</h1>
 
-  <!-- Cereals Section -->
-  <h2 class="mb-4">🌾 Cereals & Grains</h2>
-  <div class="row g-4">
-    {% for crop in [
-      {'name': 'Rice', 'img': 'rice.jpg', 'price': '₹120', 'unit': 'per kg'},
-      {'name': 'Wheat', 'img': 'wheat.jpg', 'price': '₹35', 'unit': 'per kg'},
-      {'name': 'Corn', 'img': 'corn.jpg', 'price': '₹30', 'unit': 'per kg'},
-      {'name': 'Barley', 'img': 'barley.jpg', 'price': '₹25', 'unit': 'per kg'}
-    ] %}
-    <div class="col-md-3 col-sm-6">
-      <div class="card h-100">
-        <img src="{{ url_for('static', filename='images/crops/' + crop.img) }}" class="card-img-top" style="height: 200px; object-fit: cover;">
-        <div class="card-body d-flex flex-column">
-          <h5 class="card-title">{{ crop.name }}</h5>
-          <p class="card-text">{{ crop.name }} {{ crop.price }} ({{ crop.unit }})</p>
-          <a href="{{ url_for('routes.seller') }}" class="btn btn-outline-secondary mb-2">Contact Seller</a>
-          <a href="#" class="btn btn-primary mb-2">Buy</a>
-          <button class="btn btn-success toast-btn mt-auto" data-product="{{ crop.name }}">Add to Cart</button>
+    {% set categories = ['Spices', 'Fruits', 'Vegetables', 'Crops'] %}
+    
+    {% for category in categories %}
+        <h3 class="mt-5 mb-4">{{ category }}</h3>
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+
+        {% for crop in crops if crop['category'] == category %}
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                <div class="card h-100 w-75 shadow ">
+                    <img src="{{ url_for('static', filename='images/crops/' + crop['img']) }}" class="card-img-top" alt="{{ crop['pname'] }}" style="height:200px; object-fit:cover;">
+                    <div class="card-body d-flex flex-column jusify-content-center align-items-center">
+                        <h5 class="card-title">{{ crop['pname'] }}</h5>
+                        <p class="card-text">{{ crop['pdetails'][:100] }}...</p>
+                        <p class="fw-bold text-success">₹{{ crop['price'] }} /kg</p>
+                        <a href="#" class="btn btn-primary mt-auto">Add to Cart</a>
+                        <a href="#" class="btn btn-primary mt-3">Buy</a>
+                        <a href="#" class="btn btn-primary mt-3">Contact Seller</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+
         </div>
-      </div>
-    </div>
     {% endfor %}
-  </div>
-
-  <!-- Vegetables Section -->
-  <h2 class="mt-5 mb-4">🌿 Vegetables</h2>
-  <div class="row g-4">
-    {% for veg in [
-      {'name': 'Cabbage', 'img': 'Cabbage.jpg', 'price': '₹25'},
-      {'name': 'Tomato', 'img': 'tomato.jpg', 'price': '₹40'},
-      {'name': 'Green Chilli', 'img': 'Green-Chilli.jpg', 'price': '₹80'},
-      {'name': 'Onion', 'img': 'onion.jpg', 'price': '₹40'},
-      {'name': 'Potato', 'img': 'potato.jpg', 'price': '₹25'},
-      {'name': 'Beetroot', 'img': 'Beetroot.jpg', 'price': '₹48'},
-      {'name': 'Cauliflower', 'img': 'Cauliflower.jpg', 'price': '₹35'},
-      {'name': 'Carrot', 'img': 'Carrot.jpg', 'price': '₹30'}
-    ] %}
-    <div class="col-md-3 col-sm-6">
-      <div class="card h-100">
-        <img src="{{ url_for('static', filename='images/crops/' + veg.img) }}" class="card-img-top" style="height: 200px; object-fit: cover;">
-        <div class="card-body d-flex flex-column">
-          <h5 class="card-title">{{ veg.name }}</h5>
-          <p class="card-text">{{ veg.price }} per kg</p>
-          <a href="{{ url_for('routes.seller') }}" class="btn btn-outline-secondary mb-2">Contact Seller</a>
-          <a href="#" class="btn btn-primary mb-2">Buy</a>
-          <button class="btn btn-success toast-btn mt-auto" data-product="{{ veg.name }}">Add to Cart</button>
-        </div>
-      </div>
-    </div>
-    {% endfor %}
-  </div>
-
-  <!-- Fruits Section -->
-  <h2 class="mt-5 mb-4">🍋 Fruits</h2>
-  <div class="row g-4">
-    {% for fruit in [
-      {'name': 'Banana', 'img': 'Banana.jpg', 'price': '₹20 – ₹40'},
-      {'name': 'Mango (Alphonso)', 'img': 'Mango.jpg', 'price': '₹100 – ₹200'},
-      {'name': 'Apple (Kashmir)', 'img': 'Apple.jpg', 'price': '₹150 – ₹250'},
-      {'name': 'Papaya', 'img': 'Papaya.jpg', 'price': '₹20 – ₹35'},
-      {'name': 'Orange', 'img': 'Orange.jpg', 'price': '₹30 – ₹60'},
-      {'name': 'Pomegranate', 'img': 'Pomegranate.jpg', 'price': '₹80 – ₹150'},
-      {'name': 'Pineapple', 'img': 'Pineapple.jpg', 'price': '₹90 – ₹170'},
-      {'name': 'Grapes', 'img': 'Grapes.jpg', 'price': '₹50 – ₹150'}
-    ] %}
-    <div class="col-md-3 col-sm-6">
-      <div class="card h-100">
-        <img src="{{ url_for('static', filename='images/crops/' + fruit.img) }}" class="card-img-top" style="height: 200px; object-fit: cover;">
-        <div class="card-body d-flex flex-column">
-          <h5 class="card-title">{{ fruit.name }}</h5>
-          <p class="card-text">{{ fruit.price }} per kg</p>
-          <a href="{{ url_for('routes.seller') }}" class="btn btn-outline-secondary mb-2">Contact Seller</a>
-          <a href="#" class="btn btn-primary mb-2">Buy</a>
-          <button class="btn btn-success toast-btn mt-auto" data-product="{{ fruit.name }}">Add to Cart</button>
-        </div>
-      </div>
-    </div>
-    {% endfor %}
-  </div>
-
-  <!-- Spices Section -->
-  <h2 class="mt-5 mb-4">🧂 Spices</h2>
-  <div class="row g-4">
-    {% for spice in [
-      {'name': 'Turmeric', 'img': 'Turmeric.jpg', 'price': '₹80'},
-      {'name': 'Ginger (Dry)', 'img': 'Ginger.jpg', 'price': '₹300'},
-      {'name': 'Garlic', 'img': 'Garlic.jpg', 'price': '₹150'},
-      {'name': 'Red Chilli (Dry)', 'img': 'Red-Chilli.jpg', 'price': '₹250'}
-    ] %}
-    <div class="col-md-3 col-sm-6">
-      <div class="card h-100">
-        <img src="{{ url_for('static', filename='images/crops/' + spice.img) }}" class="card-img-top" style="height: 200px; object-fit: cover;">
-        <div class="card-body d-flex flex-column">
-          <h5 class="card-title">{{ spice.name }}</h5>
-          <p class="card-text">{{ spice.price }} per kg</p>
-          <a href="{{ url_for('routes.seller') }}" class="btn btn-outline-secondary mb-2">Contact Seller</a>
-          <a href="#" class="btn btn-primary mb-2">Buy</a>
-          <button class="btn btn-success toast-btn mt-auto" data-product="{{ spice.name }}">Add to Cart</button>
-        </div>
-      </div>
-    </div>
-    {% endfor %}
-  </div>
-
 </div>
-
-<!-- Toast container -->
-<div class="toast-container position-fixed bottom-0 end-0 p-3"></div>
-
-<!-- Bootstrap Bundle (for toast support) -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<!-- Custom JS for toast notifications -->
-<script src="{{ url_for('static', filename='js/toast.js') }}"></script>
 {% endblock %}
