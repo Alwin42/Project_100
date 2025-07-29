@@ -45,7 +45,14 @@ def crops():
 
 @routes.route('/marketplace')
 def marketplace():
-    return render_template('marketplace.html')
+    conn=sqlite3.connect('agrodata.db')
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM market')
+    market = cursor.fetchall()
+    conn.close()
+    return render_template('marketplace.html', market=market)
+    
 
 @routes.route('/login', methods=['GET', 'POST'])
 def login():
