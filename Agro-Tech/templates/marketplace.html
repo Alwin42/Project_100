@@ -32,8 +32,8 @@
                 <div class="card-body d-flex flex-column text-center px-3">
                 <h5 class="card-title">{{ market['name'] }}</h5>
                 <p class="card-text text-muted">{{ market['details'][:100] }}{% if market['details']|length > 100 %}...{% endif %}</p>
-                <p class="fw-bold text-success mb-3">₹{{ market['price'] }} /kg</p>
-                <p class="fw-bold text-success mb-3">{{ market['quantity'] }}</p>
+                <p class="fw-bold text-success mb-3">₹{{ market['price'] }} </p>
+                <p class="fw-bold text-success mb-3">Quantity: {{ market['quantity'] }}</p>
 
               <div class="d-grid gap-2 mt-auto">
                 <a href="#" class="btn btn-outline-secondary">Add to Cart</a>
