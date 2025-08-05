@@ -125,8 +125,22 @@ def profile():
 def cart():
     if 'username' not in session:
         return redirect(url_for('routes.login'))
+
     username = session['username']
-    return render_template('cart.html')
+
+    conn = sqlite3.connect('agrodata.db')
+    conn.execute('PRAGMA foreign_keys = ON;')  # ✅ Enforce foreign keys
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+
+    # Fetch items from cart for this user (you may need user-cart linking logic)
+    cursor.execute('SELECT * FROM cart_items INNER JOIN products ON cart_items.product_id = products.pid')
+    cart = cursor.fetchall()
+
+    conn.close()
+
+    return render_template('cart.html', cart=cart, username=username)
+
 
 @routes.route('/orders')
 def orders():
@@ -196,4 +210,9 @@ def update_password():
         conn.close()
         flash('Password updated successfully!', 'success')
         return redirect(url_for('routes.login'))
- 
+
+@routes.route('/add_to_cart')
+def add_to_cart():
+    if 'username' not in session:
+        return redirect(url_for('routes.login'))
+    
