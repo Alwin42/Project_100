@@ -129,12 +129,12 @@ def cart():
     username = session['username']
 
     conn = sqlite3.connect('agrodata.db')
-    conn.execute('PRAGMA foreign_keys = ON;')  # ✅ Enforce foreign keys
+    conn.execute('PRAGMA foreign_keys = ON;')  
     conn.row_factory = sqlite3.Row
     cursor = conn.cursor()
 
-    # Fetch items from cart for this user (you may need user-cart linking logic)
-    cursor.execute('SELECT * FROM cart_items INNER JOIN products ON cart_items.product_id = products.pid')
+    
+    cursor.execute('SELECT * FROM cart;')
     cart = cursor.fetchall()
 
     conn.close()
