@@ -32,11 +32,21 @@
                     <input type="hidden" name="category" value="{{ crop['category'] }}">
                     <input type="hidden" name="img" value="{{ crop['img'] }}">
                     <input type="hidden" name="price" value="{{ crop['price'] }}">
-                    <button type="submit" class="btn btn-outline-secondary">Add to Cart</button>
+                    <button type="submit" class="btn btn-outline-secondary w-100">Add to Cart</button>
                 </form>
 
-                <a href="#" class="btn btn-success">Buy</a>
-                <a href="#" class="btn btn-primary">Contact Seller</a>
+                <div class="d-grid gap-2 mt-auto">
+                <form action="{{ url_for('routes.buy_crops') }}" method="POST">
+                    <input type="hidden" name="pid" value="{{ crop['pid'] }}">
+                    <input type="hidden" name="pname" value="{{ crop['pname'] }}">
+                    <input type="hidden" name="pdetails" value="{{ crop['pdetails'] }}">
+                    <input type="hidden" name="category" value="{{ crop['category'] }}">
+                    <input type="hidden" name="img" value="{{ crop['img'] }}">
+                    <input type="hidden" name="price" value="{{ crop['price'] }}">
+                    <button type="submit" class="btn btn-success w-100">Buy</button>
+                </form>
+                </div>
+                <a href="#" class="btn btn-primary ">Contact Seller</a>
               </div>
             </div>
           </div>

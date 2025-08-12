@@ -19,8 +19,8 @@
 <div class="container mt-3">
     <div class="row">
         {% for order in orders %}
-        <div class="col-md-4 mb-4">
-            <div class="card" style="width: 18rem;">
+        <div class="col-md-3 mb-4">
+            <div class="card border border-2 shadow border-secondary p-3 d-flex flex-column" style="width: 18rem; height: 100%;">
                 <img src="{{ url_for('static', filename='images/crops/' + order['IMG']) }}" class="card-img-top" alt="{{ order['PNAME'] }}">
                 <div class="card-body">
                     <h5 class="card-title">{{ order['PNAME'] }}</h5>
@@ -28,6 +28,14 @@
                     <p class="card-text"><strong>Price:</strong> ₹{{ order['PRICE'] * order['QUANTITY'] }}</p>
                     <p class="card-text"><strong>Quantity:</strong> {{ order['QUANTITY'] }}</p>
                     <p class="card-text text-success"><strong>Status:</strong> Order Placed</p>
+                    <div>
+                        <form action="{{ url_for('routes.delete_order') }}" method="POST">
+                        <input type="hidden" name="pid" value="{{ order['pid'] }}">
+                        <button type="submit" class="btn btn-outline-danger w-100 mt-auto ">Cancel Order</button>
+                
+                        </form>
+                    </div>
+                    
                 </div>
             </div>
         </div>
