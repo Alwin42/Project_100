@@ -15,21 +15,24 @@
     </button>
 
     <div class="collapse navbar-collapse" id="navbarAgro">
-      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0 ">
         <li class="nav-item">
-          <a class="nav-link active text-white" aria-current="page" href="{{url_for('routes.home')}}">Home</a>
+          <a class="nav-link active text-white fw-bold" aria-current="page" href="{{url_for('routes.home')}}">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white" href="{{url_for('routes.crops')}}">Crops</a>
+          <a class="nav-link text-white fw-bold" href="{{url_for('routes.crops')}}">Crops</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white" href="{{url_for('routes.marketplace')}}">Marketplace</a>
+          <a class="nav-link text-white fw-bold" href="{{url_for('routes.marketplace')}}">Marketplace</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white" href="{{url_for('routes.dashboard')}}">Dashboard</a>
+          <a class="nav-link text-white fw-bold" href="{{url_for('routes.cart')}}"><ion-icon name="cart-outline" style="font-size: 25px;"></ion-icon></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white" href="{{url_for('routes.login')}}">Login</a>
+          <a class="nav-link text-white fw-bold" href="{{url_for('routes.dashboard')}}"><ion-icon name="person-circle-outline" style="font-size: 25px;"></ion-icon></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white fw-bold" href="{{url_for('routes.login')}}">Login</a>
         </li>
       </ul>
     </div>  
