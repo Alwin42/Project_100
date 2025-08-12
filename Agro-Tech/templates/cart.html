@@ -20,15 +20,15 @@
         {% for item in cart %}
         <div class="col-md-4 mb-4">
             <div class="card" style="width: 18rem;">
-                <img src="{{ url_for('static', filename='images/' + item['img']) }}" class="card-img-top" alt="{{ item['pname'] }}">
+                <img src="{{ url_for('static', filename='images/crops/' + item['IMG']) }}" class="card-img-top" alt="{{ item['pname'] }}">
                 <div class="card-body">
                     <h5 class="card-title">{{ item['pname'] }}</h5>
                     <p class="card-text">{{ item['pdetails'] }}</p>
-                    <p class="card-text"><strong>Price:</strong> ₹{{ item['price'] }}</p>
+                    <p class="card-text"><strong>Price:</strong> ₹{{ item['price'] * item['quantity'] }}</p>
                     <p class="card-text"><strong>Quantity:</strong> {{ item['quantity'] }}</p>
                     
                     <a href="#" class="btn btn-success">Buy</a>
-                    <a href="#" class="btn btn-danger">Delete</a>
+                    <a href="{{ url_for('routes.delete_from_cart', cid=item['cid']) }}" class="btn btn-danger">Delete</a>
                 </div>
             </div>
         </div>

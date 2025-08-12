@@ -141,6 +141,26 @@ def cart():
 
     return render_template('cart.html', cart=cart, username=username)
 
+@routes.route('/cart/delete')
+def delete_from_cart():
+    if 'username' not in session:
+        return redirect(url_for('routes.login'))
+    
+    cid = request.args.get('cid')
+    if not cid:
+        return redirect(url_for('routes.cart'))  # No cart item ID given
+    
+    conn = sqlite3.connect('agrodata.db')
+    cursor = conn.cursor()
+    
+    # Delete only the item belonging to the logged-in user
+    cursor.execute('DELETE FROM cart WHERE cid=?', (cid))
+    
+    conn.commit()
+    conn.close()
+    
+    return redirect(url_for('routes.cart'))
+
 
 @routes.route('/orders')
 def orders():
