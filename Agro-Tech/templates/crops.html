@@ -25,7 +25,16 @@
                 <p class="fw-bold text-success mb-3">₹{{ crop['price'] }} /kg</p>
 
               <div class="d-grid gap-2 mt-auto">
-                <a href="{{url_for(routes.addtocart)}}" class="btn btn-outline-secondary">Add to Cart</a>
+                <form action="{{ url_for('routes.add_to_cart') }}" method="POST">
+                    <input type="hidden" name="pid" value="{{ crop['pid'] }}">
+                    <input type="hidden" name="pname" value="{{ crop['pname'] }}">
+                    <input type="hidden" name="pdetails" value="{{ crop['pdetails'] }}">
+                    <input type="hidden" name="category" value="{{ crop['category'] }}">
+                    <input type="hidden" name="img" value="{{ crop['img'] }}">
+                    <input type="hidden" name="price" value="{{ crop['price'] }}">
+                    <button type="submit" class="btn btn-outline-secondary">Add to Cart</button>
+                </form>
+
                 <a href="#" class="btn btn-success">Buy</a>
                 <a href="#" class="btn btn-primary">Contact Seller</a>
               </div>

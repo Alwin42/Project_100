@@ -145,35 +145,36 @@ def cart():
 def add_to_cart():
     if 'username' not in session:
         return redirect(url_for('routes.login'))
-    
     pid = request.form.get('pid')
     pname = request.form.get('pname')
     pdetails = request.form.get('pdetails')
-    quantity = request.form.get('quantity')
-    price = request.form.get('price')
     category = request.form.get('category')
     img = request.form.get('img')
-    
-    if not pid or not pname or not quantity or not price:
-        flash('Missing product details', 'error')
-        return redirect(url_for('routes.crops'))
-    if not quantity.isdigit() or int(quantity) <= 0:
-        flash('Invalid quantity', 'error')
-        return redirect(url_for('routes.crops'))
-    
+    price = request.form.get('price')
     conn = sqlite3.connect('agrodata.db')
     cursor = conn.cursor()
     
-    cursor.execute('''
-        INSERT INTO cart (PID, PNAME, PDETAILS, QUANTITY, PRICE, CATEGORY, IMG)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
-    ''', (pid, pname, pdetails, int(quantity), float(price), category, img))
-    
+    cursor.execute(
+    "SELECT pid, pname, pdetails, category, img, price FROM products WHERE pid = ?", 
+    (pid,))
+    product = cursor.fetchone()
+    pid, pname, pdetails, category, img, price = product
+    user_id=1
+    if not product:
+        conn.close()
+        return redirect(url_for('routes.crops'))
+    cursor.execute("SELECT pid, pname, pdetails, category, img, price FROM products WHERE pid = ?", (pid, ))
+    product = cursor.fetchone()
+    cursor.execute("""
+            INSERT INTO cart (pid, user_id, pdetails, pname, quantity, category, img, price)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        """, (pid, user_id, pdetails, pname, 1, category, img, price))
+
     conn.commit()
     conn.close()
-    
-    flash('Item added to cart successfully!', 'success')
+
     return redirect(url_for('routes.crops'))
+
 
 @routes.route('/cart/delete')
 def delete_from_cart():
@@ -303,8 +304,4 @@ def update_password():
         flash('Password updated successfully!', 'success')
         return redirect(url_for('routes.login'))
 
-@routes.route('/add_to_cart')
-def add_to_cart():
-    if 'username' not in session:
-        return redirect(url_for('routes.login'))
     
