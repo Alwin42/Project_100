@@ -141,6 +141,40 @@ def cart():
 
     return render_template('cart.html', cart=cart, username=username)
 
+@routes.route('/cart/add', methods=['POST'])
+def add_to_cart():
+    if 'username' not in session:
+        return redirect(url_for('routes.login'))
+    
+    pid = request.form.get('pid')
+    pname = request.form.get('pname')
+    pdetails = request.form.get('pdetails')
+    quantity = request.form.get('quantity')
+    price = request.form.get('price')
+    category = request.form.get('category')
+    img = request.form.get('img')
+    
+    if not pid or not pname or not quantity or not price:
+        flash('Missing product details', 'error')
+        return redirect(url_for('routes.crops'))
+    if not quantity.isdigit() or int(quantity) <= 0:
+        flash('Invalid quantity', 'error')
+        return redirect(url_for('routes.crops'))
+    
+    conn = sqlite3.connect('agrodata.db')
+    cursor = conn.cursor()
+    
+    cursor.execute('''
+        INSERT INTO cart (PID, PNAME, PDETAILS, QUANTITY, PRICE, CATEGORY, IMG)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+    ''', (pid, pname, pdetails, int(quantity), float(price), category, img))
+    
+    conn.commit()
+    conn.close()
+    
+    flash('Item added to cart successfully!', 'success')
+    return redirect(url_for('routes.crops'))
+
 @routes.route('/cart/delete')
 def delete_from_cart():
     if 'username' not in session:
@@ -148,14 +182,43 @@ def delete_from_cart():
     
     cid = request.args.get('cid')
     if not cid:
-        return redirect(url_for('routes.cart'))  # No cart item ID given
+        return redirect(url_for('routes.cart'))  
     
     conn = sqlite3.connect('agrodata.db')
     cursor = conn.cursor()
     
-    # Delete only the item belonging to the logged-in user
+    
     cursor.execute('DELETE FROM cart WHERE cid=?', (cid))
     
+    conn.commit()
+    conn.close()
+    
+    return redirect(url_for('routes.cart'))
+
+@routes.route('/cart/buy')
+def buy_now():
+    if 'username' not in session:
+        return redirect(url_for('routes.login'))
+    
+    cid = request.args.get('cid')
+    if not cid:
+        return redirect(url_for('routes.cart'))
+    
+    conn = sqlite3.connect('agrodata.db')
+    cursor = conn.cursor()
+
+    cursor.execute('SELECT PID , PNAME , PDETAILS , QUANTITY , PRICE , CATEGORY , IMG FROM cart WHERE cid=?', ( cid ))
+    item = cursor.fetchone()
+
+    if not item:
+        return redirect(url_for('routes.cart'))
+    
+    cursor.execute("""
+        INSERT INTO orders (PID, PNAME, PDETAILS, QUANTITY, PRICE, CATEGORY, IMG)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+    """, item)
+
+    cursor.execute("DELETE FROM cart WHERE cid=?", (cid))
     conn.commit()
     conn.close()
     
@@ -166,8 +229,17 @@ def delete_from_cart():
 def orders():
     if 'username' not in session:
         return redirect(url_for('routes.login'))
-    username = session['username']
-    return render_template('orders.html')
+    conn = sqlite3.connect('agrodata.db')
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+    
+    cursor.execute('SELECT * FROM orders')
+    orders = cursor.fetchall()
+    
+    conn.close()
+    
+    
+    return render_template('orders.html',orders=orders)
 
 
 

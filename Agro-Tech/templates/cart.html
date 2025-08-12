@@ -27,7 +27,7 @@
                     <p class="card-text"><strong>Price:</strong> ₹{{ item['price'] * item['quantity'] }}</p>
                     <p class="card-text"><strong>Quantity:</strong> {{ item['quantity'] }}</p>
                     
-                    <a href="#" class="btn btn-success">Buy</a>
+                    <a href="{{ url_for('routes.buy_now', cid=item['cid']) }}" class="btn btn-success">Buy</a>
                     <a href="{{ url_for('routes.delete_from_cart', cid=item['cid']) }}" class="btn btn-danger">Delete</a>
                 </div>
             </div>
