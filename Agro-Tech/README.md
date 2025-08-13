@@ -47,24 +47,45 @@ Follow the instructions below to set up and run **Agro-Tech** on your local mach
 ### 💻 Installation (Linux / macOS)
 
 **Clone the Repository**
-    ```bash
-    git clone https://github.com/Alwin42/Project_100.git
-    ```
+```bash
+git clone https://github.com/Alwin42/Project_100.git
+```
+
 **Navigate into the Agro-Tech directory**
-    ``` bash
-    cd Project_100/Agro-Tech
-    ```
+```bash
+cd Project_100/Agro-Tech
+```
+
 **Create a virtual environment**
-    ``` bash
-    python3 -m venv venv
-    source venv/bin/activate
-    flask run
-    ```
-**License**
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
+
+**Install dependencies**
+```bash
+pip install -r requirements.txt
+```
+
+**Run the application**
+```bash
+flask run
+```
+
+---
+
+## 📄 License
+
 This project is licensed under the MIT License. See the LICENSE file for details.
 
-**Contributing**
-Contributions are welcome. Fork the repository, create a branch for your change, and open a pull request with a clear description of your changes.
+---
 
-**Contact**
-Developer: Alwin Emmanuel
+## 🤝 Contributing
+
+Contributions are welcome! Fork the repository, create a branch for your change, and open a pull request with a clear description of your changes.
+
+---
+
+## 📬 Contact
+
+**Developer:** Alwin
