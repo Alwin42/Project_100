@@ -74,9 +74,11 @@ flask run
 
 ---
 
-## 📄 License
+## Photos and Videos 
 
-This project is licensed under the MIT License. See the LICENSE file for details.
+Check out photos and video.
+[Video] (https://drive.google.com/file/d/1zKq7nbcq1zYD3BxXIDis0pU8weKRq1QJ/view?usp=sharing).
+[Photos] (https://drive.google.com/drive/folders/1rGgKp8qs89u25vULZZ5SFJ5gCXpCNUWB?usp=sharing)
 
 ---
 
