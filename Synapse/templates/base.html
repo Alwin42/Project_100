@@ -3,22 +3,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Synopse</title>
+    <title>Synapse</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
 
 </head>
 <body class="bg-slate-900 text-white flex items-center justify-center h-screen">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Synapse</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-100 text-gray-800">
 
-    <div class="bg-slate-800 p-8 rounded-lg shadow-lg text-center">
-        <h1 class="text-4xl font-bold text-sky-400 mb-4">Hello, Welcome to Synopse! 🚀</h1>
-        <p class="text-slate-300">
-            This page is styled directly using the Synopse.
-        </p>
-        <button class="mt-6 px-4 py-2 bg-sky-500 hover:bg-sky-600 rounded-md font-semibold">
-            Click Me
+  <!-- Navbar -->
+  <nav class="bg-white shadow-md fixed top-0 left-0 w-full z-50">
+    <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+      
+      <!-- Logo -->
+      <a href="#" class="text-2xl font-bold text-sky-700">synapse</a>
+
+      <!-- Desktop Menu -->
+      <div class="hidden md:flex space-x-8">
+        <a href="#" class="text-gray-600 hover:text-sky-600 transition">Home</a>
+        <a href="#" class="text-gray-600 hover:text-sky-600 transition">Services</a>
+        <a href="#" class="text-gray-600 hover:text-sky-600 transition">Doctors</a>
+        <a href="#" class="text-gray-600 hover:text-sky-600 transition">About Us</a>
+        <a href="#" class="text-gray-600 hover:text-sky-600 transition">Contact</a>
+      </div>
+
+      <!-- Buttons -->
+      <div class="flex items-center space-x-4">
+        <a href="#" class="hidden md:block bg-sky-600 text-white px-6 py-2 rounded-full font-semibold hover:bg-sky-700 transition shadow-lg">
+          Book an Appointment
+        </a>
+
+        <!-- Mobile Hamburger -->
+        <button id="menu-btn" class="md:hidden text-gray-600 hover:text-sky-600 focus:outline-none">
+          <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M4 6h16M4 12h16m-7 6h7"></path>
+          </svg>
         </button>
+      </div>
     </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-200">
+      <a href="#" class="block px-4 py-2 text-gray-600 hover:bg-sky-50 hover:text-sky-600">Home</a>
+      <a href="#" class="block px-4 py-2 text-gray-600 hover:bg-sky-50 hover:text-sky-600">Services</a>
+      <a href="#" class="block px-4 py-2 text-gray-600 hover:bg-sky-50 hover:text-sky-600">Doctors</a>
+      <a href="#" class="block px-4 py-2 text-gray-600 hover:bg-sky-50 hover:text-sky-600">About Us</a>
+      <a href="#" class="block px-4 py-2 text-gray-600 hover:bg-sky-50 hover:text-sky-600">Contact</a>
+      <a href="#" class="block px-4 py-2 text-white bg-sky-600 hover:bg-sky-700 rounded-md mx-4 my-2 text-center">
+        Book Appointment
+      </a>
+    </div>
+  </nav>
+
+  <!-- Page Content -->
+  <main class="pt-24 container mx-auto px-4">
+    <h1 class="text-4xl font-bold text-sky-700">Welcome to Synapse</h1>
+    <p class="mt-4 text-gray-600">Your trusted healthcare platform.</p>
+  </main>
+
+  <!-- Script for mobile toggle -->
+  <script>
+    const btn = document.getElementById('menu-btn');
+    const menu = document.getElementById('mobile-menu');
+    btn.addEventListener('click', () => {
+      menu.classList.toggle('hidden');
+    });
+  </script>
+
+</body>
+</html>
 
 </body>
 </html>
