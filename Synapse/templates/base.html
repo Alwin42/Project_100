@@ -1,17 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Synapse</title>
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-
-</head>
-<body class="bg-slate-900 text-white flex items-center justify-center h-screen">
-<!DOCTYPE html>
-<html lang="en">
-<head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Synapse</title>
@@ -66,11 +55,10 @@
 
   <!-- Page Content -->
   <main class="pt-24 container mx-auto px-4">
-    <h1 class="text-4xl font-bold text-sky-700">Welcome to Synapse</h1>
-    <p class="mt-4 text-gray-600">Your trusted healthcare platform.</p>
+    {% block content %}
+    {% endblock %}
   </main>
 
-  <!-- Script for mobile toggle -->
   <script>
     const btn = document.getElementById('menu-btn');
     const menu = document.getElementById('mobile-menu');
@@ -78,9 +66,6 @@
       menu.classList.toggle('hidden');
     });
   </script>
-
-</body>
-</html>
 
 </body>
 </html>
