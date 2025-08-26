@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}About Us{% endblock %}
+{% block content %}
+
+<div class="bg-slate-50 min-h-screen py-16 px-6">
+  <div class="max-w-5xl mx-auto text-center">
+    <!-- Heading -->
+    <h1 class="text-4xl md:text-5xl font-bold text-sky-700">About Us</h1>
+    <p class="mt-4 text-gray-600 max-w-2xl mx-auto">
+      At <span class="font-semibold text-sky-600">Synapse</span>, we are committed to building a trusted healthcare platform
+      that connects patients, doctors, and services seamlessly.
+    </p>
+  </div>
+
+  <!-- Team / Features Section -->
+  <div class="mt-12 grid gap-8 md:grid-cols-3">
+    <!-- Mission -->
+    <div class="bg-white rounded-2xl shadow-md p-6 hover:shadow-lg transition">
+      <h3 class="text-xl font-semibold text-sky-700">Our Mission</h3>
+      <p class="mt-3 text-gray-600 text-sm">
+        To simplify healthcare access and provide reliable information, empowering people to make better health decisions.
+      </p>
+    </div>
+
+    <!-- Vision -->
+    <div class="bg-white rounded-2xl shadow-md p-6 hover:shadow-lg transition">
+      <h3 class="text-xl font-semibold text-sky-700">Our Vision</h3>
+      <p class="mt-3 text-gray-600 text-sm">
+        To create a connected digital healthcare ecosystem that is accessible anytime, anywhere for everyone.
+      </p>
+    </div>
+
+    <!-- Values -->
+    <div class="bg-white rounded-2xl shadow-md p-6 hover:shadow-lg transition">
+      <h3 class="text-xl font-semibold text-sky-700">Our Values</h3>
+      <p class="mt-3 text-gray-600 text-sm">
+        Transparency, trust, and innovation drive everything we do to improve healthcare experiences.
+      </p>
+    </div>
+  </div>
+
+  <!-- Call to Action -->
+  <div class="mt-16 text-center">
+    <a href="#"
+       class="inline-block bg-sky-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-sky-700 transition shadow-md">
+      Explore Our Services
+    </a>
+  </div>
+</div>
+
+{% endblock %}
