@@ -12,7 +12,7 @@
 |---|--------------|------------|--------|-----------------|
 | 1 | **Weatherly** | HTML, CSS, JavaScript, OpenWeather API | Completed |[Weatherly](https://github.com/Alwin42/Project_100/tree/main/Weatherly)|
 | 2 | **DoNotes** | HTML, CSS, JavaScript | Completed | [DoNotes](https://github.com/Alwin42/Project_100/tree/main/DoNotes)|
-| 3 | **Agro-Tech** | HTML, Bootstrap CSS | On Progress |
+| 3 | **Agro-Tech** | HTML, Bootstrap CSS | Completed | [Agro-Tech](https://github.com/Alwin42/Project_100/tree/main/Agro-Tech)|
 
 ---
 
