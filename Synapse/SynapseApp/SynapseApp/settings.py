@@ -53,6 +53,7 @@ ROOT_URLCONF = 'SynapseApp.urls'
 
 TEMPLATES = [
     {
+        'DIRS': [BASE_DIR / 'templates'],
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': ['templates'],
         'APP_DIRS': True,
