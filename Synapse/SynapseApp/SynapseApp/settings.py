@@ -53,9 +53,8 @@ ROOT_URLCONF = 'SynapseApp.urls'
 
 TEMPLATES = [
     {
-        'DIRS': [BASE_DIR / 'templates'],
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['templates'],
+        'DIRS': [BASE_DIR / 'templates'],   # keep only this
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -67,6 +66,15 @@ TEMPLATES = [
     },
 ]
 
+# Static files
+STATIC_URL = 'static/'
+
+STATICFILES_DIRS = [
+    BASE_DIR / "static",   
+]
+
+# Default primary key field type
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 WSGI_APPLICATION = 'SynapseApp.wsgi.application'
 
 

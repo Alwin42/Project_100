@@ -1,5 +1,47 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
+<!-- Hero Section -->
+<section class="min-h-screen bg-gradient-to-r from-[#E6F0FF] via-[#00E0FF] to-[#7AE1F0] flex items-center">
+    <div class="container mx-auto px-6 lg:px-16">
+    <!-- Left Content -->
+    <div class="text-left max-w-xl">
+      <p class="text-[#159EEC] font-semibold tracking-wide uppercase mb-2">
+        Caring for Life
+      </p>
+      <h1 class="text-4xl lg:text-5xl font-extrabold text-[#1F2B6C] leading-tight mb-6">
+        Unified Hospital <br> Booking System
+      </h1>
 
+      <div class="flex flex-wrap gap-4 mb-8">
+        <a href="#services"
+          class="bg-[#159EEC] text-white px-6 py-3 rounded-full font-semibold shadow hover:bg-[#127bb9] transition">
+          Our Services
+        </a>
+      </div>
+
+      <div class="flex flex-wrap gap-4">
+        <a href="#appointment"
+          class="bg-[#1F2B6C] text-white px-6 py-3 rounded-lg flex items-center gap-2 shadow hover:bg-[#14204d] transition">
+          <span>Book an Appointment</span>
+          <ion-icon name="book"></ion-icon>
+        </a>
+
+        <a href="#doctors"
+          class="bg-[#E6F0FF] text-[#1F2B6C] px-6 py-3 rounded-lg flex items-center gap-2 font-semibold shadow hover:bg-[#d3e4ff] transition">
+          <span>Consult Doctor Now</span>
+          <ion-icon name="calendar"></ion-icon>
+        </a>
+
+        <a href="#fees"
+          class="bg-[#159EEC] text-white px-6 py-3 rounded-lg flex items-center gap-2 shadow hover:bg-[#127bb9] transition">
+          <span>Compare consultation/Lab fee</span>
+          <ion-icon name="cash"></ion-icon>
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>
 {% endblock %}
