@@ -1,5 +1,34 @@
-{% extends base.html %}
+{% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
-<h1 class="text-4xl font-bold mb-6 text-center">About Us</h1>
-{ % endblock %}
+<!-- Welcome Section -->
+<section class="text-center py-16 px-6">
+  <h3 class="text-[#159EEC] font-semibold uppercase tracking-widest mb-2">
+    Welcome to Synapse
+  </h3>
+  <h2 class="text-3xl md:text-4xl font-bold text-[#1F2B6C] mb-4">
+    Care with Clarity.
+  </h2>
+  <p class="max-w-2xl mx-auto text-gray-600 leading-relaxed mb-6">
+    We believe booking healthcare should be simple. Our unified system provides the
+    clarity you need to make the best choice, showing you available doctors, real-time
+    schedules, and clear pricing all in one place. Book your next appointment with complete
+    confidence, knowing you have all the information you need right at your fingertips.
+  </p>
+  <a href="#about"
+     class="inline-flex items-center gap-2 text-[#159EEC] font-medium hover:underline">
+    Learn More
+    <ion-icon name="arrow-forward-outline"></ion-icon>
+  </a>
+</section>
+
+<!-- Doctors Image Section -->
+<section class="px-6 pb-16">
+  <div class="max-w-5xl mx-auto">
+    <img src="{% static 'images/doctors.jpg' %}"
+         alt="Doctors Team"
+         class="rounded-lg shadow-md w-full object-cover">
+  </div>
+</section>
+{% endblock %}
