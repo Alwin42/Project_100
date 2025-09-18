@@ -14,3 +14,6 @@ def services(request):
 
 def doctors(request):
     return render(request, 'doctors.html')
+
+def login(request):
+    return render(request, 'login.html')
