@@ -3,8 +3,9 @@
 
 {% block content %}
 <!-- Hero Section -->
-<section class="min-h-screen bg-gradient-to-r from-[#E6F0FF] via-[#00E0FF] to-[#7AE1F0] flex items-center ">
-    <div class="container mx-auto px-6 lg:px-16">
+<section class="min-h-screen bg-gradient-to-r from-[#E6F0FF] via-[#00E0FF] to-[#7AE1F0] flex items-center">
+  <div class="container mx-auto px-6 lg:px-16 flex flex-col lg:flex-row items-center justify-between">
+    
     <!-- Left Content -->
     <div class="text-left max-w-xl">
       <p class="text-[#159EEC] font-semibold tracking-wide uppercase mb-2">
@@ -41,6 +42,14 @@
         </a>
       </div>
     </div>
-  
+
+    <!-- Right Image -->
+    <div class="mt-10 lg:mt-0 lg:ml-10 flex justify-center">
+<img src="{% static 'images/img1.jpg' %}" 
+     alt="Hospital Illustration" 
+     class="max-w-md lg:max-w-lg rounded-2xl shadow-lg">
+    </div>
+
+  </div>
 </section>
 {% endblock %}
