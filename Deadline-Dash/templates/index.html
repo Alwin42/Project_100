@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deadline-Dash - Your Exam Companion</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif; /* A modern font */
+            background: linear-gradient(to bottom right, #1a202c, #2d3748); /* Dark gradient background */
+        }
+        .card {
+            background-color: #2D3748; /* Darker card background */
+            border: 1px solid #4A5568; /* Subtle border */
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center text-white p-4">
+
+    <header class="w-full max-w-4xl flex justify-between items-center py-4 mb-10">
+        <div class="flex items-center space-x-3">
+            <svg class="w-8 h-8 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <h1 class="text-4xl font-extrabold text-indigo-300">Deadline-Dash</h1>
+        </div>
+        <a href="/login" class="px-6 py-2 bg-indigo-600 hover:bg-indigo-700 rounded-lg text-white font-semibold transition duration-300 ease-in-out shadow-lg">
+            Login
+        </a>
+    </header>
+
+    <main class="w-full max-w-2xl text-center space-y-8">
+        <p class="text-xl text-gray-300 leading-relaxed">
+            Manage your exams and assignments with ease. Never miss a deadline again with your personal academic assistant.
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-12">
+            <div class="card p-6 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:-translate-y-1">
+                <div class="flex flex-col items-center">
+                    <svg class="w-16 h-16 text-emerald-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                    <h2 class="text-2xl font-bold mb-3 text-emerald-300">New Deadline?</h2>
+                    <p class="text-gray-400 mb-6">Quickly add a new exam or assignment due date to your dashboard.</p>
+                    <a href="/add-exam" class="w-full px-8 py-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg shadow-md transition duration-300 ease-in-out text-lg flex items-center justify-center space-x-2">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <span>Add Exam Date</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="card p-6 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:-translate-y-1">
+                <div class="flex flex-col items-center">
+                    <svg class="w-16 h-16 text-sky-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+                    <h2 class="text-2xl font-bold mb-3 text-sky-300">See What's Due</h2>
+                    <p class="text-gray-400 mb-6">Browse all your upcoming exams and assignments with their countdowns.</p>
+                    <a href="/deadlines" class="w-full px-8 py-4 bg-sky-600 hover:bg-sky-700 text-white font-bold rounded-lg shadow-md transition duration-300 ease-in-out text-lg flex items-center justify-center space-x-2">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.555-4.555A.75.75 0 0019.5 5H4.5A.75.75 0 003.945 5.445L8 9m7 1H8l-5 5m11 0a2 2 0 01-2 2H6a2 2 0 01-2-2v-4a2 2 0 012-2h6a2 2 0 012 2v4z"></path></svg>
+                        <span>View Deadlines</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="mt-16 text-gray-500 text-sm">
+        &copy; 2023 Deadline-Dash. All rights reserved.
+    </footer>
+
+</body>
+</html>
