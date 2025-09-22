@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif; /* A modern font */
+            background: linear-gradient(to bottom right, #1a202c, #2d3748); /* Dark gradient background */
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+
+    <div class="bg-slate-800 border border-slate-700 rounded-xl shadow-xl p-8 max-w-md w-full">
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-indigo-300">Create Your Account</h1>
+            <p class="text-gray-400 mt-2">Join Deadline-Dash to start tracking your exams.</p>
+        </div>
+
+        <form action="/register" method="POST" class="space-y-6">
+            <div>
+                <label for="fullname" class="block text-gray-400 text-sm font-medium mb-2">Full Name</label>
+                <input
+                    type="text"
+                    id="fullname"
+                    name="fullname"
+                   
+                    required
+                    class="shadow-sm appearance-none border border-slate-600 bg-slate-700 rounded-lg w-full py-3 px-4 text-white leading-tight focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                />
+            </div>
+
+            <div>
+                <label for="email" class="block text-gray-400 text-sm font-medium mb-2">Email Address</label>
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    
+                    required
+                    class="shadow-sm appearance-none border border-slate-600 bg-slate-700 rounded-lg w-full py-3 px-4 text-white leading-tight focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                />
+            </div>
+            
+            <div>
+                <label for="password" class="block text-gray-400 text-sm font-medium mb-2">Password</label>
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    
+                    required
+                    class="shadow-sm appearance-none border border-slate-600 bg-slate-700 rounded-lg w-full py-3 px-4 text-white leading-tight focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                />
+            </div>
+
+            <div>
+                <label for="confirm_password" class="block text-gray-400 text-sm font-medium mb-2">Confirm Password</label>
+                <input
+                    type="password"
+                    id="confirm_password"
+                    name="confirm_password"
+                    
+                    required
+                    class="shadow-sm appearance-none border border-slate-600 bg-slate-700 rounded-lg w-full py-3 px-4 text-white leading-tight focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                />
+            </div>
+
+            <button
+                type="submit"
+                class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-slate-800 transition duration-150 ease-in-out"
+            >
+                Create Account
+            </button>
+        </form>
+
+        <p class="text-center text-gray-500 text-sm mt-8">
+            Already have an account?
+           <a href="{{ url_for('login') }}" class="font-medium text-indigo-400 hover:text-indigo-300">Log In</a>
+        </p>
+    </div>
+
+</body>
+</html>
