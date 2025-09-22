@@ -66,6 +66,35 @@ def register():
     
     return render_template('register.html')
 
+@app.route('/add_exam', methods=['POST'])
+def add_exam():
+    # 1. Check if a user is logged in by looking for 'user_id' in the session
+    if 'user_id' not in session:
+        
+        return redirect(url_for('login'))
+
+    # 2. Get the form data
+    exam_name = request.form.get('exam_name')
+    exam_date = request.form.get('exam_date')
+    user_id = session['user_id']
+
+    # 3. Validate that the data is not empty
+    if not exam_name or not exam_date:
+        
+        return redirect(url_for('home')) # Or wherever your form is
+
+    # 4. Connect to the database and insert the new exam
+    conn = sqlite3.connect('dash.db')
+    cursor = conn.cursor()
+    cursor.execute(
+        'INSERT INTO exam (Exm_name, Exm_date, uid) VALUES (?, ?, ?)',
+        (exam_name, exam_date, user_id)
+    )
+    conn.commit()
+    conn.close()
+
+    
+    return redirect(url_for('home'))
 
 if __name__ == '__main__':
     app.run(debug=True)
