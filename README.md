@@ -2,7 +2,7 @@
 
 **100 Projects Series** – a personal challenge to build 100 diverse and meaningful projects. These projects are designed to enhance my skills in **frontend**, **backend**, and **full-stack web & app development**, covering real-world problems, fun experiments, and creative tools.
 
-> 🚧 Currently in progress – 2 out of 100 projects completed.
+> 🚧 Currently in progress – 3 out of 100 projects completed.
 
 ---
 
@@ -13,6 +13,7 @@
 | 1 | **Weatherly** | HTML, CSS, JavaScript, OpenWeather API | Completed |[Weatherly](https://github.com/Alwin42/Project_100/tree/main/Weatherly)|
 | 2 | **DoNotes** | HTML, CSS, JavaScript | Completed | [DoNotes](https://github.com/Alwin42/Project_100/tree/main/DoNotes)|
 | 3 | **Agro-Tech** | HTML, Bootstrap CSS | Completed | [Agro-Tech](https://github.com/Alwin42/Project_100/tree/main/Agro-Tech)|
+| 4 | **Deadline-Dash** | HTML, Tailwind CSS | Ongoing | [Deadline-Dash](https://github.com/Alwin42/Project_100/tree/main/Deadline-Dash)|
 
 ---
 
