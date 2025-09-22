@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Deadline-Dash{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-sky-50 text-gray-800">
+
+    <nav class="bg-sky-500 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0">
+                    <a href="/" class="text-white text-2xl font-bold">
+                        Deadline-Dash 🚀
+                    </a>
+                </div>
+
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="{{url_for('home')}}" class="text-sky-100 hover:bg-sky-600 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Home</a>
+                        <a href="#" class="text-sky-100 hover:bg-sky-600 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Exams</a>
+                        <a href="#" class="text-sky-100 hover:bg-sky-600 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Login</a>
+                        <a href="#" class="bg-white text-sky-600 hover:bg-sky-100 px-3 py-2 rounded-md text-sm font-medium">Sign Up</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </main>
+
+</body>
+</html>
