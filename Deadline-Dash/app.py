@@ -96,5 +96,35 @@ def add_exam():
     
     return redirect(url_for('home'))
 
+@app.route('/profile')
+def profile():
+    # Check if the user is logged in
+    if 'user_id' not in session:
+        
+        return redirect(url_for('login'))
+
+    user_id = session['user_id']
+
+    # Fetch user data from the database
+    conn = sqlite3.connect('dash.db')
+    cursor = conn.cursor()
+    cursor.execute('SELECT uid, Uname, email FROM user WHERE uid = ?', (user_id,))
+    user_data = cursor.fetchone() # Fetches one user
+    conn.close()
+
+    if user_data:
+        # Pass the user data tuple to the template
+        return render_template('profile.html', user=user_data)
+    else:
+        # If user not found (e.g., deleted), clear session and redirect
+        
+        session.clear()
+        return redirect(url_for('login'))
+
+@app.route('/logout')
+def logout():
+    session.pop('user_id', None) # Remove user_id from session
+    return redirect(url_for('login'))
+
 if __name__ == '__main__':
     app.run(debug=True)
