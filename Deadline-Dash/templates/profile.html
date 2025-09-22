@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Your Profile - Deadline-Dash{% endblock %}
+
+{% block content %}
+
+<div class="flex flex-col items-center justify-center px-6 py-8 mx-auto">
+    <div class="w-full bg-white rounded-lg shadow-xl sm:max-w-md xl:p-0">
+        <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+            <h1 class="text-xl font-bold leading-tight tracking-tight text-center text-gray-900 md:text-2xl">
+                Account Details ✨
+            </h1>
+
+            <div class="space-y-4">
+                <div>
+                    <label for="uid" class="block mb-1 text-sm font-medium text-gray-500">User ID</label>
+                    <div id="uid" class="w-full p-2.5 bg-gray-100 border border-gray-200 rounded-lg text-gray-700">
+                        {{ user[0] }} </div>
+                </div>
+
+                <div>
+                    <label for="username" class="block mb-1 text-sm font-medium text-gray-500">Username</label>
+                    <div id="username" class="w-full p-2.5 bg-gray-100 border border-gray-200 rounded-lg text-gray-700">
+                        {{ user[1] }} </div>
+                </div>
+
+                <div>
+                    <label for="email" class="block mb-1 text-sm font-medium text-gray-500">Email</label>
+                    <div id="email" class="w-full p-2.5 bg-gray-100 border border-gray-200 rounded-lg text-gray-700">
+                        {{ user[2] }} </div>
+                </div>
+            </div>
+
+            <div class="pt-4">
+                <a href="{{ url_for('logout') }}" class="w-full block text-center text-white bg-red-500 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 transition-colors duration-300">
+                    Log Out
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
