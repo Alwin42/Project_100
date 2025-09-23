@@ -16,22 +16,25 @@
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 
     {% for exam in exams %}
-    <div class="bg-white rounded-xl shadow-lg p-6 flex flex-col justify-between transform hover:-translate-y-2 transition-transform duration-300">
-        <div>
-            <h2 class="text-xl font-bold text-gray-800">{{ exam.name }}</h2>
-            <p class="text-sm text-gray-500 mt-1">Due on: {{ exam.date }}</p>
-        </div>
-
-        <div class="text-center my-6">
-            <p class="text-7xl font-bold text-sky-600">{{ exam.days_left }}</p>
-            <p class="text-lg text-gray-600 font-medium">days left</p>
-        </div>
-
-        <div class="flex justify-end space-x-2">
-            <button class="text-sm text-gray-500 hover:text-gray-800 font-medium">Edit</button>
-            <button class="text-sm text-red-500 hover:text-red-700 font-medium">Delete</button>
-        </div>
+<div class="bg-white rounded-xl shadow-lg p-6 flex flex-col justify-between ...">
+    <div>
+        <h2 class="text-xl font-bold text-gray-800">{{ exam['name'] }}</h2>
+        <p class="text-sm text-gray-500 mt-1">Due on: {{ exam['date'] }}</p>
     </div>
+    
+    <div class="text-center my-6">
+        <p class="text-7xl font-bold text-sky-600">{{ exam['days_left'] }}</p>
+        <p class="text-lg text-gray-600 font-medium">days left</p>
+    </div>
+    
+    <div class="flex justify-end space-x-3">
+       
+        
+        <form action="{{ url_for('delete_exam', eid=exam['eid']) }}" method="POST" ...>
+            <button type="submit" class="text-sm ...">Delete</button>
+        </form>
+    </div>
+</div>
     {% else %}
     <div class="md:col-span-2 lg:col-span-3 bg-white rounded-lg shadow-md p-8 text-center mt-8">
         <h2 class="text-2xl font-semibold text-gray-700 mb-3">No Exams Scheduled!</h2>

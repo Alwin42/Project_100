@@ -126,46 +126,62 @@ def logout():
     session.pop('user_id', None) # Remove user_id from session
     return redirect(url_for('login'))
 
+# In app.py
+
 @app.route('/exams')
 def show_exams():
-    # Make sure the user is logged in
     if 'user_id' not in session:
         return redirect(url_for('login'))
 
     user_id = session['user_id']
-
-    # Fetch all exams for the current user from the database
     conn = sqlite3.connect('dash.db')
     cursor = conn.cursor()
-    # Select the name and date for exams matching the user's id
-    cursor.execute('SELECT Exm_name, Exm_date FROM exam WHERE uid = ?', (user_id,))
+    
+    # CHANGE 1: Select the 'eid' column as well
+    cursor.execute('SELECT eid, Exm_name, Exm_date FROM exam WHERE uid = ?', (user_id,))
     all_exams_from_db = cursor.fetchall()
     conn.close()
 
-    # Process the data to calculate days left
     processed_exams = []
-    today = datetime.now().date()
+    today = date.today()
 
     for exam_tuple in all_exams_from_db:
-        exam_name = exam_tuple[0]
-        exam_date_str = exam_tuple[1]
+        # The tuple now contains eid, name, and date
+        exam_id = exam_tuple[0]
+        exam_name = exam_tuple[1]
+        exam_date_str = exam_tuple[2]
 
-        # Convert the date string from the DB into a date object
         exam_date = datetime.strptime(exam_date_str, '%Y-%m-%d').date()
-
-        # Calculate the difference in days
         delta = exam_date - today
         days_left = delta.days
 
-        # Create a dictionary with the data the template needs
+        
         processed_exams.append({
+            'eid': exam_id,
             'name': exam_name,
-            'date': exam_date.strftime('%B %d, %Y'), # Formats date nicely (e.g., "October 25, 2025")
+            'date': exam_date.strftime('%B %d, %Y'),
             'days_left': days_left
         })
 
-    # Pass the processed list of exams to the template
     return render_template('exams.html', exams=processed_exams)
+
+
+@app.route('/exam/delete/<int:eid>', methods=['POST'])
+def delete_exam(eid):
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+
+    user_id = session['user_id']
+    conn = sqlite3.connect('dash.db')
+    cursor = conn.cursor()
+    # Security Check: Make sure the exam belongs to the logged-in user before deleting
+    cursor.execute('DELETE FROM exam WHERE eid = ? AND uid = ?', (eid, user_id))
+    conn.commit()
+    conn.close()
+
+    
+    return redirect(url_for('show_exams'))
+
 
 if __name__ == '__main__':
     app.run(debug=True)
