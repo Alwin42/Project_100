@@ -45,12 +45,12 @@
     </div>
 
     <main class="container mx-auto p-8">
-        <h1 class="text-4xl font-bold">{% block content_title %}Welcome!{% endblock %}</h1>
-        <p class="mt-4 text-gray-700">This is where the main content of your page will live.</p>
+    {% block content %}
+    {% endblock %}
     </main>
 
     <script>
-        // Simple script to toggle the mobile menu
+        
         document.getElementById('mobile-menu-button').addEventListener('click', function() {
             document.getElementById('mobile-menu').classList.toggle('hidden');
         });
