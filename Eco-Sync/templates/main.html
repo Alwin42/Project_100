@@ -1,12 +1,88 @@
 {% extends 'index.html' %}
 
 {% block title %}Homepage - EcoSync{% endblock %}
+{% load static %}
 
 {% block content %}
-<div class="container">
-    <div class="container my-8">
-    <h1 class="text-4xl font-bold mb-4">Welcome to EcoSync</h1>
-    <p class="text-lg text-gray-700">Your partner in sustainable living.</p>
+    <div class="relative text-white min-h-[85vh] flex items-center bg-cover bg-center" >
+        
+        <div class="relative container mx-auto px-6 text-center animate-fade-in-up">
+            <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-4 shadow-text">
+                Clean City, Clear Conscience
+            </h1>
+            <p class="text-lg md:text-2xl text-gray-200 mb-10 max-w-3xl mx-auto shadow-text">
+                EcoSync is your modern solution for efficient and sustainable waste management. Schedule, track, and simplify your recycling process.
+            </p>
+            <a href="#features" class="bg-white text-green-700 font-bold py-3 px-8 rounded-full text-lg transition-all duration-300 ease-in-out hover:bg-green-100 hover:shadow-xl hover:scale-105 transform inline-flex items-center">
+                Learn More
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+            </a>
+        </div>
     </div>
+
+    <section id="how-it-works" class="py-20 ">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold text-gray-10">Simple Steps to a Greener Planet</h2>
+                <p class="text-gray-60 mt-2">Our process is designed for your convenience.</p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-12 text-center">
+                <div class="flex flex-col items-center">
+                    <div class="flex items-center justify-center h-20 w-20 rounded-full bg-green-100 text-green-600 border-2 border-green-200 text-2xl font-bold mb-4">1</div>
+                    <h3 class="text-2xl font-semibold mb-2">Request Pickup</h3>
+                    <p class="text-gray-60">Use our simple form to schedule a waste collection at your convenience.</p>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="flex items-center justify-center h-20 w-20 rounded-full bg-green-100 text-green-600 border-2 border-green-200 text-2xl font-bold mb-4">2</div>
+                    <h3 class="text-2xl font-semibold mb-2">We Collect</h3>
+                    <p class="text-gray-60">Our team arrives on the scheduled date to collect the segregated waste.</p>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="flex items-center justify-center h-20 w-20 rounded-full bg-green-100 text-green-600 border-2 border-green-200 text-2xl font-bold mb-4">3</div>
+                    <h3 class="text-2xl font-semibold mb-2">You Relax</h3>
+                    <p class="text-gray-60">Feel good knowing your waste is being managed responsibly and sustainably.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="py-20 ">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-4xl font-bold mb-12 text-white">Everything You Need</h2>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white p-8 rounded-xl shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl">
+                    <div class="text-green-500 mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-2">Easy Scheduling</h3>
+                    <p class="text-gray-600">Request a pickup in seconds through our intuitive platform.</p>
+                </div>
+                <div class="bg-white p-8 rounded-xl shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl">
+                    <div class="text-green-500 mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V7.618a1 1 0 011.447-.894L15 12l-6 3z" /></svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-2">Real-Time Tracking</h3>
+                    <p class="text-gray-600">Know exactly when your collection is scheduled and completed.</p>
+                </div>
+                <div class="bg-white p-8 rounded-xl shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl">
+                    <div class="text-green-500 mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-2">Eco-Friendly Impact</h3>
+                    <p class="text-gray-600">Contribute to a cleaner planet with responsible waste disposal.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="text-white py-10">
+        <div class="container mx-auto px-6 text-center">
+            <p>&copy; {% now "Y" %} EcoSync. All Rights Reserved.</p>
+            <p class="text-gray-400 text-sm mt-2">Making Kochi cleaner, one pickup at a time.</p>
+        </div>
+    </footer>
 </div>
 {% endblock %}
