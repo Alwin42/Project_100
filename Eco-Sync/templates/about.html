@@ -1,0 +1,37 @@
+{% extends 'index.html' %}
+
+{% block title %}About- EcoSync{% endblock %}
+
+{% block content %}
+    <div class="relative text-white min-h-[85vh] flex items-center bg-cover bg-center" >
+        
+        <div class="relative container mx-auto px-6 text-center animate-fade-in-up">
+            <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-4 shadow-text">
+                About EcoSync
+            </h1>
+            <p class="text-lg md:text-2xl text-gray-200 mb-10 max-w-3xl mx-auto shadow-text">
+                At EcoSync, we are committed to revolutionizing waste management through technology and sustainability. Our mission is to make recycling easy, efficient, and accessible for everyone.
+            </p>
+            <a href="#mission" class="bg-white text-green-700 font-bold py-3 px-8 rounded-full text-lg transition-all duration-300 ease-in-out hover:bg-green-100 hover:shadow-xl hover:scale-105 transform inline-flex items-center">
+                Our Mission
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+            </a>
+        </div>
+    </div>
+
+    <section id="mission" class="py-20 ">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold text-gray-10">Our Mission</h2>
+                <p class="text-gray-60 mt-2">To create a cleaner, greener future through innovative waste management solutions.</p>
+            </div>
+            <div class="max-w-3xl mx-auto text-center text-gray-70">
+                <p class="mb-6">Founded in 2023, EcoSync was born out of a passion for environmental sustainability and a desire to simplify the recycling process. We believe that everyone has a role to play in protecting our planet, and we are here to make that role easier and more effective.</p>
+                <p class="mb-6">Our team is dedicated to providing top-notch service, leveraging technology to streamline waste collection and ensure that recyclable materials are processed responsibly. We work closely with local communities and businesses to promote eco-friendly practices and raise awareness about the importance of recycling.</p>
+                <p>Join us on our journey to make the world a cleaner place, one pickup at a time.</p>
+            </div>
+        </div>
+    </section>
+{% endblock %}
