@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}Perl Pavilion{% endblock %}
+
+{% block content %}
+<div class="min-h-screen py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <section class="text-center py-16 md:py-24">
+            <h1 class="font-serif text-5xl md:text-6xl font-extrabold text-gray-800 leading-tight mb-4">
+                Welcome to <span class="text-[#D9B061]">Pearl Pavilion</span>
+            </h1>
+            <p class="text-xl md:text-2xl text-gray-700 max-w-3xl mx-auto mb-8">
+                Experience unparalleled luxury, comfort, and exceptional service
+                in the heart of the city. Your perfect escape awaits.
+            </p>
+            <a href="#" class="inline-block bg-[#D9B061] hover:bg-[#c29d55] text-white font-bold py-3 px-8 rounded-full text-lg transition duration-300 ease-in-out shadow-lg">
+                Book Your Stay Now
+            </a>
+        </section>
+
+        <section class="py-12 md:py-16">
+            <h2 class="font-serif text-4xl md:text-5xl font-bold text-center text-gray-800 mb-12">
+                Our Exquisite Collection
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <div class="relative overflow-hidden rounded-lg shadow-xl group">
+                    <img src="{{ url_for('static', filename='images/hotel.png') }}" alt="Luxury Hotel Room" class="w-full h-64 object-cover transform transition-transform duration-500 group-hover:scale-105">
+                    <div class="absolute inset-0 bg-black bg-opacity-20 flex items-end p-6">
+                        <h3 class="text-white text-2xl font-semibold font-serif">Our Elegant Hotel</h3>
+                    </div>
+                </div>
+
+                <div class="relative overflow-hidden rounded-lg shadow-xl group">
+                    <img src="{{ url_for('static', filename='images/lobby.png') }}" alt="Hotel Lobby" class="w-full h-64 object-cover transform transition-transform duration-500 group-hover:scale-105">
+                    <div class="absolute inset-0 bg-black bg-opacity-20 flex items-end p-6">
+                        <h3 class="text-white text-2xl font-semibold font-serif">Grand Lobby</h3>
+                    </div>
+                </div>
+
+                <div class="relative overflow-hidden rounded-lg shadow-xl group">
+                    <img src="{{ url_for('static', filename='images/pool.png') }}" alt="Swimming Pool" class="w-full h-64 object-cover transform transition-transform duration-500 group-hover:scale-105">
+                    <div class="absolute inset-0 bg-black bg-opacity-20 flex items-end p-6">
+                        <h3 class="text-white text-2xl font-semibold font-serif">Relaxing Poolside</h3>
+                    </div>
+                </div>
+
+                </div>
+        </section>
+
+    </div>
+</div>
+{% endblock %}
