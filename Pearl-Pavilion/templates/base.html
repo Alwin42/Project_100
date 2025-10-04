@@ -6,9 +6,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet"> 
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <title>{% block title %}Hotel Booking System{% endblock %}</title>
+    <title>{% block title %}Pearl Pavilion{% endblock %}</title>
 </head>
-<body class="bg-white ">
+<body class="bg-[#F2EFEA]">
 
     <nav class="bg-black shadow-lg">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -23,9 +23,9 @@
                 <div class="flex items-center">
                     <div class="hidden md:block">
                         <div class="flex items-baseline space-x-4">
-                            <a href="#" class="text-[#D9B061]  hover:text-white px-3 py-2 text-sm font-medium">Home</a>
-                            <a href="#" class="text-[#D9B061]  hover:text-white px-3 py-2 text-sm font-medium">About</a>
-                            <a href="#" class="text-[#D9B061]  hover:text-white px-3 py-2 text-sm font-medium">Booking</a>
+                            <a href="{{url_for('home')}}" class="text-[#D9B061]  hover:text-white px-3 py-2 text-sm font-medium">Home</a>
+                            <a href="{{url_for('about')}}" class="text-[#D9B061]  hover:text-white px-3 py-2 text-sm font-medium">About</a>
+                            <a href="{{url_for('booking')}}" class="text-[#D9B061]  hover:text-white px-3 py-2 text-sm font-medium">Booking</a>
                             <a href="#" class="text-[#D9B061]  hover:text-white px-3 py-2 text-sm font-medium">Contact</a>
                         </div>
                     </div>
@@ -47,9 +47,9 @@
 
         <div class="md:hidden hidden" id="mobile-menu">
             <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                <a href="#" class="text-[#D9B061] hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Home</a>
-                <a href="#" class="text-[#D9B061] hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">About</a>
-                <a href="#" class="text-[#D9B061] hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Booking</a>
+                <a href="{{url_for('home')}}" class="text-[#D9B061] hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Home</a>
+                <a href="{{url_for('about')}}" class="text-[#D9B061] hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">About</a>
+                <a href="{{url_for('booking')}}" class="text-[#D9B061] hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Booking</a>
                 <a href="#" class="text-[#D9B061] hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Contact</a>
                 <a href="#" class="bg-[#D9B061] hover:bg-blue-600 text-white block px-3 py-2 rounded-md text-base font-medium">Register</a>
             </div>
