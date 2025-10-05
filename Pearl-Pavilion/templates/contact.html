@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block title %}Contact Us{% endblock %}
+
+{% block content %}
+<div class="bg-[#F2EFEA] py-16 md:py-24 px-4">
+    <div class="max-w-6xl mx-auto">
+
+        <div class="text-center mb-16">
+            <h1 class="font-serif text-5xl md:text-6xl font-extrabold text-gray-800">
+                Get in Touch
+            </h1>
+            <p class="mt-4 text-xl text-gray-600">
+                Allow us to help you plan your perfect stay.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+
+            <div class="space-y-12">
+                <div>
+                    <h2 class="font-serif text-3xl font-bold text-gray-800 mb-6">Contact Information</h2>
+                    <div class="space-y-4 text-lg text-gray-700">
+                        <p class="flex items-center">
+                            <ion-icon name="location-outline" class="text-2xl text-[#D9B061] mr-4"></ion-icon>
+                            <span>123 Luxury Lane, Kochi, Kerala, India</span>
+                        </p>
+                        <p class="flex items-center">
+                            <ion-icon name="call-outline" class="text-2xl text-[#D9B061] mr-4"></ion-icon>
+                            <span>+91 484 123 4567</span>
+                        </p>
+                        <p class="flex items-center">
+                            <ion-icon name="mail-outline" class="text-2xl text-[#D9B061] mr-4"></ion-icon>
+                            <span>reservations@pearl-pavilion.com</span>
+                        </p>
+                    </div>
+                </div>
+
+                <div>
+                    <h2 class="font-serif text-3xl font-bold text-gray-800 mb-6">Our Location</h2>
+                    <div class="aspect-w-16 aspect-h-9 rounded-xl overflow-hidden shadow-lg">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d62860.42220448152!2d76.25329805908611!3d10.028906001000624!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b080c9085800b5f%3A0x80a473f326305b0!2sKochi%2C%20Kerala!5e0!3m2!1sen!2sin!4v1728114115162!5m2!1sen!2sin" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white p-8 md:p-12 rounded-xl shadow-2xl">
+                <h2 class="font-serif text-3xl font-bold text-gray-800 mb-8">Send Us a Message</h2>
+                <form action="#" method="POST" class="space-y-6">
+                    <div>
+                        <label for="name" class="block text-sm font-medium text-gray-700">Full Name</label>
+                        <input type="text" id="name" name="name" required class="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#D9B061] focus:border-transparent">
+                    </div>
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
+                        <input type="email" id="email" name="email" required class="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#D9B061] focus:border-transparent">
+                    </div>
+                    <div>
+                        <label for="subject" class="block text-sm font-medium text-gray-700">Subject</label>
+                        <select id="subject" name="subject" required class="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#D9B061] focus:border-transparent">
+                            <option>Booking Inquiry</option>
+                            <option>General Question</option>
+                            <option>Feedback</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="message" class="block text-sm font-medium text-gray-700">Message</label>
+                        <textarea id="message" name="message" rows="5" required class="mt-1 block w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#D9B061] focus:border-transparent"></textarea>
+                    </div>
+                    <div class="text-center pt-4">
+                        <button type="submit" class="w-full bg-[#D9B061] hover:bg-[#c29d55] text-white font-bold py-3 px-8 rounded-full text-lg transition duration-300 ease-in-out shadow-lg">
+                            Send Message
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="text-center mt-20">
+            <h3 class="font-serif text-2xl font-semibold text-gray-800 mb-4">Follow Us</h3>
+            <div class="flex justify-center space-x-6 text-3xl text-gray-600">
+                <a href="#" class="hover:text-[#D9B061] transition duration-300"><ion-icon name="logo-instagram"></ion-icon></a>
+                <a href="#" class="hover:text-[#D9B061] transition duration-300"><ion-icon name="logo-facebook"></ion-icon></a>
+                <a href="#" class="hover:text-[#D9B061] transition duration-300"><ion-icon name="logo-twitter"></ion-icon></a>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
