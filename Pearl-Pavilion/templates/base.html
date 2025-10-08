@@ -10,56 +10,78 @@
 </head>
 <body class="bg-[#F2EFEA]">
 
-    <nav class="bg-black shadow-lg">
+    <nav class="sticky top-0 z-50 bg-black bg-opacity-100 backdrop-blur-sm border-b border-gray-800 shadow-lg">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
+            <div class="flex items-center justify-between h-20">
                 
                 <div class="flex-shrink-0">
-                    <a href="#" class="text-white font-bold text-xl">
+                    <a href="#" class="text-white font-bold text-2xl font-serif tracking-wider transform transition-transform duration-300 hover:scale-105">
                         Pearl Pavilion
                     </a>
                 </div>
 
-                <div class="flex items-center">
-                    <div class="hidden md:block">
-                        <div class="flex items-baseline space-x-4">
-                            <a href="{{url_for('home')}}" class="text-[#D9B061]  hover:text-white px-3 py-2 text-sm font-medium">Home</a>
-                            <a href="{{url_for('about')}}" class="text-[#D9B061]  hover:text-white px-3 py-2 text-sm font-medium">About</a>
-                            <a href="{{url_for('booking')}}" class="text-[#D9B061]  hover:text-white px-3 py-2 text-sm font-medium">Booking</a>
-                            <a href="{{url_for('contact')}}" class="text-[#D9B061]  hover:text-white px-3 py-2 text-sm font-medium">Contact</a>
-                        </div>
-                    </div>
+                <div class="hidden md:flex items-center space-x-6">
+                    <a href="{{url_for('home')}}" class="text-[#D9B061] hover:text-white transition duration-300 relative group">
+                        <span>Home</span>
+                        <span class="absolute bottom-0 left-0 w-full h-0.5 bg-white scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"></span>
+                    </a>
+                    <a href="{{url_for('about')}}" class="text-[#D9B061] hover:text-white transition duration-300 relative group">
+                        <span>About</span>
+                        <span class="absolute bottom-0 left-0 w-full h-0.5 bg-white scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"></span>
+                    </a>
+                    <a href="{{url_for('booking')}}" class="text-[#D9B061] hover:text-white transition duration-300 relative group">
+                        <span>Booking</span>
+                        <span class="absolute bottom-0 left-0 w-full h-0.5 bg-white scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"></span>
+                    </a>
+                    <a href="{{url_for('contact')}}" class="text-[#D9B061] hover:text-white transition duration-300 relative group">
+                        <span>Contact</span>
+                        <span class="absolute bottom-0 left-0 w-full h-0.5 bg-white scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"></span>
+                    </a>
+                    <a href="{{url_for('dashboard')}}" class="text-[#D9B061] hover:text-white transition duration-300 relative group">
+                        <span>Dashboard</span>
+                        <span class="absolute bottom-0 left-0 w-full h-0.5 bg-white scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"></span>
+                    </a>
+                    <a href="{{url_for('register')}}" class="bg-[#D9B061] text-black font-bold px-4 py-2 rounded-full text-sm hover:bg-white transition duration-300 ease-in-out shadow-md">
+                        Register
+                    </a>
+                </div>
 
-                    <div class="hidden md:block ml-4">
-                         <a href="#" class="bg-[#D9B061] text-[#F2EFEA] px-3 py-2 rounded-md text-sm font-medium">Register</a>
-                    </div>
-
-                    <div class="-mr-2 flex md:hidden ml-4">
-                        <button type="button" class="bg-gray-800 inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none" aria-controls="mobile-menu" aria-expanded="false" id="mobile-menu-button">
-                            <span class="sr-only">Open main menu</span>
-                            <ion-icon name="menu-outline" class="block h-6 w-6"></ion-icon>
-                            <ion-icon name="close-outline" class="hidden h-6 w-6"></ion-icon>
-                        </button>
-                    </div>
+                <div class="md:hidden">
+                    <button type="button" class="text-gray-300 hover:text-white focus:outline-none" aria-controls="mobile-menu" aria-expanded="false" id="mobile-menu-button">
+                        <span class="sr-only">Open main menu</span>
+                        <ion-icon name="menu-outline" class="block h-8 w-8"></ion-icon>
+                        <ion-icon name="close-outline" class="hidden h-8 w-8"></ion-icon>
+                    </button>
                 </div>
             </div>
         </div>
 
         <div class="md:hidden hidden" id="mobile-menu">
-            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                <a href="{{url_for('home')}}" class="text-[#D9B061] hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Home</a>
-                <a href="{{url_for('about')}}" class="text-[#D9B061] hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">About</a>
-                <a href="{{url_for('booking')}}" class="text-[#D9B061] hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Booking</a>
-                <a href="{{url_for('contact')}}" class="text-[#D9B061] hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Contact</a>
-                <a href="#" class="bg-[#D9B061] hover:bg-blue-600 text-white block px-3 py-2 rounded-md text-base font-medium">Register</a>
+            <div class="px-2 pt-2 pb-4 space-y-2 sm:px-3 border-t border-gray-800">
+                <a href="{{url_for('home')}}" class="text-[#D9B061] hover:bg-gray-800 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Home</a>
+                <a href="{{url_for('about')}}" class="text-[#D9B061] hover:bg-gray-800 hover:text-white block px-3 py-2 rounded-md text-base font-medium">About</a>
+                <a href="{{url_for('booking')}}" class="text-[#D9B061] hover:bg-gray-800 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Booking</a>
+                <a href="{{url_for('contact')}}" class="text-[#D9B061] hover:bg-gray-800 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Contact</a>
+                <a href="{{url_for('dashboard')}}" class="text-[#D9B061] hover:bg-gray-800 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Dashboard</a>
+                <a href="{{url_for('register')}}" class="bg-[#D9B061] text-black font-bold block w-full text-center mt-2 px-3 py-3 rounded-md text-base hover:bg-white">Register</a>
             </div>
         </div>
     </nav>
 
     <main>
         <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-            {% block content %}{% endblock %}
-        </div>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg" role="alert">
+                {{ message }}
+              </div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </div>
     </main>
     
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
@@ -69,7 +91,6 @@
       theme: {
         extend: {
           fontFamily: {
-           
             'serif': ['"Playfair Display"', 'serif'],
           }
         }
