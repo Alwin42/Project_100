@@ -1,15 +1,27 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
-from flask_login import login_required, current_user 
+from flask import Flask, render_template, request, redirect, url_for, flash, session
+import sqlite3
+from datetime import datetime, date
 
-# App Configuration 
+
 app = Flask(__name__)
+app.secret_key = 'secret_key'
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///hotel.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-app.config['SECRET_KEY'] = 'your_secret_key'
-
-
+def init_db():
+    conn = sqlite3.connect('pearl-pavilion.db')
+    cursor = conn.cursor()
+    cursor.execute('''
+            CREATE TABLE user (
+                uid INTEGER PRIMARY KEY AUTOINCREMENT,
+                username TEXT NOT NULL,
+                email TEXT NOT NULL ,
+                password TEXT NOT NULL,
+                phone TEXT NOT NULL,
+                reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                
+            );
+    ''')
+    conn.commit()
+    conn.close()
 
 @app.route('/')
 def home():
@@ -29,22 +41,31 @@ def contact():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    return render_template('login.html')
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+
+        conn = sqlite3.connect('pearl-pavilion.db')
+        cursor = conn.cursor()
+        cursor.execute('SELECT * FROM users WHERE email=? AND password=?', (email, password))
+        user_details = cursor.fetchone()
+        conn.close()
+        if user_details:
+            session['email'] = user_details[1]  
+            return redirect(url_for('home'))
+        else:
+            return redirect(url_for('login'))
+
+
 
 @app.route('/logout')
-@login_required
+
 def logout():
     
     flash('You have been logged out.', 'success')
     return redirect(url_for('home'))
 
 
-
-@app.route('/dashboard')
-@login_required
-def dashboard():
-    
-    return render_template('dashboard.html')
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():        
