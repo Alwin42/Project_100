@@ -7,7 +7,7 @@ app = Flask(__name__)
 app.secret_key = 'secret_key'
 
 def init_db():
-    conn = sqlite3.connect('pearl-pavilion.db')
+    conn = sqlite3.connect('database.db')
     cursor = conn.cursor()
     cursor.execute('''
             CREATE TABLE user (
@@ -45,7 +45,7 @@ def login():
         email = request.form['email']
         password = request.form['password']
 
-        conn = sqlite3.connect('pearl-pavilion.db')
+        conn = sqlite3.connect('database.db')
         cursor = conn.cursor()
         cursor.execute('SELECT * FROM users WHERE email=? AND password=?', (email, password))
         user_details = cursor.fetchone()
