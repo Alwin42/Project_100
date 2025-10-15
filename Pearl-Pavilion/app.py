@@ -47,7 +47,7 @@ def login():
 
         conn = sqlite3.connect('database.db')
         cursor = conn.cursor()
-        cursor.execute('SELECT * FROM users WHERE email=? AND password=?', (email, password))
+        cursor.execute('SELECT * FROM user WHERE email=? AND password=?', (email, password))
         user_details = cursor.fetchone()
         conn.close()
         if user_details:
@@ -55,7 +55,7 @@ def login():
             return redirect(url_for('home'))
         else:
             return redirect(url_for('login'))
-
+    return render_template('login.html')
 
 
 @app.route('/logout')
