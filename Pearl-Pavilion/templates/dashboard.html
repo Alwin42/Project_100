@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+
+{% block title %}My Dashboard{% endblock %}
+
+{% block content %}
+<div class="bg-[#F2EFEA] min-h-screen py-16 px-4">
+    <div class="max-w-5xl mx-auto">
+        
+        <div class="mb-12">
+            <h1 class="font-serif text-4xl md:text-5xl font-extrabold text-gray-800 mb-4">
+                Welcome, {{ user['username'] }}!
+            </h1>
+            <p class="text-lg text-gray-600">
+                Here you can manage your account and view your bookings.
+            </p>
+        </div>
+
+        <div class="bg-white p-8 rounded-xl shadow-2xl mb-12">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+                <div class="flex-1">
+                    <h2 class="font-serif text-3xl font-bold text-gray-800 mb-6">Your Profile</h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4">
+                        <div>
+                            <p class="text-sm font-medium text-gray-500">Full Name</p>
+                            <p class="text-lg font-semibold text-gray-800">{{ user['username'] }}</p>
+                        </div>
+                        <div>
+                            <p class="text-sm font-medium text-gray-500">Email Address</p>
+                            <p class="text-lg font-semibold text-gray-800">{{ user['email'] }}</p>
+                        </div>
+                        <div>
+                            <p class="text-sm font-medium text-gray-500">Phone</p>
+                            <p class="text-lg font-semibold text-gray-800">{{ user['phone'] }}</p>
+                        </div>
+                        <div>
+                            <p class="text-sm font-medium text-gray-500">Member Since</p>
+                            <p class="text-lg font-semibold text-gray-800">{{ user['reg_date'].split(' ')[0] }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-8 sm:mt-0 sm:ml-10 flex-shrink-0">
+                    <a href="{{ url_for('logout') }}" class="inline-block w-full sm:w-auto text-center bg-gray-800 hover:bg-gray-700 text-white font-bold py-3 px-10 rounded-lg transition duration-300">
+                        Logout
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-12">
+            <h2 class="font-serif text-4xl font-bold text-gray-800 mb-6">Your Bookings</h2>
+            
+            <div class="space-y-6">
+                {% for booking in bookings %}
+                <div class="bg-white rounded-xl shadow-2xl overflow-hidden flex flex-col md:flex-row">
+                    <div class="md:w-1/3">
+                        <img class="w-full h-60 md:h-full object-cover" 
+                             src="{{ url_for('static', filename='images/' + booking['image_filename']) }}" 
+                             alt="{{ booking['RoomType'] }}">
+                    </div>
+                    
+                    <div class="p-6 md:p-8 flex-1">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-serif text-2xl font-bold text-gray-800">{{ booking['RoomType'] }}</h3>
+                            <span class="text-sm font-bold py-1 px-3 rounded-full flex-shrink-0 ml-4
+                                {% if booking['BookingStatus'] == 'Confirmed' %} bg-green-100 text-green-800 
+                                {% elif booking['BookingStatus'] == 'Completed' %} bg-blue-100 text-blue-800
+                                {% else %} bg-yellow-100 text-yellow-800 {% endif %}">
+                                {{ booking['BookingStatus'] }}
+                            </span>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-4">{{ booking['Features'] }}</p>
+                        
+                        <div class="grid grid-cols-2 gap-4 mt-6 pt-6 border-t border-gray-200">
+                            <div>
+                                <p class="text-sm font-medium text-gray-500">Check-In</p>
+                                <p class="text-lg font-semibold text-gray-800">{{ booking['CheckInDate'] }}</p>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium text-gray-500">Check-Out</p>
+                                <p class="text-lg font-semibold text-gray-800">{{ booking['CheckOutDate'] }}</p>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium text-gray-500">Booking ID</p>
+                                <p class="text-lg font-semibold text-gray-800">#{{ booking['BookingID'] }}</p>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium text-gray-500">Total Price</p>
+                                <p class="text-lg font-semibold text-[#D9B061]">${{ booking['TotalPrice']|int }}</p>
+                            </div>
+                        </div>
+                        
+                        {% if booking['BookingStatus'] == 'Confirmed' %}
+                        <div class="mt-6 pt-6 border-t border-gray-200 text-center">
+                            <form action="{{ url_for('vacate', booking_id=booking['BookingID']) }}" method="POST">
+                                <button type="submit" class="inline-block bg-gray-800 hover:bg-gray-700 text-white font-bold py-3 px-12 rounded-lg transition duration-300 ease-in-out">
+                                    Vacate (Check Out)
+                                </button>
+                            </form>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                {% else %}
+                <div class="bg-white rounded-xl shadow-lg p-8 text-center">
+                    <p class="text-lg text-gray-600">You have no active or past bookings.</p>
+                    <a href="{{ url_for('booking') }}" class="inline-block mt-4 bg-[#D9B061] hover:bg-[#c29d55] text-white font-bold py-3 px-8 rounded-full text-lg transition duration-300">
+                        Book a Stay
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div>
+            <h2 class="font-serif text-4xl font-bold text-gray-800 mb-6">Exclusive Guest Privileges</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                
+                {% for amenity in amenities %}
+                <div class="bg-white rounded-xl shadow-2xl overflow-hidden flex flex-col">
+                    <div class="relative h-48">
+                        <img class="w-full h-full object-cover" 
+                             src="{{ url_for('static', filename='images/' + amenity['image_filename']) }}" 
+                             alt="{{ amenity['RoomType'] }}">
+                    </div>
+                    
+                    <div class="p-6 flex-1 flex flex-col justify-between">
+                        <div>
+                            <h3 class="font-serif text-2xl font-bold text-gray-800 mb-2">{{ amenity['RoomType'] }}</h3>
+                            <p class="text-gray-600 text-sm mb-4">
+                                {{ amenity['Features'] }}
+                            </p>
+                        </div>
+                        <div class="mt-4">
+                            <a href="#" class="inline-block text-center bg-[#D9B061] hover:bg-[#c29d55] text-white font-bold py-2 px-6 rounded-lg transition duration-300">
+                                Claim Now
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
