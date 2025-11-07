@@ -5,42 +5,59 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
-    <title>{% block title %}My Site{% endblock %}</title>
+    
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              'eco-light-yellow': '#F0E491',
+              'eco-olive': '#BBC863',
+              'eco-medium-green': '#658C58',
+              'eco-dark-green': '#31694E',
+            }
+          }
+        }
+      }
+    </script>
+    
+    <title>{% block title %}Eco-Sync{% endblock %}</title>
 </head>
 <body class="bg-black text-white">
 
-    <nav class="bg-white p-4 shadow-lg sticky top-0 z-50">
+    <nav class="bg-eco-medium-green p-4 shadow-lg sticky top-0 z-50">
         <div class="container mx-auto flex justify-between items-center">
             <a href="/" class="flex items-center">
                 <img src="{% static 'images/eco-sync-logo.png' %}" alt="EcoSync Logo" class="h-10 w-10 mr-3">
-                <h1 class="text-green-700 text-2xl font-bold tracking-wider">EcoSync</h1>
+                <h1 class="text-eco-dark-green text-2xl font-bold tracking-wider">EcoSync</h1>
             </a>
 
             <div class="hidden md:flex space-x-6 items-center">
-                <a href="{% url 'home' %}" class="text-green-700 hover:text-black transition duration-300">Home</a>
-                <a href="{% url 'about' %}" class="text-green-700 hover:text-black transition duration-300">About</a>
-                <a href="{% url 'service' %}" class="text-green-700 hover:text-black transition duration-300">Services</a>
-                <a href="{% url 'contact' %}" class="text-green-700 hover:text-black transition duration-300">Contact</a>
-                <a href="{% url 'login' %}" class="bg-white text-green-700 hover:bg-green-100 font-semibold py-2 px-4 rounded-lg transition duration-300">
+                <a href="{% url 'home' %}" class="text-eco-light-yellow hover:text-white transition duration-300 text-lg">Home</a>
+                <a href="{% url 'about' %}" class="text-eco-light-yellow hover:text-white transition duration-300 text-lg">About</a>
+                <a href="{% url 'service' %}" class="text-eco-light-yellow hover:text-white transition duration-300 text-lg">Services</a>
+                <a href="{% url 'contact' %}" class="text-eco-light-yellow hover:text-white transition duration-300 text-lg">Contact</a>
+                
+                <a href="{% url 'login' %}" class="bg-eco-light-yellow text-eco-dark-green hover:bg-eco-olive font-semibold py-2 px-4 rounded-lg transition duration-300">
                     Get Started
                 </a>
             </div>
 
             <div class="md:hidden">
-                <button id="mobile-menu-button" class="text-white focus:outline-none" aria-label="Toggle menu" aria-expanded="false">
-                    <ion-icon name="menu-outline" class="text-6xl text-green-400"></ion-icon>
+                <button id="mobile-menu-button" class="focus:outline-none" aria-label="Toggle menu" aria-expanded="false">
+                    <ion-icon name="menu-outline" class="text-6xl text-eco-light-yellow"></ion-icon>
                 </button>
             </div>
         </div>
     </nav>
     
-    <div id="mobile-menu" class="hidden md:hidden bg-gray-800 divide-y divide-gray-700">
-        <a href="{% url 'home' %}" class="block text-gray-300 hover:text-white p-4">Home</a>
-        <a href="{% url 'about' %}" class="block text-gray-300 hover:text-white p-4">About</a>
-        <a href="{% url 'service' %}" class="block text-gray-300 hover:text-white p-4">Services</a>
-        <a href="{% url 'contact' %}" class="block text-gray-300 hover:text-white p-4">Contact</a>
+    <div id="mobile-menu" class="hidden md:hidden bg-eco-dark-green divide-y divide-eco-medium-green">
+        <a href="{% url 'home' %}" class="block text-eco-light-yellow hover:text-eco-olive p-4 text-lg">Home</a>
+        <a href="{% url 'about' %}" class="block text-eco-light-yellow hover:text-eco-olive p-4 text-lg">About</a>
+        <a href="{% url 'service' %}" class="block text-eco-light-yellow hover:text-eco-olive p-4 text-lg">Services</a>
+        <a href="{% url 'contact' %}" class="block text-eco-light-yellow hover:text-eco-olive p-4 text-lg">Contact</a>
         <div class="p-4">
-             <a href="#" class="block bg-green-600 text-white font-semibold py-2 px-4 rounded-lg text-center">
+             <a href="{% url 'login' %}" class="block bg-eco-light-yellow text-eco-dark-green hover:bg-eco-olive font-semibold py-2 px-4 rounded-lg text-center transition duration-300">
                 Get Started
             </a>
         </div>
@@ -50,6 +67,7 @@
     {% block content %}
     {% endblock %}
     </main>
+    
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     <script>
