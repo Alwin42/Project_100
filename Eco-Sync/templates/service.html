@@ -1,28 +1,30 @@
 {% extends 'index.html' %}
 {% load static %}
 
+{% block title %}Services - EcoSync{% endblock %}
+
 {% block content %}
 <div class="bg-black text-white min-h-screen">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-16">
 
         <div class="text-center mb-16">
-            <h1 class="text-4xl md:text-5xl font-extrabold mb-2">Our Services</h1>
+            <h1 class="text-4xl md:text-5xl font-extrabold mb-2 text-white">Our Services</h1>
             <p class="text-lg text-gray-400">Manage your waste collection efficiently.</p>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
 
-            <div class="lg:col-span-1 bg-gray-900 p-8 rounded-xl shadow-2xl border border-gray-700">
-                <h2 class="text-2xl font-bold text-green-400 mb-6">Collection Status</h2>
+            <div class="lg:col-span-1 bg-eco-dark-green p-8 rounded-xl shadow-2xl border border-eco-medium-green">
+                <h2 class="text-2xl font-bold text-white mb-6">Collection Status</h2>
                 <div class="space-y-4">
-                    <div class="bg-gray-800 p-4 rounded-lg">
+                    <div class="bg-eco-medium-green p-4 rounded-lg">
                         <div class="flex justify-between items-center">
                             <span class="font-semibold">Plastic Waste Pickup</span>
                             <span class="bg-yellow-500 text-black text-xs font-bold px-2 py-1 rounded-full">Pending</span>
                         </div>
                         <p class="text-sm text-gray-400 mt-1">Scheduled for: 28 Sep, 2025</p>
                     </div>
-                    <div class="bg-gray-800 p-4 rounded-lg">
+                    <div class="bg-eco-medium-green p-4 rounded-lg">
                         <div class="flex justify-between items-center">
                             <span class="font-semibold">Organic Waste</span>
                              <span class="bg-green-500 text-black text-xs font-bold px-2 py-1 rounded-full">Completed</span>
@@ -32,13 +34,13 @@
                 </div>
             </div>
 
-            <div class="lg:col-span-2 bg-gray-900 p-8 rounded-xl shadow-2xl border border-gray-700">
-                <h2 class="text-2xl font-bold text-green-400 mb-6">Request a New Collection</h2>
+            <div class="lg:col-span-2 bg-eco-dark-green p-8 rounded-xl shadow-2xl border border-eco-medium-green">
+                <h2 class="text-2xl font-bold text-white mb-6">Request a New Collection</h2>
                 <form action="#" method="POST" class="space-y-6">
                     {% csrf_token %}
                     <div>
                         <label for="waste-type" class="block text-sm font-medium text-gray-300 mb-2">Type of Waste</label>
-                        <select id="waste-type" name="waste_type" class="w-full bg-gray-800 border-gray-700 text-white rounded-lg p-3 focus:ring-2 focus:ring-green-500 focus:border-green-500 transition">
+                        <select id="waste-type" name="waste_type" class="w-full bg-eco-medium-green border-eco-medium-green text-white rounded-lg p-3 focus:ring-2 focus:ring-eco-light-yellow focus:border-eco-light-yellow transition">
                             <option>Organic</option>
                             <option>Plastic</option>
                             <option>E-Waste</option>
@@ -48,16 +50,16 @@
                     
                     <div>
                         <label for="pickup-time" class="block text-sm font-medium text-gray-300 mb-2">Preferred Time Slot</label>
-                        <input type="time" id="pickup-time" name="pickup_time" class="w-full bg-gray-800 border-gray-700 text-white rounded-lg p-3 focus:ring-2 focus:ring-green-500 focus:border-green-500 transition">
+                        <input type="time" id="pickup-time" name="pickup_time" class="w-full bg-eco-medium-green border-eco-medium-green text-white rounded-lg p-3 focus:ring-2 focus:ring-eco-light-yellow focus:border-eco-light-yellow transition">
                     </div>
 
                     <div>
                         <label for="address" class="block text-sm font-medium text-gray-300 mb-2">Pickup Address</label>
-                        <textarea id="address" name="address" rows="3" class="w-full bg-gray-800 border-gray-700 text-white rounded-lg p-3 focus:ring-2 focus:ring-green-500 focus:border-green-500 transition" placeholder="Enter your full address"></textarea>
+                        <textarea id="address" name="address" rows="3" class="w-full bg-eco-medium-green border-eco-medium-green text-white rounded-lg p-3 focus:ring-2 focus:ring-eco-light-yellow focus:border-eco-light-yellow transition" placeholder="Enter your full address"></textarea>
                     </div>
 
                     <div>
-                        <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg transition-transform transform hover:scale-105">
+                        <button type="submit" class="w-full bg-eco-light-yellow hover:bg-eco-olive text-eco-dark-green font-bold py-3 px-4 rounded-lg transition-transform transform hover:scale-105">
                             Submit Request
                         </button>
                     </div>
@@ -66,23 +68,23 @@
 
         </div>
         
-        <div class="mt-12 bg-gray-900 p-8 rounded-xl shadow-2xl border border-gray-700">
-            <h2 class="text-2xl font-bold text-red-500 mb-6">Report Illegal Dumping</h2>
+        <div class="mt-12 bg-eco-dark-green p-8 rounded-xl shadow-2xl border border-eco-medium-green">
+            <h2 class="text-2xl font-bold text-white mb-6">Report Illegal Dumping</h2>
             <form action="#" method="POST" class="grid grid-cols-1 md:grid-cols-2 gap-6">
                  {% csrf_token %}
                 <div>
                     <label for="report-location" class="block text-sm font-medium text-gray-300 mb-2">Location of Incident</label>
-                    <input type="text" id="report-location" name="report_location" class="w-full bg-gray-800 border-gray-700 text-white rounded-lg p-3 focus:ring-2 focus:ring-red-500 focus:border-red-500 transition" placeholder="e.g., Near Marine Drive">
+                    <input type="text" id="report-location" name="report_location" class="w-full bg-eco-medium-green border-eco-medium-green text-white rounded-lg p-3 focus:ring-2 focus:ring-red-500 focus:border-red-500 transition" placeholder="e.g., Near Marine Drive">
                 </div>
                 
                 <div>
                     <label for="report-image" class="block text-sm font-medium text-gray-300 mb-2">Upload Image (Optional)</label>
-                    <input type="file" id="report-image" name="report_image" class="w-full text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-green-600 file:text-white hover:file:bg-green-700">
+                    <input type="file" id="report-image" name="report_image" class="w-full text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-eco-medium-green file:text-eco-light-yellow hover:file:bg-eco-olive">
                 </div>
                 
                 <div class="md:col-span-2">
                     <label for="report-description" class="block text-sm font-medium text-gray-300 mb-2">Description</label>
-                    <textarea id="report-description" name="report_description" rows="3" class="w-full bg-gray-800 border-gray-700 text-white rounded-lg p-3 focus:ring-2 focus:ring-red-500 focus:border-red-500 transition" placeholder="Provide any additional details about the incident."></textarea>
+                    <textarea id="report-description" name="report_description" rows="3" class="w-full bg-eco-medium-green border-eco-medium-green text-white rounded-lg p-3 focus:ring-2 focus:ring-red-500 focus:border-red-500 transition" placeholder="Provide any additional details about the incident."></textarea>
                 </div>
 
                 <div class="md:col-span-2">
