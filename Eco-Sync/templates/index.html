@@ -38,9 +38,16 @@
                 <a href="{% url 'service' %}" class="text-eco-light-yellow hover:text-white transition duration-300 text-lg">Services</a>
                 <a href="{% url 'contact' %}" class="text-eco-light-yellow hover:text-white transition duration-300 text-lg">Contact</a>
                 
-                <a href="{% url 'login' %}" class="bg-eco-light-yellow text-eco-dark-green hover:bg-eco-olive font-semibold py-2 px-4 rounded-lg transition duration-300">
-                    Get Started
-                </a>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'dashboard' %}" class="text-eco-light-yellow hover:text-white transition duration-300 text-lg">Dashboard</a>
+                    <a href="{% url 'logout' %}" class="bg-eco-light-yellow text-eco-dark-green hover:bg-eco-olive font-semibold py-2 px-4 rounded-lg transition duration-300">
+                        Logout
+                    </a>
+                {% else %}
+                    <a href="{% url 'login' %}" class="bg-eco-light-yellow text-eco-dark-green hover:bg-eco-olive font-semibold py-2 px-4 rounded-lg transition duration-300">
+                        Get Started
+                    </a>
+                {% endif %}
             </div>
 
             <div class="md:hidden">
@@ -56,10 +63,21 @@
         <a href="{% url 'about' %}" class="block text-eco-light-yellow hover:text-eco-olive p-4 text-lg">About</a>
         <a href="{% url 'service' %}" class="block text-eco-light-yellow hover:text-eco-olive p-4 text-lg">Services</a>
         <a href="{% url 'contact' %}" class="block text-eco-light-yellow hover:text-eco-olive p-4 text-lg">Contact</a>
+        
+        {% if user.is_authenticated %}
+            <a href="{% url 'dashboard' %}" class="block text-eco-light-yellow hover:text-eco-olive p-4 text-lg">Dashboard</a>
+        {% endif %}
+
         <div class="p-4">
-             <a href="{% url 'login' %}" class="block bg-eco-light-yellow text-eco-dark-green hover:bg-eco-olive font-semibold py-2 px-4 rounded-lg text-center transition duration-300">
-                Get Started
-            </a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'logout' %}" class="block bg-eco-light-yellow text-eco-dark-green hover:bg-eco-olive font-semibold py-2 px-4 rounded-lg text-center transition duration-300">
+                    Logout
+                </a>
+            {% else %}
+                <a href="{% url 'login' %}" class="block bg-eco-light-yellow text-eco-dark-green hover:bg-eco-olive font-semibold py-2 px-4 rounded-lg text-center transition duration-3G00">
+                    Get Started
+                </a>
+            {% endif %}
         </div>
     </div>
 
