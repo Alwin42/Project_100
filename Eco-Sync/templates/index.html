@@ -11,10 +11,14 @@
         theme: {
           extend: {
             colors: {
-              'eco-light-yellow': '#F0E491',
-              'eco-olive': '#BBC863',
-              'eco-medium-green': '#658C58',
-              'eco-dark-green': '#31694E',
+              /* UPDATED: 
+                - Replaced the 'beige' and 'light-lime' with a visible pale yellow-green.
+                - This will be our main light accent color for cards/sections.
+              */
+              'eco-light-accent': '#EAF2D3', 
+              'eco-olive': '#85A949',
+              'eco-medium-green': '#3E7B27',
+              'eco-dark-green': '#123524',
             }
           }
         }
@@ -23,9 +27,9 @@
     
     <title>{% block title %}Eco-Sync{% endblock %}</title>
 </head>
-<body class="bg-gray-900 text-white">
+<body class="bg-white text-eco-dark-green">
 
-    <nav class="bg-eco-medium-green p-4 shadow-lg sticky top-0 z-50">
+    <nav class="bg-white p-4 shadow-lg sticky top-0 z-50">
         <div class="container mx-auto flex justify-between items-center">
             <a href="/" class="flex items-center">
                 <img src="{% static 'images/eco-sync-logo.png' %}" alt="EcoSync Logo" class="h-10 w-10 mr-3">
@@ -33,18 +37,18 @@
             </a>
 
             <div class="hidden md:flex space-x-6 items-center">
-                <a href="{% url 'home' %}" class="text-eco-light-yellow hover:text-white transition duration-300 text-lg">Home</a>
-                <a href="{% url 'about' %}" class="text-eco-light-yellow hover:text-white transition duration-300 text-lg">About</a>
-                <a href="{% url 'service' %}" class="text-eco-light-yellow hover:text-white transition duration-300 text-lg">Services</a>
-                <a href="{% url 'contact' %}" class="text-eco-light-yellow hover:text-white transition duration-300 text-lg">Contact</a>
+                <a href="{% url 'home' %}" class="text-eco-dark-green hover:text-eco-olive transition duration-300 text-lg">Home</a>
+                <a href="{% url 'about' %}" class="text-eco-dark-green hover:text-eco-olive transition duration-300 text-lg">About</a>
+                <a href="{% url 'service' %}" class="text-eco-dark-green hover:text-eco-olive transition duration-300 text-lg">Services</a>
+                <a href="{% url 'contact' %}" class="text-eco-dark-green hover:text-eco-olive transition duration-300 text-lg">Contact</a>
                 
                 {% if user.is_authenticated %}
-                    <a href="{% url 'dashboard' %}" class="text-eco-light-yellow hover:text-white transition duration-300 text-lg">Dashboard</a>
-                    <a href="{% url 'logout' %}" class="bg-eco-light-yellow text-eco-dark-green hover:bg-eco-olive font-semibold py-2 px-4 rounded-lg transition duration-300">
+                    <a href="{% url 'dashboard' %}" class="text-eco-dark-green hover:text-eco-olive transition duration-300 text-lg">Dashboard</a>
+                    <a href="{% url 'logout' %}" class="bg-eco-medium-green text-white hover:bg-eco-olive font-semibold py-2 px-4 rounded-lg transition duration-300">
                         Logout
                     </a>
                 {% else %}
-                    <a href="{% url 'login' %}" class="bg-eco-light-yellow text-eco-dark-green hover:bg-eco-olive font-semibold py-2 px-4 rounded-lg transition duration-300">
+                    <a href="{% url 'login' %}" class="bg-eco-medium-green text-white hover:bg-eco-olive font-semibold py-2 px-4 rounded-lg transition duration-300">
                         Get Started
                     </a>
                 {% endif %}
@@ -52,29 +56,29 @@
 
             <div class="md:hidden">
                 <button id="mobile-menu-button" class="focus:outline-none" aria-label="Toggle menu" aria-expanded="false">
-                    <ion-icon name="menu-outline" class="text-6xl text-eco-light-yellow"></ion-icon>
+                    <ion-icon name="menu-outline" class="text-6xl text-eco-medium-green"></ion-icon>
                 </button>
             </div>
         </div>
     </nav>
     
-    <div id="mobile-menu" class="hidden md:hidden bg-eco-dark-green divide-y divide-eco-medium-green">
-        <a href="{% url 'home' %}" class="block text-eco-light-yellow hover:text-eco-olive p-4 text-lg">Home</a>
-        <a href="{% url 'about' %}" class="block text-eco-light-yellow hover:text-eco-olive p-4 text-lg">About</a>
-        <a href="{% url 'service' %}" class="block text-eco-light-yellow hover:text-eco-olive p-4 text-lg">Services</a>
-        <a href="{% url 'contact' %}" class="block text-eco-light-yellow hover:text-eco-olive p-4 text-lg">Contact</a>
+    <div id="mobile-menu" class="hidden md:hidden bg-white divide-y divide-gray-100">
+        <a href="{% url 'home' %}" class="block text-eco-dark-green hover:text-eco-olive p-4 text-lg">Home</a>
+        <a href="{% url 'about' %}" class="block text-eco-dark-green hover:text-eco-olive p-4 text-lg">About</a>
+        <a href="{% url 'service' %}" class="block text-eco-dark-green hover:text-eco-olive p-4 text-lg">Services</a>
+        <a href="{% url 'contact' %}" class="block text-eco-dark-green hover:text-eco-olive p-4 text-lg">Contact</a>
         
         {% if user.is_authenticated %}
-            <a href="{% url 'dashboard' %}" class="block text-eco-light-yellow hover:text-eco-olive p-4 text-lg">Dashboard</a>
+            <a href="{% url 'dashboard' %}" class="block text-eco-dark-green hover:text-eco-olive p-4 text-lg">Dashboard</a>
         {% endif %}
 
         <div class="p-4">
             {% if user.is_authenticated %}
-                <a href="{% url 'logout' %}" class="block bg-eco-light-yellow text-eco-dark-green hover:bg-eco-olive font-semibold py-2 px-4 rounded-lg text-center transition duration-300">
+                <a href="{% url 'logout' %}" class="block bg-eco-medium-green text-white hover:bg-eco-olive font-semibold py-2 px-4 rounded-lg text-center transition duration-300">
                     Logout
                 </a>
             {% else %}
-                <a href="{% url 'login' %}" class="block bg-eco-light-yellow text-eco-dark-green hover:bg-eco-olive font-semibold py-2 px-4 rounded-lg text-center transition duration-3G00">
+                <a href="{% url 'login' %}" class="block bg-eco-medium-green text-white hover:bg-eco-olive font-semibold py-2 px-4 rounded-lg text-center transition duration-300">
                     Get Started
                 </a>
             {% endif %}

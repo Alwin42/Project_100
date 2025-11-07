@@ -3,30 +3,30 @@
 {% block title %}Add Review - EcoSync{% endblock %}
 
 {% block content %}
-<div class="text-white min-h-screen">
+<div class="min-h-screen">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-16">
         
-        <div class="max-w-lg mx-auto bg-eco-dark-green p-8 rounded-xl shadow-2xl border border-eco-medium-green">
-            <h1 class="text-2xl md:text-3xl font-bold mb-6 text-eco-light-yellow text-center">Add Review</h1>
-            <p class="text-center text-gray-300 mb-6">
-                You are reviewing your request for <strong class="text-white">{{ req_to_review.waste_type.name }}</strong> on <strong class="text-white">{{ req_to_review.preferred_date }}</strong>.
+        <div class="max-w-lg mx-auto bg-eco-light-accent p-8 rounded-xl shadow-lg border border-gray-200">
+            <h1 class="text-2xl md:text-3xl font-bold mb-6 text-eco-dark-green text-center">Add Review</h1>
+            <p class="text-center text-gray-700 mb-6">
+                You are reviewing your request for <strong class="text-eco-dark-green">{{ req_to_review.waste_type.name }}</strong> on <strong class="text-eco-dark-green">{{ req_to_review.preferred_date }}</strong>.
             </p>
             
             <form method="POST" class="space-y-6">
                 {% csrf_token %}
                 <div>
-                    <label for="{{ form.rating.id_for_label }}" class="block text-sm font-medium text-gray-300 mb-2">Rating</label>
+                    <label for="{{ form.rating.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">Rating</label>
                     {{ form.rating }}
                     {{ form.rating.errors }}
                 </div>
                 <div>
-                    <label for="{{ form.feedback.id_for_label }}" class="block text-sm font-medium text-gray-300 mb-2">Feedback</label>
+                    <label for="{{ form.feedback.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">Feedback</label>
                     {{ form.feedback }}
                     {{ form.feedback.errors }}
                 </div>
                 
                 <div>
-                    <button type="submit" class="w-full bg-eco-light-yellow hover:bg-eco-olive text-eco-dark-green font-bold py-3 px-4 rounded-lg transition-transform transform hover:scale-105">
+                    <button type="submit" class="w-full bg-eco-medium-green hover:bg-eco-olive text-white font-bold py-3 px-4 rounded-lg transition-transform transform hover:scale-105">
                         Submit Review
                     </button>
                 </div>

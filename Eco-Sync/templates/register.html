@@ -6,54 +6,54 @@
 {% block content %}
 <div class="relative min-h-screen flex flex-col items-center justify-center p-4 sm:p-6 lg:p-8">
     
-    <div class="relative bg-eco-dark-green p-6 sm:p-8 rounded-xl shadow-2xl w-full max-w-md border border-eco-medium-green">
+    <div class="relative bg-eco-light-accent p-6 sm:p-8 rounded-xl shadow-lg w-full max-w-md border border-gray-200">
         <div class="text-center mb-8">
             <a href="/" class="inline-flex items-center gap-3">
                 <img src="{% static 'images/eco-sync-logo.png' %}" alt="EcoSync Logo" class="h-10 w-10">
-                <h1 class="text-eco-light-yellow text-2xl font-bold tracking-wider">EcoSync</h1>
+                <h1 class="text-eco-dark-green text-2xl font-bold tracking-wider">EcoSync</h1>
             </a>
         </div>
 
-        <h2 class="text-2xl font-bold mb-6 text-center text-white">Create Your Account</h2>
+        <h2 class="text-2xl font-bold mb-6 text-center text-eco-dark-green">Create Your Account</h2>
         
         <form action="{% url 'register' %}" method="POST" class="space-y-4">
             {% csrf_token %}
             
             {% if form.non_field_errors %}
-              <div class="text-red-400 text-sm">
+              <div class="text-red-700 text-sm p-3 bg-red-100 border border-red-300 rounded-lg">
                 {{ form.non_field_errors }}
               </div>
             {% endif %}
 
             <div>
-                <label for="{{ form.username.id_for_label }}" class="block text-sm font-medium text-gray-300 mb-2">{{ form.username.label }}</label>
+                <label for="{{ form.username.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">{{ form.username.label }}</label>
                 {{ form.username }}
-                <p class="text-red-400 text-sm mt-1">{{ form.username.errors.as_text }}</p>
+                <p class="text-red-600 text-sm mt-1">{{ form.username.errors.as_text }}</p>
             </div>
             
             <div>
-                <label for="{{ form.password.id_for_label }}" class="block text-sm font-medium text-gray-300 mb-2">{{ form.password.label }}</label>
+                <label for="{{ form.password.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">{{ form.password.label }}</label>
                 {{ form.password }}
-                <p class="text-red-400 text-sm mt-1">{{ form.password.errors.as_text }}</p>
+                <p class="text-red-600 text-sm mt-1">{{ form.password.errors.as_text }}</p>
             </div>
             
             <div>
-                <label for="{{ form.password2.id_for_label }}" class="block text-sm font-medium text-gray-300 mb-2">{{ form.password2.label }}</D>
+                <label for="{{ form.password2.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-2">{{ form.password2.label }}</label>
                 {{ form.password2 }}
-                <p class="text-red-400 text-sm mt-1">{{ form.password2.errors.as_text }}</p>
+                <p class="text-red-600 text-sm mt-1">{{ form.password2.errors.as_text }}</p>
             </div>
 
 
             <div class="pt-2">
-                <button type="submit" class="w-full bg-eco-light-yellow hover:bg-eco-olive text-eco-dark-green font-bold py-3 px-4 rounded-lg transition-transform transform hover:scale-105">
+                <button type="submit" class="w-full bg-eco-medium-green hover:bg-eco-olive text-white font-bold py-3 px-4 rounded-lg transition-transform transform hover:scale-105">
                     Register
                 </button>
             </div>
         </form>
 
         <div class="text-center mt-6">
-            <p class="text-sm text-gray-300">
-                Already have an account? <a href="{% url 'login' %}" class="font-semibold text-eco-light-yellow hover:text-eco-olive">Sign in</a>
+            <p class="text-sm text-gray-600">
+                Already have an account? <a href="{% url 'login' %}" class="font-semibold text-eco-medium-green hover:text-eco-olive">Sign in</a>
             </p>
         </div>
     </div>

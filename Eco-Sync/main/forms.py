@@ -1,17 +1,18 @@
 # main/forms.py
 from django import forms
-# UPDATED: Added PasswordChangeForm
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
-# UPDATED: Added UserProfile
 from .models import CollectionRequest, IllegalDumpingReport, Review, WasteType, UserProfile
 
-# Define the Tailwind classes
-text_input_class = "w-full bg-eco-medium-green border-eco-medium-green text-white rounded-lg p-3 focus:ring-2 focus:ring-eco-light-yellow focus:border-eco-light-yellow transition"
+# --- UPDATED STYLES FOR LIGHT THEME ---
+# These classes are for white backgrounds, dark text, and green focus rings.
+text_input_class = "w-full bg-white border border-gray-300 text-eco-dark-green rounded-lg p-3 focus:ring-2 focus:ring-eco-medium-green focus:border-eco-medium-green transition"
 password_input_class = text_input_class
 textarea_class = text_input_class
 select_class = text_input_class
+file_input_class = "w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-eco-light-accent file:text-eco-medium-green hover:file:bg-eco-olive hover:file:text-white"
 
-# --- (Your CustomRegistrationForm and CustomLoginForm are here) ---
+# --- Authentication Forms ---
+
 class CustomRegistrationForm(UserCreationForm):
     # We add the widgets here
     username = forms.CharField(
@@ -58,7 +59,7 @@ class CustomLoginForm(AuthenticationForm):
     )
 
 
-# --- ADD THESE NEW FORMS ---
+# --- Main App Forms ---
 
 class CollectionRequestForm(forms.ModelForm):
     # This field will automatically query the WasteType model
@@ -104,9 +105,7 @@ class IllegalDumpingReportForm(forms.ModelForm):
     )
     image = forms.ImageField(
         required=False,
-        widget=forms.FileInput(
-            attrs={'class': 'w-full text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-eco-medium-green file:text-eco-light-yellow hover:file:bg-eco-olive'}
-        )
+        widget=forms.FileInput(attrs={'class': file_input_class})
     )
 
     class Meta:
@@ -120,6 +119,7 @@ class ReviewForm(forms.ModelForm):
         widget=forms.Select(attrs={'class': select_class})
     )
     feedback = forms.CharField(
+        required=False,
         widget=forms.Textarea(
             attrs={'class': textarea_class, 'rows': 4, 'placeholder': 'Tell us about your experience...'}
         )
@@ -129,18 +129,20 @@ class ReviewForm(forms.ModelForm):
         model = Review
         fields = ['rating', 'feedback']
 
+# --- Profile Forms ---
+
 class UserProfileForm(forms.ModelForm):
     full_name = forms.CharField(
         label="Full Name",
         widget=forms.TextInput(attrs={
-            'class': 'w-full bg-eco-medium-green border-eco-medium-green text-white rounded-lg p-3 focus:ring-2 focus:ring-eco-light-yellow focus:border-eco-light-yellow transition',
+            'class': text_input_class,
             'placeholder': 'Your Full Name'
         })
     )
     address = forms.CharField(
         label="Address",
         widget=forms.Textarea(attrs={
-            'class': 'w-full bg-eco-medium-green border-eco-medium-green text-white rounded-lg p-3 focus:ring-2 focus:ring-eco-light-yellow focus:border-eco-light-yellow transition',
+            'class': textarea_class,
             'rows': 4,
             'placeholder': 'Your Address'
         })
@@ -157,21 +159,21 @@ class CustomPasswordChangeForm(PasswordChangeForm):
     old_password = forms.CharField(
         label="Old Password",
         widget=forms.PasswordInput(attrs={
-            'class': 'w-full bg-eco-medium-green border-eco-medium-green text-white rounded-lg p-3 focus:ring-2 focus:ring-eco-light-yellow focus:border-eco-light-yellow transition',
+            'class': password_input_class,
             'placeholder': 'Your Old Password'
         })
     )
     new_password1 = forms.CharField(
         label="New Password",
         widget=forms.PasswordInput(attrs={
-            'class': 'w-full bg-eco-medium-green border-eco-medium-green text-white rounded-lg p-3 focus:ring-2 focus:ring-eco-light-yellow focus:border-eco-light-yellow transition',
+            'class': password_input_class,
             'placeholder': 'Your New Password'
         })
     )
     new_password2 = forms.CharField(
         label="Confirm New Password",
         widget=forms.PasswordInput(attrs={
-            'class': 'w-full bg-eco-medium-green border-eco-medium-green text-white rounded-lg p-3 focus:ring-2 focus:ring-eco-light-yellow focus:border-eco-light-yellow transition',
+            'class': password_input_class,
             'placeholder': 'Confirm Your New Password'
         })
     )
