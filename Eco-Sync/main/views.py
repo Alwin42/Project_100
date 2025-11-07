@@ -1,6 +1,7 @@
 # main/views.py
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import login as auth_login, authenticate, logout
+# UPDATED: Added update_session_auth_hash
+from django.contrib.auth import login as auth_login, authenticate, logout, update_session_auth_hash
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
@@ -10,7 +11,9 @@ from .forms import (
     CustomLoginForm, 
     CollectionRequestForm, 
     IllegalDumpingReportForm,
-    ReviewForm
+    ReviewForm,
+    UserProfileForm,              # <-- ADDED THIS
+    CustomPasswordChangeForm      # <-- ADDED THIS
 )
 # --- Import all models needed ---
 from .models import (
@@ -105,7 +108,10 @@ def service(request):
     report_form = IllegalDumpingReportForm()
     
     # Get latest 3 requests for the "Collection Status" box
-    latest_requests = CollectionRequest.objects.filter(user=request.user).order_by('-requested_at')[:3]
+    # Check if user is authenticated before filtering
+    latest_requests = []
+    if request.user.is_authenticated:
+        latest_requests = CollectionRequest.objects.filter(user=request.user).order_by('-requested_at')[:3]
 
     context = {
         'request_form': request_form,
@@ -167,3 +173,37 @@ def add_review(request, request_id):
         'req_to_review': req_to_review
     }
     return render(request, 'add_review.html', context)
+
+@login_required
+def profile_edit(request):
+    # The form is pre-filled with the user's existing profile data
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST, instance=request.user.profile)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Your profile has been updated successfully!')
+            return redirect('dashboard')
+    else:
+        form = UserProfileForm(instance=request.user.profile)
+        
+    return render(request, 'profile_edit.html', {'form': form})
+
+
+@login_required
+def password_change(request):
+    if request.method == 'POST':
+        form = CustomPasswordChangeForm(user=request.user, data=request.POST)
+        if form.is_valid():
+            user = form.save()
+            # Important! Updates the user's session so they don't get logged out
+            update_session_auth_hash(request, user)
+            messages.success(request, 'Your password was successfully updated!')
+            return redirect('dashboard')
+        else:
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, error)
+    else:
+        form = CustomPasswordChangeForm(user=request.user)
+        
+    return render(request, 'password_change.html', {'form': form})

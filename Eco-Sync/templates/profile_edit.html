@@ -1,0 +1,41 @@
+{% extends 'index.html' %}
+
+{% block title %}Edit Profile - EcoSync{% endblock %}
+
+{% block content %}
+<div class="text-white min-h-screen">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        
+        <div class="max-w-lg mx-auto bg-eco-dark-green p-8 rounded-xl shadow-2xl border border-eco-medium-green">
+            <h1 class="text-2xl md:text-3xl font-bold mb-6 text-eco-light-yellow text-center">Edit Your Profile</h1>
+            <p class="text-center text-gray-300 mb-6">
+                Update your full name and address.
+            </p>
+            
+            <form method="POST" class="space-y-6">
+                {% csrf_token %}
+                <div>
+                    <label for="{{ form.full_name.id_for_label }}" class="block text-sm font-medium text-gray-300 mb-2">{{ form.full_name.label }}</label>
+                    {{ form.full_name }}
+                    {{ form.full_name.errors }}
+                </div>
+                <div>
+                    <label for="{{ form.address.id_for_label }}" class="block text-sm font-medium text-gray-300 mb-2">{{ form.address.label }}</label>
+                    {{ form.address }}
+                    {{ form.address.errors }}
+                </div>
+                
+                <div class="flex gap-4">
+                    <a href="{% url 'dashboard' %}" class="w-full text-center bg-eco-medium-green hover:bg-eco-olive hover:text-eco-dark-green font-bold py-3 px-4 rounded-lg transition">
+                        Cancel
+                    </a>
+                    <button type="submit" class="w-full bg-eco-light-yellow hover:bg-eco-olive text-eco-dark-green font-bold py-3 px-4 rounded-lg transition-transform transform hover:scale-105">
+                        Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

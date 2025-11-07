@@ -7,8 +7,8 @@
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-16">
 
         <div class="text-center mb-12">
-            <h1 class="text-4xl md:text-5xl font-extrabold mb-2 text-eco-light-yellow">My Dashboard</h1>
-            <p class="text-lg text-gray-400">Track all your collection requests here.</p>
+            <h1 class="text-4xl md:text-5xl font-extrabold mb-2 text-eco-light-yellow">Welcome, {{ user.username }}!</h1>
+            <p class="text-lg text-gray-400">Manage your profile and track all your collection requests here.</p>
         </div>
 
         {% if messages %}
@@ -25,6 +25,32 @@
             </div>
         {% endif %}
 
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+            
+            <div class="bg-eco-dark-green rounded-xl shadow-2xl border border-eco-medium-green p-6">
+                <h2 class="text-2xl font-bold text-eco-light-yellow mb-4">My Profile</h2>
+                <div class="space-y-3 text-gray-300">
+                    <p><strong>Username:</strong> {{ user.username }}</p>
+                    <p><strong>Full Name:</strong> {{ user.profile.full_name|default:'Not set' }}</p>
+                    <p><strong>Address:</strong> {{ user.profile.address|default:'Not set'|linebreaksbr }}</p>
+                </div>
+                <a href="{% url 'profile_edit' %}" class="mt-6 inline-block bg-eco-light-yellow text-eco-dark-green hover:bg-eco-olive font-semibold py-2 px-4 rounded-lg transition duration-300">
+                    Edit Profile
+                </a>
+            </div>
+
+            <div class="bg-eco-dark-green rounded-xl shadow-2xl border border-eco-medium-green p-6">
+                <h2 class="text-2xl font-bold text-eco-light-yellow mb-4">Account Security</h2>
+                <div class="space-y-3 text-gray-300">
+                    <p>Manage your account security settings and change your password.</p>
+                </div>
+                <a href="{% url 'password_change' %}" class="mt-6 inline-block bg-eco-medium-green text-white hover:bg-eco-olive hover:text-eco-dark-green font-semibold py-2 px-4 rounded-lg transition duration-300">
+                    Change Password
+                </a>
+            </div>
+        </div>
+
+        <h2 class="text-3xl font-bold text-white mb-6 text-center md:text-left">My Request History</h2>
         <div class="bg-eco-dark-green rounded-xl shadow-2xl border border-eco-medium-green overflow-hidden">
             <div class="overflow-x-auto">
                 <table class="min-w-full divide-y divide-eco-medium-green">
