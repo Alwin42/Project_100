@@ -2,54 +2,161 @@
 {% load static %}
 
 {% block content %}
-<!-- Hero Section -->
-<section class="min-h-screen bg-gradient-to-r from-[#E6F0FF] via-[#00E0FF] to-[#7AE1F0] flex items-center">
-  <div class="container mx-auto px-6 lg:px-16 flex flex-col lg:flex-row items-center justify-between">
+
+<!-- Custom Styles for Animations (Since we are using CDN) -->
+<style>
+    @keyframes float {
+        0% { transform: translateY(0px); }
+        50% { transform: translateY(-20px); }
+        100% { transform: translateY(0px); }
+    }
+    .animate-float {
+        animation: float 6s ease-in-out infinite;
+    }
     
-    <!-- Left Content -->
-    <div class="text-left max-w-xl">
-      <p class="text-[#159EEC] font-semibold tracking-wide uppercase mb-2">
-        Caring for Life
-      </p>
-      <h1 class="text-4xl lg:text-5xl font-extrabold text-[#1F2B6C] leading-tight mb-6">
-        Unified Hospital <br> Booking System
-      </h1>
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-in-up {
+        animation: fadeInUp 0.8s ease-out forwards;
+        opacity: 0; /* Start hidden */
+    }
+    .delay-100 { animation-delay: 0.1s; }
+    .delay-200 { animation-delay: 0.2s; }
+    .delay-300 { animation-delay: 0.3s; }
+</style>
 
-      <div class="flex flex-wrap gap-4 mb-8">
-        <a href="#services"
-          class="bg-[#159EEC] text-white px-6 py-3 rounded-full font-semibold shadow hover:bg-[#127bb9] transition">
-          Our Services
-        </a>
-      </div>
+<!-- Hero Section -->
+<section class="relative min-h-[90vh] flex items-center overflow-hidden bg-gradient-to-br from-blue-50 via-white to-cyan-50">
+    
+    <!-- Decorative Blobs (Background) -->
+    <div class="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 rounded-full bg-blue-100 opacity-50 blur-3xl"></div>
+    <div class="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 rounded-full bg-cyan-100 opacity-50 blur-3xl"></div>
 
-      <div class="flex flex-wrap gap-4">
-        <a href="#appointment"
-          class="bg-[#1F2B6C] text-white px-6 py-3 rounded-lg flex items-center gap-2 shadow hover:bg-[#14204d] transition">
-          <span>Book an Appointment</span>
-          <ion-icon name="book"></ion-icon>
-        </a>
+    <div class="container mx-auto px-6 lg:px-16 relative z-10">
+        <div class="flex flex-col lg:flex-row items-center justify-between gap-12">
+            
+            <!-- Left Content -->
+            <div class="text-left max-w-2xl">
+                <div class="fade-in-up">
+                    <span class="inline-block py-1 px-3 rounded-full bg-blue-100 text-blue-600 text-sm font-bold tracking-wide uppercase mb-4 border border-blue-200">
+                        <ion-icon name="pulse-outline" class="align-middle mr-1"></ion-icon> Caring for Life
+                    </span>
+                </div>
 
-        <a href="#doctors"
-          class="bg-[#E6F0FF] text-[#1F2B6C] px-6 py-3 rounded-lg flex items-center gap-2 font-semibold shadow hover:bg-[#d3e4ff] transition">
-          <span>Consult Doctor Now</span>
-          <ion-icon name="calendar"></ion-icon>
-        </a>
+                <h1 class="fade-in-up delay-100 text-5xl lg:text-6xl font-extrabold text-slate-800 leading-tight mb-6">
+                    Unified Hospital <br> 
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500">
+                        Booking System
+                    </span>
+                </h1>
 
-        <a href="#fees"
-          class="bg-[#159EEC] text-white px-6 py-3 rounded-lg flex items-center gap-2 shadow hover:bg-[#127bb9] transition">
-          <span>Compare consultation/Lab fee</span>
-          <ion-icon name="cash"></ion-icon>
-        </a>
-      </div>
+                <p class="fade-in-up delay-200 text-lg text-slate-600 mb-8 leading-relaxed max-w-lg">
+                    Stop paying hidden fees. Verify hospital facilities instantly. 
+                    Experience the future of healthcare with transparent booking and verified doctor reviews.
+                </p>
+
+                <!-- Action Buttons -->
+                <div class="fade-in-up delay-300 flex flex-col sm:flex-row gap-4">
+                    <!-- Primary Action -->
+                    <a href="#appointment"
+                        class="group relative px-8 py-4 bg-blue-600 text-white rounded-xl font-semibold shadow-lg shadow-blue-500/30 overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-blue-500/50">
+                        <div class="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-[shimmer_1s_infinite]"></div>
+                        <span class="flex items-center gap-2">
+                            Book Appointment <ion-icon name="arrow-forward-circle"></ion-icon>
+                        </span>
+                    </a>
+
+                    <!-- Secondary Action -->
+                    <a href="#doctors"
+                        class="px-8 py-4 bg-white text-slate-700 border border-slate-200 rounded-xl font-semibold shadow-sm transition-all duration-300 hover:border-blue-400 hover:text-blue-600 hover:bg-blue-50 hover:-translate-y-1">
+                        <span class="flex items-center gap-2">
+                            Find Doctors <ion-icon name="search-outline"></ion-icon>
+                        </span>
+                    </a>
+                </div>
+
+                <!-- Quick Links / Pills -->
+                <div class="fade-in-up delay-300 mt-8 flex flex-wrap gap-3 text-sm font-medium text-slate-500">
+                    <a href="#fees" class="hover:text-blue-600 transition-colors flex items-center gap-1">
+                        <ion-icon name="wallet-outline" class="text-lg"></ion-icon> Check Fees
+                    </a>
+                    <span class="text-slate-300">|</span>
+                    <a href="#services" class="hover:text-blue-600 transition-colors flex items-center gap-1">
+                        <ion-icon name="medkit-outline" class="text-lg"></ion-icon> Facilities
+                    </a>
+                </div>
+            </div>
+
+            <!-- Right Image -->
+            <div class="lg:w-1/2 relative flex justify-center fade-in-up delay-200">
+                <!-- Background shape for image -->
+                <div class="absolute inset-0 bg-gradient-to-tr from-blue-200 to-cyan-200 rounded-full opacity-20 blur-2xl transform scale-90"></div>
+                
+                <div class="relative animate-float">
+                    <img src="{% static 'images/home.svg' %}" 
+                         alt="Modern Hospital Facility" 
+                         class="relative z-10 max-w-full lg:max-w-lg rounded-3xl shadow-2xl border-4 border-white object-cover h-[500px] w-full">
+      
+                    
+                    <!-- Floating Badge 1 -->
+                    <div class="absolute -left-6 top-20 z-20 bg-white/90 backdrop-blur-sm p-4 rounded-2xl shadow-xl border border-blue-100 flex items-center gap-3 animate-bounce" style="animation-duration: 3s;">
+                        <div class="bg-green-100 p-2 rounded-full text-green-600">
+                            <ion-icon name="shield-checkmark" class="text-2xl"></ion-icon>
+                        </div>
+                        <div>
+                            <p class="text-xs text-slate-500 font-bold uppercase">Status</p>
+                            <p class="text-sm font-bold text-slate-800">100% Verified</p>
+                        </div>
+                    </div>
+
+                    <!-- Floating Badge 2 -->
+                    <div class="absolute -right-4 bottom-20 z-20 bg-white/90 backdrop-blur-sm p-4 rounded-2xl shadow-xl border border-blue-100 flex items-center gap-3 animate-bounce" style="animation-duration: 4s;">
+                        <div class="bg-blue-100 p-2 rounded-full text-blue-600">
+                            <ion-icon name="cash-outline" class="text-2xl"></ion-icon>
+                        </div>
+                        <div>
+                            <p class="text-xs text-slate-500 font-bold uppercase">Fees</p>
+                            <p class="text-sm font-bold text-slate-800">No Hikes</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </div>
-
-    <!-- Right Image -->
-    <div class="mt-10 lg:mt-0 lg:ml-10 flex justify-center">
-<img src="{% static 'images/img1.jpg' %}" 
-     alt="Hospital Illustration" 
-     class="max-w-md lg:max-w-lg rounded-2xl shadow-lg">
-    </div>
-
-  </div>
 </section>
+
+<!-- Features / Value Prop Strip -->
+<section class="bg-white py-10 border-b border-slate-100">
+    <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+        <div class="p-4 group hover:-translate-y-1 transition-transform duration-300">
+            <div class="w-12 h-12 mx-auto bg-blue-50 text-blue-600 rounded-full flex items-center justify-center text-2xl mb-3 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                <ion-icon name="business"></ion-icon>
+            </div>
+            <h3 class="font-bold text-slate-800">Verified Facilities</h3>
+            <p class="text-sm text-slate-500 mt-1">We physically verify hospital infrastructure.</p>
+        </div>
+        <div class="p-4 group hover:-translate-y-1 transition-transform duration-300">
+            <div class="w-12 h-12 mx-auto bg-cyan-50 text-cyan-600 rounded-full flex items-center justify-center text-2xl mb-3 group-hover:bg-cyan-600 group-hover:text-white transition-colors">
+                <ion-icon name="pricetag"></ion-icon>
+            </div>
+            <h3 class="font-bold text-slate-800">Standardized Pricing</h3>
+            <p class="text-sm text-slate-500 mt-1">Zero booking fee hikes. Pay what you see.</p>
+        </div>
+        <div class="p-4 group hover:-translate-y-1 transition-transform duration-300">
+            <div class="w-12 h-12 mx-auto bg-indigo-50 text-indigo-600 rounded-full flex items-center justify-center text-2xl mb-3 group-hover:bg-indigo-600 group-hover:text-white transition-colors">
+                <ion-icon name="star"></ion-icon>
+            </div>
+            <h3 class="font-bold text-slate-800">Real Reviews</h3>
+            <p class="text-sm text-slate-500 mt-1">Feedback from verified patients only.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Make sure to include IonIcons in your base.html or here -->
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
 {% endblock %}

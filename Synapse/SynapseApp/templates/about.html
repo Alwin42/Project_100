@@ -2,33 +2,162 @@
 {% load static %}
 
 {% block content %}
-<!-- Welcome Section -->
-<section class="text-center py-16 px-6">
-  <h3 class="text-[#159EEC] font-semibold uppercase tracking-widest mb-2">
-    Welcome to Synapse
-  </h3>
-  <h2 class="text-3xl md:text-4xl font-bold text-[#1F2B6C] mb-4">
-    Care with Clarity.
-  </h2>
-  <p class="max-w-2xl mx-auto text-gray-600 leading-relaxed mb-6">
-    We believe booking healthcare should be simple. Our unified system provides the
-    clarity you need to make the best choice, showing you available doctors, real-time
-    schedules, and clear pricing all in one place. Book your next appointment with complete
-    confidence, knowing you have all the information you need right at your fingertips.
-  </p>
-  <a href="#about"
-     class="inline-flex items-center gap-2 text-[#159EEC] font-medium hover:underline">
-    Learn More
-    <ion-icon name="arrow-forward-outline"></ion-icon>
-  </a>
+
+<!-- Custom Styles for this page -->
+<style>
+    .bg-grid-pattern {
+        background-image: radial-gradient(#bfdbfe 1px, transparent 1px);
+        background-size: 24px 24px;
+    }
+</style>
+
+<!-- Section 1: Hero / Mission Statement -->
+<section class="relative py-20 overflow-hidden">
+    <!-- Background Pattern -->
+    <div class="absolute inset-0 bg-grid-pattern opacity-20 -z-10"></div>
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-gradient-to-b from-blue-50/80 to-white -z-10"></div>
+
+    <div class="container mx-auto px-6 text-center max-w-4xl">
+        <span class="inline-block py-1 px-3 rounded-full bg-blue-100 text-blue-600 text-xs font-bold tracking-widest uppercase mb-6">
+            Our Mission
+        </span>
+        <h1 class="text-4xl md:text-5xl font-extrabold text-slate-800 mb-6 leading-tight">
+            Restoring Trust in <br>
+            <span class="text-blue-600">Healthcare Booking</span>
+        </h1>
+        <p class="text-lg md:text-xl text-slate-600 leading-relaxed mb-8">
+            We believe healthcare should be transparent. Synapse was born to eliminate hidden booking hikes, verify hospital infrastructure, and give patients the clarity they deserve.
+        </p>
+    </div>
 </section>
 
-<!-- Doctors Image Section -->
-<section class="px-6 pb-16">
-  <div class="max-w-5xl mx-auto">
-    <img src="{% static 'images/doctors.jpg' %}"
-         alt="Doctors Team"
-         class="rounded-lg shadow-md w-full object-cover">
-  </div>
+<!-- Section 2: The Problem vs The Solution (Split View) -->
+<section class="py-16 bg-white">
+    <div class="container mx-auto px-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            
+            <!-- Image/Visual Side -->
+            <div class="relative group">
+                <div class="absolute -inset-2 bg-gradient-to-r from-blue-400 to-cyan-400 rounded-2xl opacity-30 blur-lg group-hover:opacity-50 transition duration-500"></div>
+                <img src="{% static 'images/about.jpg' %}" 
+                     
+                     class="relative rounded-2xl shadow-2xl w-full object-cover h-[400px] transform transition duration-500 hover:scale-[1.01]">
+                
+                
+            </div>
+
+            <!-- Text Content Side -->
+            <div>
+                <h2 class="text-3xl font-bold text-slate-800 mb-6">Care with Clarity.</h2>
+                
+                <div class="space-y-6">
+                    <!-- Feature 1 -->
+                    <div class="flex gap-4">
+                        <div class="flex-shrink-0 w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 text-xl">
+                            <ion-icon name="shield-checkmark-outline"></ion-icon>
+                        </div>
+                        <div>
+                            <h4 class="text-lg font-bold text-slate-800">Verified Facilities</h4>
+                            <p class="text-slate-600 text-sm mt-1">
+                                No more surprises. We physically verify hospital amenities so you know exactly what facilities are available before you arrive.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Feature 2 -->
+                    <div class="flex gap-4">
+                        <div class="flex-shrink-0 w-12 h-12 bg-cyan-100 rounded-full flex items-center justify-center text-cyan-600 text-xl">
+                            <ion-icon name="pricetags-outline"></ion-icon>
+                        </div>
+                        <div>
+                            <h4 class="text-lg font-bold text-slate-800">Unified Pricing</h4>
+                            <p class="text-slate-600 text-sm mt-1">
+                                We lock consultation fees at the time of booking. The price you see on Synapse is the price you pay at the clinic.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Feature 3 -->
+                    <div class="flex gap-4">
+                        <div class="flex-shrink-0 w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-600 text-xl">
+                            <ion-icon name="people-outline"></ion-icon>
+                        </div>
+                        <div>
+                            <h4 class="text-lg font-bold text-slate-800">Patient-First Reviews</h4>
+                            <p class="text-slate-600 text-sm mt-1">
+                                Reviews on our platform come from verified appointments only, ensuring you get honest feedback about doctors.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-8 pt-8 border-t border-gray-100">
+                    <a href="/#doctors" class="text-blue-600 font-semibold hover:text-blue-800 transition flex items-center gap-2">
+                        Find a Doctor Now <ion-icon name="arrow-forward-outline"></ion-icon>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
+
+<!-- Section 3: Core Values Cards -->
+<section class="py-20 bg-slate-50">
+    <div class="container mx-auto px-6">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl font-bold text-slate-800">Why We Built Synapse</h2>
+            <p class="text-slate-600 mt-4 max-w-2xl mx-auto">We are not just a booking engine. We are a compliance layer between patients and hospitals.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Card 1 -->
+            <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition duration-300 border border-slate-100">
+                <div class="w-14 h-14 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center text-3xl mb-6">
+                    <ion-icon name="eye-outline"></ion-icon>
+                </div>
+                <h3 class="text-xl font-bold text-slate-800 mb-3">Transparency</h3>
+                <p class="text-slate-600 text-sm leading-relaxed">
+                    Complete visibility into costs and doctor availability. We remove the opacity from medical administration.
+                </p>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition duration-300 border border-slate-100">
+                <div class="w-14 h-14 bg-green-50 text-green-600 rounded-xl flex items-center justify-center text-3xl mb-6">
+                    <ion-icon name="time-outline"></ion-icon>
+                </div>
+                <h3 class="text-xl font-bold text-slate-800 mb-3">Efficiency</h3>
+                <p class="text-slate-600 text-sm leading-relaxed">
+                    Saving time for both patients and doctors by streamlining the appointment process and reducing waiting room chaos.
+                </p>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition duration-300 border border-slate-100">
+                <div class="w-14 h-14 bg-purple-50 text-purple-600 rounded-xl flex items-center justify-center text-3xl mb-6">
+                    <ion-icon name="heart-outline"></ion-icon>
+                </div>
+                <h3 class="text-xl font-bold text-slate-800 mb-3">Empathy</h3>
+                <p class="text-slate-600 text-sm leading-relaxed">
+                    Built by developers who have faced the same healthcare hurdles. We design every feature with the patient's anxiety in mind.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-20 bg-[#1F2B6C] text-white text-center">
+    <div class="container mx-auto px-6">
+        <h2 class="text-3xl md:text-4xl font-bold mb-6">Ready to experience better healthcare?</h2>
+        <p class="text-blue-200 mb-8 max-w-xl mx-auto">Join thousands of patients who have switched to the unified, transparent way of booking appointments.</p>
+        <a href="/register" class="inline-block bg-white text-[#1F2B6C] px-8 py-3 rounded-lg font-bold hover:bg-blue-50 transition shadow-lg">
+            Get Started Today
+        </a>
+    </div>
+</section>
+
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
 {% endblock %}
