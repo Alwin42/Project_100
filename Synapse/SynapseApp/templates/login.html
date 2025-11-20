@@ -2,50 +2,103 @@
 {% load static %}
 
 {% block content %}
-<section class="flex items-center justify-center min-h-screen bg-gray-50 px-4">
-  <div class="w-full max-w-md bg-slate-100	rounded-sm rounded-2xl shadow-xl p-8">
+
+<style>
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-in-up {
+        animation: fadeInUp 0.6s ease-out forwards;
+    }
+</style>
+
+<section class="relative min-h-[80vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-blue-50 via-white to-cyan-50">
     
-    <!-- Header -->
-    <h2 class="text-3xl font-bold text-[#1F2B6C] text-center mb-2">Login</h2>
-    <p class="text-gray-600 text-center mb-8">
-      Welcome back! Please sign in to continue.
-    </p>
-    
-    <!-- Login Form -->
-    <form method="POST" action="#" class="space-y-6">
-      {% csrf_token %}
-      
-      <!-- Username -->
-      <div>
-        <label for="username" class="block text-sm font-medium text-gray-700 mb-1">Username</label>
-        <input type="text" name="username" id="username" required
-          class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#159EEC] focus:outline-none">
-      </div>
+    <!-- Decorative Background Elements -->
+    <div class="absolute top-0 left-0 w-72 h-72 bg-blue-100 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
+    <div class="absolute top-0 right-0 w-72 h-72 bg-cyan-100 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
+    <div class="absolute -bottom-8 left-20 w-72 h-72 bg-indigo-100 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"></div>
 
-      <!-- Password -->
-      <div>
-        <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
-        <input type="password" name="password" id="password" required
-          class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#159EEC] focus:outline-none">
-      </div>
+    <div class="fade-in-up w-full max-w-md relative z-10 px-4">
+        
+        <div class="bg-white/80 backdrop-blur-lg rounded-2xl shadow-2xl border border-white p-8 md:p-10">
+            
+            <!-- Header -->
+            <div class="text-center mb-8">
+                <div class="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center text-white text-3xl mx-auto mb-4 shadow-lg shadow-blue-500/30">
+                    <ion-icon name="person"></ion-icon>
+                </div>
+                <h2 class="text-3xl font-extrabold text-slate-800">Welcome Back</h2>
+                <p class="text-slate-500 mt-2 text-sm">Sign in to manage your appointments</p>
+            </div>
+            
+            <!-- Login Form -->
+            <form method="POST" action="#" class="space-y-6">
+                {% csrf_token %}
+                
+                {% if form.errors %}
+                    <div class="p-3 bg-red-50 border border-red-200 text-red-600 rounded-lg text-sm text-center">
+                        Incorrect username or password.
+                    </div>
+                {% endif %}
 
-      <!-- Submit Button -->
-      <button type="submit"
-        class="w-full bg-[#1F2B6C] hover:bg-[#159EEC] text-white font-medium py-2 rounded-lg transition">
-        Sign In
-      </button>
-    </form>
+                <!-- Username -->
+                <div class="relative group">
+                    <label for="username" class="block text-xs font-bold text-slate-500 uppercase tracking-wide mb-1">Username</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 group-focus-within:text-blue-500 transition-colors">
+                            <ion-icon name="person-outline"></ion-icon>
+                        </div>
+                        <input type="text" name="username" id="username" required
+                            class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all outline-none text-slate-700 font-medium"
+                            placeholder="Enter your username">
+                    </div>
+                </div>
 
-    <!-- Footer Links -->
-    <p class="text-center text-sm text-gray-600 mt-6">
-      Don’t have an account?
-      <a href="#" class="text-[#159EEC] hover:underline">Register</a>
-    </p>
-     <p class="text-center text-sm text-gray-600 mt-6">
-      Sign in as Admin?
-     <a href="{% url 'admin:index' %}" class="text-[#159EEC] hover:underline">Admin</a>
+                <!-- Password -->
+                <div class="relative group">
+                    <label for="password" class="block text-xs font-bold text-slate-500 uppercase tracking-wide mb-1">Password</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 group-focus-within:text-blue-500 transition-colors">
+                            <ion-icon name="lock-closed-outline"></ion-icon>
+                        </div>
+                        <input type="password" name="password" id="password" required
+                            class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all outline-none text-slate-700 font-medium"
+                            placeholder="Enter your password">
+                    </div>
+                </div>
 
-    </p>
-  </div>
+                <!-- Submit Button -->
+                <button type="submit"
+                    class="w-full py-4 bg-gradient-to-r from-[#1F2B6C] to-blue-600 text-white font-bold rounded-xl shadow-lg shadow-blue-900/20 hover:shadow-blue-900/40 hover:-translate-y-0.5 transition-all duration-300 flex items-center justify-center gap-2 group">
+                    Sign In <ion-icon name="arrow-forward" class="group-hover:translate-x-1 transition-transform"></ion-icon>
+                </button>
+            </form>
+
+            <!-- Footer Links -->
+            <div class="mt-8 text-center space-y-4">
+                <p class="text-sm text-slate-500">
+                    Don’t have an account?
+                    <a href="/register" class="text-blue-600 font-bold hover:underline hover:text-blue-700 transition-colors">Create Account</a>
+                </p>
+                
+                <div class="relative flex py-2 items-center">
+                    <div class="flex-grow border-t border-slate-200"></div>
+                    <span class="flex-shrink-0 mx-4 text-slate-300 text-xs">OR</span>
+                    <div class="flex-grow border-t border-slate-200"></div>
+                </div>
+
+                <a href="{% url 'admin:index' %}" class="inline-flex items-center gap-1 text-xs font-medium text-slate-400 hover:text-slate-600 transition-colors">
+                    <ion-icon name="shield-checkmark-outline"></ion-icon> Access Admin Panel
+                </a>
+            </div>
+        </div>
+    </div>
 </section>
+
+<!-- Include IonIcons -->
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
 {% endblock %}
