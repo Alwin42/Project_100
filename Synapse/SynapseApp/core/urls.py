@@ -10,5 +10,5 @@ urlpatterns = [
     path('services/', views.services),
     path('doctors/', views.doctors),
     path('login/', views.login),
-    
+    path('dashboard/', views.dashboard),
 ]
