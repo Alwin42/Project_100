@@ -11,4 +11,5 @@ urlpatterns = [
     path('doctors/', views.doctors),
     path('login/', views.login),
     path('dashboard/', views.dashboard),
+    path('register/', views.register),
 ]
