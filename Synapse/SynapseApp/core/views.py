@@ -1,5 +1,6 @@
-from django.shortcuts import render
-from .models import Doctor , Hospital
+from django.shortcuts import render, get_object_or_404
+from .models import Doctor, Hospital
+
 def main(request):
     return render(request, 'main.html')
 
@@ -13,7 +14,7 @@ def services(request):
     return render(request, 'services.html')
 
 def doctors(request):
-   
+    # select_related optimizes the query by fetching hospital data in the same call
     all_doctors = Doctor.objects.select_related('hospital').all()
     
     context = {
@@ -30,16 +31,3 @@ def dashboard(request):
 def register(request):
     return render(request,'register.html')
 
-def hospital_list(request):
-    """
-    View to display all hospitals.
-    Fetches all hospital records from the database and passes them to the template.
-    """
-    # You might want to add .order_by('-rating') or similar
-    hospitals = Hospital.objects.all()
-    
-    context = {
-        'hospitals': hospitals
-    }
-    
-    return render(request, 'hospitals.html', context)
