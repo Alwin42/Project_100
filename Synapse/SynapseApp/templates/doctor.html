@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!-- Header Section -->
+<section class="py-12 bg-blue-50">
+    <div class="container mx-auto px-6 text-center">
+        <h2 class="text-3xl font-bold text-[#1F2B6C]">Find a Specialist</h2>
+        <p class="text-slate-600 mt-2">Browse our verified doctors with transparent pricing.</p>
+    </div>
+</section>
+
+<!-- Doctors Grid -->
+<section class="py-16 bg-white min-h-screen">
+    <div class="container mx-auto px-6">
+        
+        <!-- Grid Layout: 1 col mobile, 2 col tablet, 3 col desktop -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            
+            {% for doctor in doctors %}
+            <!-- Doctor Card -->
+            <div class="bg-white rounded-2xl shadow-lg border border-slate-100 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+                
+                <!-- Doctor Image -->
+                <div class="relative h-64 bg-slate-200 overflow-hidden">
+                    {% if doctor.image %}
+                        <!-- .url is REQUIRED to make the image show up -->
+                        <img src="{{ doctor.image.url }}" 
+                            alt="{{ doctor.name }}" 
+                            class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500">
+                    {% else %}
+                        <!-- Fallback if no image is uploaded -->
+                        <div class="w-full h-full flex items-center justify-center bg-blue-100 text-blue-300">
+                            <ion-icon name="person" class="text-6xl"></ion-icon>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Card Content -->
+                <div class="p-6">
+                    <!-- Name & Specialization -->
+                    <h3 class="text-xl font-bold text-[#1F2B6C] mb-1">Dr. {{ doctor.name }}</h3>
+                    <p class="text-blue-500 font-medium text-sm uppercase tracking-wide mb-4">{{ doctor.specialization }}</p>
+
+                    <!-- Details List -->
+                    <div class="space-y-3 border-t border-slate-100 pt-4">
+                        
+                        <!-- Hospital Name -->
+                        <div class="flex items-start gap-3">
+                            <div class="text-slate-400 mt-1"><ion-icon name="business"></ion-icon></div>
+                            <div>
+                                <p class="text-xs text-slate-500 font-bold uppercase">Hospital</p>
+                                <p class="text-sm text-slate-700 font-medium">{{ doctor.hospital.name }}</p>
+                            </div>
+                        </div>
+
+                        <!-- Availability Time -->
+                        <div class="flex items-start gap-3">
+                            <div class="text-slate-400 mt-1"><ion-icon name="time"></ion-icon></div>
+                            <div>
+                                <p class="text-xs text-slate-500 font-bold uppercase">Available</p>
+                                <p class="text-sm text-slate-700">
+                                    {{ doctor.available_from|time:"g:i A" }} - {{ doctor.available_to|time:"g:i A" }}
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Consultation Fee -->
+                        <div class="flex items-start gap-3 bg-blue-50 p-3 rounded-lg mt-2">
+                            <div class="text-blue-600 mt-1"><ion-icon name="wallet"></ion-icon></div>
+                            <div>
+                                <p class="text-xs text-blue-600 font-bold uppercase">Consultation Fee</p>
+                                <p class="text-lg font-bold text-[#1F2B6C]">${{ doctor.consultation_fee }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Book Button -->
+                    <div class="mt-6">
+                        <button class="w-full py-3 bg-[#1F2B6C] text-white rounded-xl font-semibold shadow-lg shadow-blue-900/20 hover:bg-blue-700 transition flex items-center justify-center gap-2">
+                            Book Appointment <ion-icon name="calendar-outline"></ion-icon>
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+            {% empty %}
+            <!-- Empty State if no doctors exist -->
+            <div class="col-span-full text-center py-20">
+                <div class="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mx-auto text-slate-400 text-4xl mb-4">
+                    <ion-icon name="search"></ion-icon>
+                </div>
+                <h3 class="text-xl font-bold text-slate-700">No doctors found</h3>
+                <p class="text-slate-500">Please check back later.</p>
+            </div>
+            {% endfor %}
+
+        </div>
+    </div>
+</section>
+
+
+{% endblock %}
