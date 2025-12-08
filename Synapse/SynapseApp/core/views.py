@@ -40,8 +40,61 @@ def dashboard(request):
     return render(request, 'dashboard.html')
 
 def register(request):
-    return render(request,'register.html')
+    if request.method == 'POST':
+        # 1. Get User Data
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        password = request.POST.get('password')
 
+        # 2. Get Profile Data
+        phone_number = request.POST.get('phone_number')
+        age = request.POST.get('age')
+        gender = request.POST.get('gender')
+        emergency_contact = request.POST.get('emergency_contact')
+        address = request.POST.get('address')
+        blood_group = request.POST.get('blood_group')
+        height = request.POST.get('height')
+        weight = request.POST.get('weight')
+        disease_1 = request.POST.get('disease_1')
+        disease_2 = request.POST.get('disease_2')
+        allergies = request.POST.get('allergies')
+
+        # 3. Validation
+        if User.objects.filter(username=email).exists():
+            messages.error(request, 'Email already registered.')
+            return redirect('register')
+
+        # 4. Create User
+        # We use email as the username for simplicity
+        user = User.objects.create_user(username=email, email=email, password=password)
+        user.first_name = name
+        user.save()
+
+        # 5. Create Profile
+        # Handle empty numeric fields to avoid errors
+        if not height: height = None
+        if not weight: weight = None
+        if not age: age = None
+
+        Profile.objects.create(
+            user=user,
+            phone_number=phone_number,
+            age=age,
+            gender=gender,
+            emergency_contact=emergency_contact,
+            address=address,
+            blood_group=blood_group,
+            height=height,
+            weight=weight,
+            disease_1=disease_1,
+            disease_2=disease_2,
+            allergies=allergies
+        )
+
+        messages.success(request, 'Account created successfully. Please login.')
+        return redirect('login')
+
+    return render(request, 'register.html')
 def appointment_index(request):
     # select_related optimizes the query to fetch Hospital details in one go
     doctors = Doctor.objects.select_related('hospital').all()

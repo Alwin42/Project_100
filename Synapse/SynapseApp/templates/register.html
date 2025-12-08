@@ -1,152 +1,150 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
-<style>
-    @keyframes fadeInUp {
-        from { opacity: 0; transform: translateY(20px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-    .fade-in-up {
-        animation: fadeInUp 0.6s ease-out forwards;
-    }
-</style>
-
-<section class="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-blue-50 via-white to-cyan-50 py-10">
-    
-    <!-- Decorative Background Elements -->
-    <div class="absolute top-0 right-0 w-96 h-96 bg-blue-100 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-blob"></div>
-    <div class="absolute bottom-0 left-0 w-96 h-96 bg-cyan-100 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-blob animation-delay-2000"></div>
-
-    <div class="fade-in-up w-full max-w-2xl relative z-10 px-4">
+<div class="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-4xl mx-auto">
         
-        <div class="bg-white/90 backdrop-blur-xl rounded-2xl shadow-2xl border border-white p-8 md:p-10">
+        <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
             
-            <!-- Header -->
-            <div class="text-center mb-8">
-                <h2 class="text-3xl font-extrabold text-[#1F2B6C]">Create Account</h2>
-                <p class="text-slate-500 mt-2 text-sm">Join Synapse to book appointments without hidden fees.</p>
+            <div class="bg-blue-600 px-8 py-6">
+                <h2 class="text-3xl font-extrabold text-white">Patient Registration</h2>
+                <p class="mt-2 text-blue-100">Create your account based on your profile requirements.</p>
             </div>
-            
-            <!-- Register Form -->
-            <form method="POST" action="#" class="space-y-5">
+
+            <form method="POST" class="px-8 py-8 space-y-6">
                 {% csrf_token %}
 
-                <!-- Row 1: Name & Username -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                    <!-- Full Name -->
-                    <div class="relative group">
-                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wide mb-1">Full Name</label>
-                        <div class="relative">
-                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 group-focus-within:text-blue-500 transition-colors">
-                                <ion-icon name="person"></ion-icon>
-                            </div>
-                            <input type="text" name="name" required
-                                class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all outline-none text-slate-700"
-                                placeholder="John Doe">
+                <!-- 1. Account Details (User Model) -->
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">1. Account Details</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Full Name</label>
+                            <input type="text" name="name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm border p-2">
                         </div>
-                    </div>
-
-                    <!-- Username -->
-                    <div class="relative group">
-                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wide mb-1">Username</label>
-                        <div class="relative">
-                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 group-focus-within:text-blue-500 transition-colors">
-                                <ion-icon name="at"></ion-icon>
-                            </div>
-                            <input type="text" name="username" required
-                                class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all outline-none text-slate-700"
-                                placeholder="johndoe123">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Email Address</label>
+                            <input type="email" name="email" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm border p-2">
+                        </div>
+                        <!-- Password is required for User creation -->
+                        <div class="col-span-1 md:col-span-2">
+                            <label class="block text-sm font-medium text-gray-700">Password</label>
+                            <input type="password" name="password" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm border p-2">
                         </div>
                     </div>
                 </div>
 
-                <!-- Row 2: Email & Phone -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                    <!-- Email -->
-                    <div class="relative group">
-                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wide mb-1">Email Address</label>
-                        <div class="relative">
-                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 group-focus-within:text-blue-500 transition-colors">
-                                <ion-icon name="mail"></ion-icon>
-                            </div>
-                            <input type="email" name="email" required
-                                class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all outline-none text-slate-700"
-                                placeholder="john@example.com">
+                <!-- 2. Personal Info (Profile Model) -->
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">2. Personal Information</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        
+                        <!-- Phone Number -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Phone Number</label>
+                            <input type="tel" name="phone_number" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm border p-2">
                         </div>
-                    </div>
 
-                    <!-- Phone -->
-                    <div class="relative group">
-                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wide mb-1">Phone Number</label>
-                        <div class="relative">
-                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 group-focus-within:text-blue-500 transition-colors">
-                                <ion-icon name="call"></ion-icon>
-                            </div>
-                            <input type="tel" name="phone" required
-                                class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all outline-none text-slate-700"
-                                placeholder="(123) 456-7890">
+                        <!-- Age (Matched to model) -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Age</label>
+                            <input type="number" name="age" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm border p-2">
                         </div>
-                    </div>
-                </div>
 
-                <!-- Row 3: Passwords -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                    <!-- Password -->
-                    <div class="relative group">
-                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wide mb-1">Password</label>
-                        <div class="relative">
-                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 group-focus-within:text-blue-500 transition-colors">
-                                <ion-icon name="lock-closed"></ion-icon>
-                            </div>
-                            <input type="password" name="password" required
-                                class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all outline-none text-slate-700"
-                                placeholder="Create password">
+                        <!-- Gender -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Gender</label>
+                            <select name="gender" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm border p-2">
+                                <option value="">Select Gender</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            </select>
                         </div>
-                    </div>
 
-                    <!-- Confirm Password -->
-                    <div class="relative group">
-                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wide mb-1">Confirm Password</label>
-                        <div class="relative">
-                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400 group-focus-within:text-blue-500 transition-colors">
-                                <ion-icon name="checkmark-circle"></ion-icon>
-                            </div>
-                            <input type="password" name="confirm_password" required
-                                class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all outline-none text-slate-700"
-                                placeholder="Repeat password">
+                        <!-- Emergency Contact (Single field per model) -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Emergency Contact</label>
+                            <input type="text" name="emergency_contact" placeholder="Name or Phone" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm border p-2">
+                        </div>
+
+                        <!-- Address -->
+                        <div class="col-span-1 md:col-span-2">
+                            <label class="block text-sm font-medium text-gray-700">Address</label>
+                            <textarea name="address" rows="2" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm border p-2"></textarea>
                         </div>
                     </div>
                 </div>
 
-                <!-- Terms -->
-                <div class="flex items-center">
-                    <input id="terms" name="terms" type="checkbox" required class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
-                    <label for="terms" class="ml-2 block text-sm text-slate-600">
-                        I agree to the <a href="#" class="text-blue-600 hover:underline">Terms of Service</a> and <a href="#" class="text-blue-600 hover:underline">Privacy Policy</a>
-                    </label>
+                <!-- 3. Medical Stats (Profile Model) -->
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4 border-b pb-2">3. Medical Profile</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        
+                        <!-- Blood Group -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Blood Group</label>
+                            <select name="blood_group" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm border p-2">
+                                <option value="">Select</option>
+                                <option value="A+">A+</option>
+                                <option value="A-">A-</option>
+                                <option value="B+">B+</option>
+                                <option value="B-">B-</option>
+                                <option value="AB+">AB+</option>
+                                <option value="AB-">AB-</option>
+                                <option value="O+">O+</option>
+                                <option value="O-">O-</option>
+                            </select>
+                        </div>
+
+                        <!-- Height -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Height (cm)</label>
+                            <input type="number" step="0.01" name="height" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm border p-2">
+                        </div>
+
+                        <!-- Weight -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Weight (kg)</label>
+                            <input type="number" step="0.01" name="weight" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm border p-2">
+                        </div>
+
+                        <!-- Diseases 1 & 2 (Matched to model) -->
+                        <div class="col-span-1 md:col-span-3 grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Existing Condition 1 (Optional)</label>
+                                <input type="text" name="disease_1" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm border p-2">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Existing Condition 2 (Optional)</label>
+                                <input type="text" name="disease_2" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm border p-2">
+                            </div>
+                        </div>
+
+                        <!-- Allergies -->
+                        <div class="col-span-1 md:col-span-3">
+                            <label class="block text-sm font-medium text-gray-700">Allergies</label>
+                            <textarea name="allergies" rows="2" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm border p-2"></textarea>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- Submit Button -->
-                <button type="submit"
-                    class="w-full py-4 bg-gradient-to-r from-[#1F2B6C] to-blue-600 text-white font-bold rounded-xl shadow-lg shadow-blue-900/20 hover:shadow-blue-900/40 hover:-translate-y-0.5 transition-all duration-300 flex items-center justify-center gap-2 group">
-                    Create Account <ion-icon name="arrow-forward" class="group-hover:translate-x-1 transition-transform"></ion-icon>
-                </button>
+                <!-- Submit -->
+                <div class="pt-4">
+                    <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg shadow-md transition-colors">
+                        Register
+                    </button>
+                </div>
+
+                <div class="text-center mt-2">
+                    <p class="text-sm text-gray-600">
+                        Already have an account? 
+                        <a href="{% url 'login' %}" class="font-medium text-blue-600 hover:text-blue-500">Log in</a>
+                    </p>
+                </div>
+
             </form>
-
-            <!-- Footer Links -->
-            <div class="mt-8 text-center">
-                <p class="text-sm text-slate-500">
-                    Already have an account?
-                    <a href="#" class="text-blue-600 font-bold hover:underline hover:text-blue-700 transition-colors">Sign In here</a>
-                </p>
-            </div>
         </div>
     </div>
-</section>
-
-<!-- Include IonIcons -->
-<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-
+</div>
 {% endblock %}
