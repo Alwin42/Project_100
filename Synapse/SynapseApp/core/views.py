@@ -22,6 +22,17 @@ def doctors(request):
     }
     return render(request, 'doctor.html', context)
 
+def hospital_list(request):
+    # Fetch all hospital records from the database
+    hospitals = Hospital.objects.all()
+    
+    context = {
+        'hospitals': hospitals
+    }
+    
+    # Render the HTML template with the data
+    return render(request, 'hospitals.html', context)
+
 def login(request):
     return render(request, 'login.html')
 
