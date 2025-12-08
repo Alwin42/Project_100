@@ -13,6 +13,8 @@ urlpatterns = [
     path('dashboard/', views.dashboard, name='dashboard'),
     path('register/', views.register, name='register'),
     path('hospitals/', views.hospital_list, name='hospital_list'),
+    path('appointments/', views.appointment_index, name='appointment_index'),
+    path('book/<int:doctor_id>/', views.book_appointment, name='book_appointment'),
     
 ]
 

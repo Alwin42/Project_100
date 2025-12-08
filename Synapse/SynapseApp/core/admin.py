@@ -1,6 +1,14 @@
 from django.contrib import admin
 from .models import Profile, Hospital, Laboratory, Doctor, Appointment, Message
 
+# Unregister models to prevent "AlreadyRegistered" errors during hot-reloads
+models_to_unregister = [Profile, Hospital, Laboratory, Doctor, Appointment, Message]
+for model in models_to_unregister:
+    try:
+        admin.site.unregister(model)
+    except admin.sites.NotRegistered:
+        pass
+
 # 1. Profile
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
@@ -23,16 +31,17 @@ class LaboratoryAdmin(admin.ModelAdmin):
 class DoctorAdmin(admin.ModelAdmin):
     list_display = ('name', 'specialization', 'hospital', 'consultation_fee')
     list_filter = ('specialization', 'hospital')
+    search_fields = ('name', 'specialization')
 
-# 5. Appointment
+# 5. Appointment (Using the correct fields: patient, time_slot)
 @admin.register(Appointment)
 class AppointmentAdmin(admin.ModelAdmin):
-    list_display = ('user', 'doctor', 'date', 'time', 'status')
+    list_display = ('patient', 'doctor', 'date', 'time_slot', 'status')
     list_filter = ('status', 'date')
+    search_fields = ('doctor__name', 'full_name', 'email')
 
 # 6. Message
 @admin.register(Message)
 class MessageAdmin(admin.ModelAdmin):
     list_display = ('subject', 'email', 'status', 'created_at')
     list_filter = ('status',)
-
