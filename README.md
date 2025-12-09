@@ -14,8 +14,9 @@
 | 2 | **DoNotes** | HTML, CSS, JavaScript | Completed | [DoNotes](https://github.com/Alwin42/Project_100/tree/main/DoNotes)|
 | 3 | **Agro-Tech** | HTML, Bootstrap CSS | Completed | [Agro-Tech](https://github.com/Alwin42/Project_100/tree/main/Agro-Tech)|
 | 4 | **Deadline-Dash** | HTML, Tailwind CSS | Completed | [Deadline-Dash](https://github.com/Alwin42/Project_100/tree/main/Deadline-Dash)|
-| 5 | **Pearl-Pavilion** | HTML, Tailwind CSS | Ongoing | [Pearl-Pavilion](https://github.com/Alwin42/Project_100/tree/main/Pearl-Paviliontree/main/Deadline-Dash)|
-| 5 | **Eco-Sync** | HTML, Tailwind CSS | Ongoing | [Eco-Sync](https://github.com/Alwin42/Project_100/tree/main/Eco-Sync)|
+| 5 | **Pearl-Pavilion** | HTML, Tailwind CSS | Completed | [Pearl-Pavilion](https://github.com/Alwin42/Project_100/tree/main/Pearl-Paviliontree/main/Deadline-Dash)|
+| 6 | **Eco-Sync** | HTML, Tailwind CSS | Completed | [Eco-Sync](https://github.com/Alwin42/Project_100/tree/main/Eco-Sync)|
+| 7 | **Synapse** | HTML, Tailwind CSS , Django | Ongoing | [Synapse](https://github.com/Alwin42/Project_100/tree/main/Synapse)|
 
 ---
 
