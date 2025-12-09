@@ -1,6 +1,9 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Doctor, Hospital
 from .forms import AppointmentForm
+from django.db.models import Avg, Min, Max
+from .models import Hospital 
+
 def main(request):
     return render(request, 'main.html')
 
@@ -126,6 +129,31 @@ def book_appointment(request, doctor_id):
         'doctor': doctor,
         'form': form
     }
-    # You will need a simple 'booking_form.html' for this view, 
-    # but for now, we focus on the appointment.html requested.
+    
     return render(request, 'booking_form.html', context)
+def fee_comparison(request):
+    # 1. Fetch all hospitals ordered by price
+    hospitals = Hospital.objects.order_by('minimum_fee')
+    
+    # 2. Calculate statistics
+    stats = Hospital.objects.aggregate(
+        average_fee=Avg('minimum_fee'),
+        lowest_fee=Min('minimum_fee'),
+        highest_fee=Max('minimum_fee')
+    )
+    
+    # --- FIX: Round the average in Python instead of Template ---
+    if stats['average_fee'] is not None:
+        stats['average_fee'] = round(stats['average_fee'], 2)
+    else:
+        # Handle case where database is empty
+        stats['average_fee'] = 0
+        stats['lowest_fee'] = 0
+        stats['highest_fee'] = 100 # Prevent division by zero in progress bar
+    
+    context = {
+        'hospitals': hospitals,
+        'stats': stats,
+    }
+    return render(request, 'fee_comparison.html', context)
+

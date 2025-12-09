@@ -15,7 +15,7 @@ urlpatterns = [
     path('hospitals/', views.hospital_list, name='hospital_list'),
     path('appointments/', views.appointment_index, name='appointment_index'),
     path('book/<int:doctor_id>/', views.book_appointment, name='book_appointment'),
-    
+    path('fees/', views.fee_comparison, name='fee_comparison'),
 ]
 
 if settings.DEBUG:
