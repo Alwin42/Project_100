@@ -3,6 +3,8 @@ from .models import Doctor, Hospital
 from .forms import AppointmentForm
 from django.db.models import Avg, Min, Max
 from .models import Hospital 
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import AuthenticationForm
 
 def main(request):
     return render(request, 'main.html')
@@ -37,8 +39,41 @@ def hospital_list(request):
     return render(request, 'hospitals.html', context)
 
 def login(request):
-    return render(request, 'login.html')
+    if request.method == 'POST':
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                auth_login(request, user)
+                messages.success(request, f"Welcome back, {user.first_name}!")
+                return redirect('dashboard')
+            else:
+                messages.error(request, "Invalid username or password.")
+        else:
+            messages.error(request, "Invalid username or password.")
+    else:
+        form = AuthenticationForm()
+        
+    return render(request, 'login.html', {'form': form})
 
+def logout_view(request):
+    auth_logout(request)
+    messages.info(request, "You have successfully logged out.")
+    return redirect('login')
+
+@login_required(login_url='login')
+def dashboard(request):
+    # The 'request.user' is automatically available.
+    # We can try to access the profile safely
+    profile = getattr(request.user, 'profile', None)
+    
+    context = {
+        'user': request.user,
+        'profile': profile
+    }
+    return render(request, 'dashboard.html', context)
 def dashboard(request):
     return render(request, 'dashboard.html')
 

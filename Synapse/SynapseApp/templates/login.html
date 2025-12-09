@@ -11,9 +11,24 @@
     .fade-in-up {
         animation: fadeInUp 0.6s ease-out forwards;
     }
+    @keyframes blob {
+        0% { transform: translate(0px, 0px) scale(1); }
+        33% { transform: translate(30px, -50px) scale(1.1); }
+        66% { transform: translate(-20px, 20px) scale(0.9); }
+        100% { transform: translate(0px, 0px) scale(1); }
+    }
+    .animate-blob {
+        animation: blob 7s infinite;
+    }
+    .animation-delay-2000 {
+        animation-delay: 2s;
+    }
+    .animation-delay-4000 {
+        animation-delay: 4s;
+    }
 </style>
 
-<section class="relative min-h-[80vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-blue-50 via-white to-cyan-50">
+<section class="relative min-h-[100vh] screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-blue-50 via-white to-cyan-50">
     
     <!-- Decorative Background Elements -->
     <div class="absolute top-0 left-0 w-72 h-72 bg-blue-100 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
@@ -80,7 +95,7 @@
             <div class="mt-8 text-center space-y-4">
                 <p class="text-sm text-slate-500">
                     Don’t have an account?
-                    <a href="/register" class="text-blue-600 font-bold hover:underline hover:text-blue-700 transition-colors">Create Account</a>
+                    <a href="{% url 'register' %}" class="text-blue-600 font-bold hover:underline hover:text-blue-700 transition-colors">Create Account</a>
                 </p>
                 
                 <div class="relative flex py-2 items-center">
@@ -89,7 +104,7 @@
                     <div class="flex-grow border-t border-slate-200"></div>
                 </div>
 
-                <a href="{% url 'admin:index' %}" class="inline-flex items-center gap-1 text-xs font-medium text-slate-400 hover:text-slate-600 transition-colors">
+                <a href="/admin/" class="inline-flex items-center gap-1 text-xs font-medium text-slate-400 hover:text-slate-600 transition-colors">
                     <ion-icon name="shield-checkmark-outline"></ion-icon> Access Admin Panel
                 </a>
             </div>

@@ -16,6 +16,8 @@ urlpatterns = [
     path('appointments/', views.appointment_index, name='appointment_index'),
     path('book/<int:doctor_id>/', views.book_appointment, name='book_appointment'),
     path('fees/', views.fee_comparison, name='fee_comparison'),
+    path('logout/', views.logout_view, name='logout'), 
+    
 ]
 
 if settings.DEBUG:

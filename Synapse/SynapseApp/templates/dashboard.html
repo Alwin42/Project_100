@@ -1,259 +1,118 @@
 {% extends 'base.html' %}
 
-{% block title %}Dashboard - Synapse{% endblock %}
-
-{% block extra_css %}
-<style>
-  :root {
-    --color-primary: #1F2B6C;
-    --color-secondary: #159EEC;
-  }
-</style>
-{% endblock %}
-
 {% block content %}
-<div class="flex h-screen bg-gray-50">
-
-  <!-- Sidebar -->
-  <aside class="w-64 bg-white shadow-lg border-r border-gray-200">
-    <div class="p-6 flex items-center space-x-3">
-      <span class="text-xl font-bold text-primary" style="color: var(--color-primary);">SYNAPSE</span>
-    </div>
-
-    <nav class="mt-8 px-4">
-      <ul class="space-y-2">
-        <li>
-          <a href="#" class="flex items-center px-4 py-3 rounded-lg text-gray-700 hover:bg-blue-50 hover:text-primary transition-colors" style="color: var(--color-primary);">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 001 1h3m-6 0a1 1 0 001-1v-4a1 1 0 00-1-1h-2a1 1 0 00-1 1v4a1 1 0 001 1z" />
-            </svg>
-            Dashboard
-          </a>
-        </li>
-        <li>
-          <a href="#" class="flex items-center px-4 py-3 rounded-lg text-gray-700 hover:bg-blue-50 hover:text-primary transition-colors" style="color: var(--color-primary);">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14" />
-            </svg>
-            Bookings
-          </a>
-        </li>
-        <li>
-          <a href="#" class="flex items-center px-4 py-3 rounded-lg text-gray-700 hover:bg-blue-50 hover:text-primary transition-colors" style="color: var(--color-primary);">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0z" />
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14a4 4 0 214 4 0 014 4v2H8v-2a4 4 0 014-4z" />
-            </svg>
-            Doctors
-          </a>
-        </li>
-        <li>
-          <a href="#" class="flex items-center px-4 py-3 rounded-lg text-gray-700 hover:bg-blue-50 hover:text-primary transition-colors" style="color: var(--color-primary);">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2v-7h20v7a2 2 0 01-2 2z" />
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2h6v2M9 11h6v6H9z" />
-            </svg>
-            Labs
-          </a>
-        </li>
-        <li>
-          <a href="#" class="flex items-center px-4 py-3 rounded-lg text-gray-700 hover:bg-blue-50 hover:text-primary transition-colors" style="color: var(--color-primary);">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9M5 11V9m2 2a2 2 0 100 4h12a2 2 0 100-4H7z" />
-            </svg>
-            Facilities
-          </a>
-        </li>
-        <li>
-          <a href="#" class="flex items-center px-4 py-3 rounded-lg text-gray-700 hover:bg-blue-50 hover:text-primary transition-colors" style="color: var(--color-primary);">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 003.417.592v-16.167a1.76 1.76 0 00-3.417-.593z" />
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 13.08a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            Reviews
-          </a>
-        </li>
-        <li>
-          <a href="#" class="flex items-center px-4 py-3 rounded-lg text-gray-700 hover:bg-blue-50 hover:text-primary transition-colors" style="color: var(--color-primary);">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0z" />
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14a4 4 0 214 4 0 014 4v2H8v-2a4 4 0 014-4z" />
-            </svg>
-            Profile
-          </a>
-        </li>
-        <li>
-          <a href="#" class="flex items-center px-4 py-3 rounded-lg text-red-600 hover:bg-red-50 hover:text-red-700 transition-colors">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 6v-6" />
-            </svg>
-            Logout
-          </a>
-        </li>
-      </ul>
-    </nav>
-  </aside>
-
-  <!-- Main Content -->
-  <main class="flex-1 overflow-y-auto p-6">
-    <!-- Top Header -->
-    <header class="flex justify-between items-center mb-8">
-      <h1 class="text-2xl font-bold text-gray-800">Welcome to Your Dashboard</h1>
-      <div class="flex items-center space-x-4">
-        <div class="relative">
-          <input type="text" placeholder="Search..." class="px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-secondary" style="border-color: #e5e7eb; box-shadow: 0 0 0 2px rgba(21, 158, 236, 0.2);"/>
-          <svg xmlns="http://www.w3.org/2000/svg" class="absolute right-3 top-2.5 h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-          </svg>
-        </div>
-        <button class="bg-secondary text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors" style="background-color: var(--color-secondary);">
-          New Booking
-        </button>
-      </div>
-    </header>
-
-    <!-- Stats Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-      <div class="bg-white p-6 rounded-xl shadow-md border-l-4 border-primary" style="border-left-color: var(--color-primary);">
-        <div class="flex items-center">
-          <div class="p-3 rounded-full bg-blue-100 text-primary mr-4">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v6a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 002 2h2a2 2 0 002-2v6a2 2 0 00-2-2h-2a2 2 0 00-2 2V5z" />
-            </svg>
-          </div>
-          <div>
-            <p class="text-sm font-medium text-gray-500">Total Bookings</p>
-            <p class="text-2xl font-bold text-gray-800">1,247</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="bg-white p-6 rounded-xl shadow-md border-l-4 border-secondary" style="border-left-color: var(--color-secondary);">
-        <div class="flex items-center">
-          <div class="p-3 rounded-full bg-blue-100 text-secondary mr-4">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h-8v-2c0-.656.126-1.283.356-1.857l6-6 .356-.356c.656-.656 1.283-.356 1.857-.356h8v2c0 .656-.126 1.283-.356 1.857l-6 6-.356.356c-.656.656-1.283.356-1.857.356z" />
-            </svg>
-          </div>
-          <div>
-            <p class="text-sm font-medium text-gray-500">Verified Doctors</p>
-            <p class="text-2xl font-bold text-gray-800">89</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="bg-white p-6 rounded-xl shadow-md border-l-4 border-green-500">
-        <div class="flex items-center">
-          <div class="p-3 rounded-full bg-green-100 text-green-600 mr-4">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9M9 9M15 9a2 2 0 00-2-2h-2a2 2 0 00-2 2v10a2 2 0 002 2h2a2 2 0 002-2V9z" />
-            </svg>
-          </div>
-          <div>
-            <p class="text-sm font-medium text-gray-500">Facilities Verified</p>
-            <p class="text-2xl font-bold text-gray-800">45</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="bg-white p-6 rounded-xl shadow-md border-l-4 border-yellow-500">
-        <div class="flex items-center">
-          <div class="p-3 rounded-full bg-yellow-100 text-yellow-600 mr-4">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 003.417.592v-16.167a1.76 1.76 0 00-3.417-.593z" />
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 13.08a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-          </div>
-          <div>
-            <p class="text-sm font-medium text-gray-500">Avg. Rating</p>
-            <p class="text-2xl font-bold text-gray-800">4.8 ★</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Recent Activity -->
-    <div class="bg-white rounded-xl shadow-md p-6 mb-8">
-      <h2 class="text-xl font-semibold text-gray-800 mb-4">Recent Activity</h2>
-      <div class="space-y-4">
-        {% for activity in recent_activities %}
-        <div class="flex items-center p-3 rounded-lg hover:bg-gray-50 transition-colors">
-          <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 mr-3">
-            {% if activity.type == 'booking' %}
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14" />
-              </svg>
-            {% elif activity.type == 'review' %}
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 003.417.592v-16.167a1.76 1.76 0 00-3.417-.593z" />
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 13.08a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-            {% endif %}
-          </div>
-          <div class="flex-1">
-            <p class="text-sm font-medium text-gray-800">{{ activity.message }}</p>
-            <p class="text-xs text-gray-500">{{ activity.timestamp|date:"SHORT_DATETIME_FORMAT" }}</p>
-          </div>
-        </div>
-        {% empty %}
-        <p class="text-gray-500 text-center py-6">No recent activity.</p>
-        {% endfor %}
-      </div>
-    </div>
-
-    <!-- Quick Actions -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200">
-        <h3 class="text-lg font-semibold text-gray-800 mb-4">Quick Actions</h3>
-        <div class="space-y-3">
-          <a href="#" class="block px-4 py-2 rounded-lg text-sm text-gray-700 hover:bg-blue-50 hover:text-primary transition-colors" style="color: var(--color-primary);">
-            ➕ Create New Booking
-          </a>
-          <a href="#" class="block px-4 py-2 rounded-lg text-sm text-gray-700 hover:bg-blue-50 hover:text-primary transition-colors" style="color: var(--color-primary);">
-            ➕ Add New Doctor
-          </a>
-          <a href="#" class="block px-4 py-2 rounded-lg text-sm text-gray-700 hover:bg-blue-50 hover:text-primary transition-colors" style="color: var(--color-primary);">
-            ➕ Register New Lab
-          </a>
-          <a href="#" class="block px-4 py-2 rounded-lg text-sm text-gray-700 hover:bg-blue-50 hover:text-primary transition-colors" style="color: var(--color-primary);">
-            ➕ Add Facility
-          </a>
-        </div>
-      </div>
-
-      <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200">
-        <h3 class="text-lg font-semibold text-gray-800 mb-4">Upcoming Bookings</h3>
-        <div class="space-y-3">
-          {% for booking in upcoming_bookings %}
-          <div class="p-3 rounded-lg bg-gray-50">
-            <p class="text-sm font-medium text-gray-800">{{ booking.patient.name }} - {{ booking.doctor.name }}</p>
-            <p class="text-xs text-gray-500">{{ booking.date }} at {{ booking.time }}</p>
-          </div>
-          {% empty %}
-          <p class="text-xs text-gray-500">No upcoming bookings.</p>
-          {% endfor %}
-        </div>
-      </div>
-
-      <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200">
-        <h3 class="text-lg font-semibold text-gray-800 mb-4">Top Rated Doctors</h3>
-        <div class="space-y-3">
-          {% for doctor in top_doctors %}
-          <div class="flex items-center p-3 rounded-lg bg-gray-50">
-            <img src="#" alt="{{ doctor.name }}" class="w-8 h-8 rounded-full mr-3">
+<div class="min-h-screen bg-gray-50 py-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Welcome Banner -->
+        <div class="bg-white rounded-lg shadow-sm p-6 mb-8 flex justify-between items-center">
             <div>
-              <p class="text-sm font-medium text-gray-800">{{ doctor.name }}</p>
-              <p class="text-xs text-gray-500">{{ doctor.specialization }} • {{ doctor.rating }} ★</p>
+                <h1 class="text-2xl font-bold text-gray-900">Welcome, {{ user.first_name }}!</h1>
+                <p class="text-gray-500">Manage your health profile and appointments.</p>
             </div>
-          </div>
-          {% empty %}
-          <p class="text-xs text-gray-500">No doctors rated yet.</p>
-          {% endfor %}
+            <a href="{% url 'logout' %}" class="bg-red-50 text-red-600 hover:bg-red-100 px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                Logout
+            </a>
         </div>
-      </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <!-- Left Column: Personal Profile -->
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+                    <div class="bg-blue-600 px-6 py-4">
+                        <h3 class="text-white font-bold text-lg">My Profile</h3>
+                    </div>
+                    <div class="p-6 space-y-4">
+                        <div class="flex items-center space-x-4 mb-4">
+                            <div class="h-16 w-16 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 text-2xl font-bold">
+                                {{ user.first_name|first }}
+                            </div>
+                            <div>
+                                <p class="font-bold text-gray-900">{{ user.first_name }}</p>
+                                <p class="text-sm text-gray-500">{{ user.email }}</p>
+                            </div>
+                        </div>
+                        
+                        <div class="border-t pt-4 space-y-3">
+                            <div>
+                                <span class="text-xs text-gray-500 uppercase block">Phone</span>
+                                <span class="font-medium">{{ profile.phone_number|default:"Not set" }}</span>
+                            </div>
+                            <div>
+                                <span class="text-xs text-gray-500 uppercase block">Address</span>
+                                <span class="font-medium">{{ profile.address|default:"Not set" }}</span>
+                            </div>
+                            <div>
+                                <span class="text-xs text-gray-500 uppercase block">Emergency Contact</span>
+                                <span class="font-medium">{{ profile.emergency_contact|default:"Not set" }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Health Stats & Activity -->
+            <div class="lg:col-span-2 space-y-8">
+                
+                <!-- Health Stats -->
+                <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+                    <div class="px-6 py-4 border-b border-gray-100">
+                        <h3 class="font-bold text-gray-900">Medical Information</h3>
+                    </div>
+                    <div class="p-6">
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                            <div class="text-center p-4 bg-gray-50 rounded-lg">
+                                <span class="block text-gray-500 text-xs uppercase">Blood Group</span>
+                                <span class="block text-xl font-bold text-red-600">{{ profile.blood_group|default:"-" }}</span>
+                            </div>
+                            <div class="text-center p-4 bg-gray-50 rounded-lg">
+                                <span class="block text-gray-500 text-xs uppercase">Age</span>
+                                <span class="block text-xl font-bold text-gray-800">{{ profile.age|default:"-" }}</span>
+                            </div>
+                            <div class="text-center p-4 bg-gray-50 rounded-lg">
+                                <span class="block text-gray-500 text-xs uppercase">Height</span>
+                                <span class="block text-xl font-bold text-gray-800">{{ profile.height|default:"-" }} <span class="text-sm font-normal">cm</span></span>
+                            </div>
+                            <div class="text-center p-4 bg-gray-50 rounded-lg">
+                                <span class="block text-gray-500 text-xs uppercase">Weight</span>
+                                <span class="block text-xl font-bold text-gray-800">{{ profile.weight|default:"-" }} <span class="text-sm font-normal">kg</span></span>
+                            </div>
+                        </div>
+
+                        <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <span class="text-sm font-bold text-gray-700 block mb-2">Allergies</span>
+                                <div class="bg-red-50 text-red-700 p-3 rounded-md text-sm">
+                                    {{ profile.allergies|default:"No known allergies" }}
+                                </div>
+                            </div>
+                            <div>
+                                <span class="text-sm font-bold text-gray-700 block mb-2">Existing Conditions</span>
+                                <div class="bg-yellow-50 text-yellow-800 p-3 rounded-md text-sm">
+                                    {% if profile.disease_1 %}{{ profile.disease_1 }}{% endif %}
+                                    {% if profile.disease_2 %}, {{ profile.disease_2 }}{% endif %}
+                                    {% if not profile.disease_1 and not profile.disease_2 %}None listed{% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <a href="{% url 'appointment_index' %}" class="bg-blue-600 hover:bg-blue-700 text-white p-4 rounded-lg shadow-sm flex items-center justify-between transition-colors">
+                        <span class="font-bold">Book New Appointment</span>
+                        <i class="fas fa-calendar-plus text-xl"></i>
+                    </a>
+                    <a href="{% url 'hospital_list' %}" class="bg-white hover:bg-gray-50 text-gray-800 p-4 rounded-lg shadow-sm border border-gray-200 flex items-center justify-between transition-colors">
+                        <span class="font-bold">Find Hospital</span>
+                        <i class="fas fa-hospital text-xl text-blue-500"></i>
+                    </a>
+                </div>
+
+            </div>
+        </div>
     </div>
-
-  </main>
-
 </div>
 {% endblock %}
