@@ -1,10 +1,14 @@
-from django.shortcuts import render, get_object_or_404
-from .models import Doctor, Hospital
-from .forms import AppointmentForm
-from django.db.models import Avg, Min, Max
-from .models import Hospital 
-from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib import messages
+from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.db.models import Avg, Min, Max
+
+# Import your local models and forms
+from .models import Doctor, Hospital, Profile, Appointment
+from .forms import AppointmentForm
 
 def main(request):
     return render(request, 'main.html')
@@ -21,21 +25,16 @@ def services(request):
 def doctors(request):
     # select_related optimizes the query by fetching hospital data in the same call
     all_doctors = Doctor.objects.select_related('hospital').all()
-    
     context = {
         'doctors': all_doctors
     }
     return render(request, 'doctor.html', context)
 
 def hospital_list(request):
-    # Fetch all hospital records from the database
     hospitals = Hospital.objects.all()
-    
     context = {
         'hospitals': hospitals
     }
-    
-    # Render the HTML template with the data
     return render(request, 'hospitals.html', context)
 
 def login(request):
@@ -66,7 +65,7 @@ def logout_view(request):
 @login_required(login_url='login')
 def dashboard(request):
     # The 'request.user' is automatically available.
-    # We can try to access the profile safely
+    # We use getattr to safely get the profile, returning None if it doesn't exist
     profile = getattr(request.user, 'profile', None)
     
     context = {
@@ -74,8 +73,6 @@ def dashboard(request):
         'profile': profile
     }
     return render(request, 'dashboard.html', context)
-def dashboard(request):
-    return render(request, 'dashboard.html')
 
 def register(request):
     if request.method == 'POST':
@@ -103,13 +100,11 @@ def register(request):
             return redirect('register')
 
         # 4. Create User
-        # We use email as the username for simplicity
         user = User.objects.create_user(username=email, email=email, password=password)
         user.first_name = name
         user.save()
 
-        # 5. Create Profile
-        # Handle empty numeric fields to avoid errors
+        # 5. Create Profile (Handle empty numeric fields)
         if not height: height = None
         if not weight: weight = None
         if not age: age = None
@@ -133,16 +128,14 @@ def register(request):
         return redirect('login')
 
     return render(request, 'register.html')
+
 def appointment_index(request):
-    # select_related optimizes the query to fetch Hospital details in one go
     doctors = Doctor.objects.select_related('hospital').all()
-    
     context = {
         'doctors': doctors
     }
     return render(request, 'appointment.html', context)
 
-# 2. View to handle the actual booking form submission
 def book_appointment(request, doctor_id):
     doctor = get_object_or_404(Doctor, id=doctor_id)
     
@@ -156,7 +149,7 @@ def book_appointment(request, doctor_id):
                 appointment.patient = request.user
             appointment.save()
             messages.success(request, 'Appointment booked successfully!')
-            return redirect('dashboard') # Redirect to dashboard or success page
+            return redirect('dashboard') 
     else:
         form = AppointmentForm()
 
@@ -166,6 +159,7 @@ def book_appointment(request, doctor_id):
     }
     
     return render(request, 'booking_form.html', context)
+
 def fee_comparison(request):
     # 1. Fetch all hospitals ordered by price
     hospitals = Hospital.objects.order_by('minimum_fee')
@@ -177,18 +171,16 @@ def fee_comparison(request):
         highest_fee=Max('minimum_fee')
     )
     
-    # --- FIX: Round the average in Python instead of Template ---
+    # 3. Handle data rounding and empty DB cases
     if stats['average_fee'] is not None:
         stats['average_fee'] = round(stats['average_fee'], 2)
     else:
-        # Handle case where database is empty
         stats['average_fee'] = 0
         stats['lowest_fee'] = 0
-        stats['highest_fee'] = 100 # Prevent division by zero in progress bar
+        stats['highest_fee'] = 100 
     
     context = {
         'hospitals': hospitals,
         'stats': stats,
     }
     return render(request, 'fee_comparison.html', context)
-
