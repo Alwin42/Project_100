@@ -5,6 +5,8 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.db.models import Avg, Min, Max
+from .models import Laboratory, LabAppointment
+from .forms import LabBookingForm
 
 # Import your local models and forms
 from .models import Doctor, Hospital, Profile, Appointment
@@ -184,3 +186,24 @@ def fee_comparison(request):
         'stats': stats,
     }
     return render(request, 'fee_comparison.html', context)
+
+def lab_list(request):
+    labs = Laboratory.objects.all()
+    return render(request, 'laboratory.html', {'labs': labs})
+
+def book_lab(request, lab_id):
+    lab = get_object_or_404(Laboratory, id=lab_id)
+    if request.method == 'POST':
+        form = LabBookingForm(request.POST)
+        if form.is_valid():
+            appointment = form.save(commit=False)
+            appointment.laboratory = lab
+            if request.user.is_authenticated:
+                appointment.user = request.user
+            appointment.save()
+            messages.success(request, 'Lab test booked successfully!')
+            return redirect('dashboard')
+    else:
+        form = LabBookingForm()
+    
+    return render(request, 'laboratory_booking.html', {'lab': lab, 'form': form})

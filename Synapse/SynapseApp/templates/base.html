@@ -43,7 +43,12 @@
                     <a href="/doctors/" class="hover:text-[var(--color-secondary)]">Doctors</a>
                    <a href="{% url 'appointment_index' %}" class="block hover:text-[var(--color-secondary)]">Booking</a>
                     <a href="/contact/" class="hover:text-[var(--color-secondary)]">Contact</a>
-                    <a href="/login/" class="hover:text-[var(--color-secondary)]">Login</a>
+                    {% if user.is_authenticated %}
+                        <!-- Optional: You might want to hide Login or change to Logout here -->
+                        <a href="{% url 'logout' %}" class="hover:text-[var(--color-secondary)]">Logout</a>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="hover:text-[var(--color-secondary)]">Login</a>
+                    {% endif %}
                 </div>
 
                 <!-- Right: Actions (desktop only) -->
@@ -53,10 +58,19 @@
                         <span>(237) 681-812-255</span>
                     </div>
                     <button class="p-2 rounded-full hover:bg-[var(--color-secondary)] transition">🔍</button>
-                    <a href="/register/"
-                       class="bg-[var(--color-secondary)] text-white px-4 py-2 rounded-full font-medium hover:bg-blue-500 transition">
-                        Register
-                    </a>
+                    
+                    <!-- Dynamic Auth Button -->
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'dashboard' %}"
+                           class="bg-[var(--color-secondary)] text-white px-4 py-2 rounded-full font-medium hover:bg-blue-500 transition">
+                            Profile
+                        </a>
+                    {% else %}
+                        <a href="{% url 'register' %}"
+                           class="bg-[var(--color-secondary)] text-white px-4 py-2 rounded-full font-medium hover:bg-blue-500 transition">
+                            Register
+                        </a>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -69,21 +83,34 @@
             <a href="/Doctors/" class="block hover:text-[var(--color-secondary)]">Doctors</a>
             <a href="{% url 'appointment_index' %}" class="block hover:text-[var(--color-secondary)]">Booking</a>
             <a href="/contact/" class="block hover:text-[var(--color-secondary)]">Contact</a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'logout' %}" class="block hover:text-[var(--color-secondary)]">Logout</a>
+            {% else %}
+                <a href="{% url 'login' %}" class="block hover:text-[var(--color-secondary)]">Login</a>
+            {% endif %}
             <hr class="border-gray-500">
             <div class="text-sm">
                 <p class="text-[var(--color-secondary)] font-semibold">EMERGENCY</p>
                 <p>(237) 681-812-255</p>
             </div>
-            <a href="/register/"
-               class="block w-full text-center bg-[var(--color-secondary)] text-white px-4 py-2 rounded-full font-medium hover:bg-blue-500 transition">
-                Register
-            </a>
+            
+            <!-- Dynamic Mobile Auth Button -->
+            {% if user.is_authenticated %}
+                <a href="{% url 'dashboard' %}"
+                   class="block w-full text-center bg-[var(--color-secondary)] text-white px-4 py-2 rounded-full font-medium hover:bg-blue-500 transition">
+                    Profile
+                </a>
+            {% else %}
+                <a href="{% url 'register' %}"
+                   class="block w-full text-center bg-[var(--color-secondary)] text-white px-4 py-2 rounded-full font-medium hover:bg-blue-500 transition">
+                    Register
+                </a>
+            {% endif %}
         </div>
     </nav>
 
     <!-- Main content -->
     <main class="mt-0">
-
         {% block content %}{% endblock %}
     </main>
     <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
@@ -91,7 +118,6 @@
 
     <!-- JS for menu toggle -->
     <script>
-        
         const btn = document.getElementById('menu-btn');
         const menu = document.getElementById('mobile-menu');
         btn.addEventListener('click', () => {

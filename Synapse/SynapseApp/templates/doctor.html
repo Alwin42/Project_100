@@ -16,7 +16,7 @@
     <div class="container mx-auto px-6">
         
         <!-- Grid Layout: 1 col mobile, 2 col tablet, 3 col desktop -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             
             {% for doctor in doctors %}
             <!-- Doctor Card -->
@@ -78,11 +78,12 @@
 
                     <!-- Book Button -->
                     <div class="mt-6">
-                    <a href="book/">
-                        <button class="w-full py-3 bg-[#1F2B6C] text-white rounded-xl font-semibold shadow-lg shadow-blue-900/20 hover:bg-blue-700 transition flex items-center justify-center gap-2">
-                            Book Appointment <ion-icon name="calendar-outline"></ion-icon>
-                        </button>
-                    </a>
+                    <!-- Pass the doctor.id to the URL so Django knows which doctor to book -->
+                        <a href="{% url 'book_appointment' doctor.id %}">
+                            <button class="w-full py-3 bg-[#1F2B6C] text-white rounded-xl font-semibold shadow-lg shadow-blue-900/20 hover:bg-blue-700 transition flex items-center justify-center gap-2">
+                                Book Appointment <ion-icon name="calendar-outline"></ion-icon>
+                            </button>
+                        </a>
                     </div>
 
                 </div>

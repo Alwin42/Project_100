@@ -55,6 +55,25 @@ class Laboratory(models.Model):
     def __str__(self):
         return self.name
 
+    # ... existing Laboratory model ...
+
+class LabAppointment(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    laboratory = models.ForeignKey(Laboratory, on_delete=models.CASCADE)
+    
+    full_name = models.CharField(max_length=200)
+    email = models.EmailField()
+    phone = models.CharField(max_length=20)
+    date = models.DateField()
+    time_slot = models.CharField(max_length=50) # You can make this a dropdown in forms
+    test_type = models.CharField(max_length=200, help_text="Type of test (e.g., Blood Test, X-Ray)")
+    
+    status = models.CharField(max_length=20, default='Pending')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Test at {self.laboratory.name} for {self.full_name}"
+
 # 4. Doctor Model
 class Doctor(models.Model):
     hospital = models.ForeignKey(Hospital, on_delete=models.CASCADE, related_name='doctors')
