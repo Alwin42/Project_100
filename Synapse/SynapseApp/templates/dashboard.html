@@ -1,51 +1,71 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="min-h-screen bg-gray-50 py-10">
+<style>
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-in-up {
+        animation: fadeInUp 0.6s ease-out forwards;
+    }
+    .delay-100 { animation-delay: 0.1s; }
+    .delay-200 { animation-delay: 0.2s; }
+</style>
+
+<div class="min-h-screen bg-gray-50 py-10 bg-gradient-to-br from-gray-50 via-white to-blue-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <!-- Welcome Banner -->
-        <div class="bg-white rounded-lg shadow-sm p-6 mb-8 flex justify-between items-center">
-            <div>
-                <h1 class="text-2xl font-bold text-gray-900">Welcome, {{ user.first_name }}!</h1>
-                <p class="text-gray-500">Manage your health profile and appointments.</p>
+        <div class="fade-in-up bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-8 flex flex-col sm:flex-row justify-between items-center transition-all duration-300 hover:shadow-md">
+            <div class="flex items-center space-x-4 mb-4 sm:mb-0">
+                <div class="bg-blue-100 p-3 rounded-full text-blue-600">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-extrabold text-gray-900">Welcome back, {{ user.first_name }}!</h1>
+                    <p class="text-gray-500 text-sm">Here's what's happening with your health profile today.</p>
+                </div>
             </div>
-            <a href="{% url 'logout' %}" class="bg-red-50 text-red-600 hover:bg-red-100 px-4 py-2 rounded-lg text-sm font-medium transition-colors">
-                Logout
+            <a href="{% url 'logout' %}" class="group flex items-center bg-red-50 text-red-600 hover:bg-red-500 hover:text-white px-5 py-2.5 rounded-xl text-sm font-bold transition-all duration-300">
+                <span>Logout</span>
+                <svg class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
             </a>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             
             <!-- Left Column: Personal Profile -->
-            <div class="lg:col-span-1">
-                <div class="bg-white rounded-lg shadow-sm overflow-hidden">
-                    <div class="bg-blue-600 px-6 py-4">
-                        <h3 class="text-white font-bold text-lg">My Profile</h3>
+            <div class="lg:col-span-1 fade-in-up delay-100">
+                <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-xl transition-shadow duration-300 h-full">
+                    <div class="bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-6 relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-24 h-24 bg-white opacity-10 rounded-full -mr-10 -mt-10 blur-xl"></div>
+                        <h3 class="text-white font-bold text-lg relative z-10">My Profile</h3>
                     </div>
-                    <div class="p-6 space-y-4">
-                        <div class="flex items-center space-x-4 mb-4">
-                            <div class="h-16 w-16 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 text-2xl font-bold">
+                    
+                    <div class="p-6">
+                        <div class="flex items-center space-x-4 mb-6">
+                            <div class="h-16 w-16 rounded-full bg-blue-50 border-2 border-blue-100 flex items-center justify-center text-blue-600 text-2xl font-bold shadow-sm">
                                 {{ user.first_name|first }}
                             </div>
                             <div>
-                                <p class="font-bold text-gray-900">{{ user.first_name }}</p>
+                                <p class="font-bold text-gray-900 text-lg">{{ user.first_name }}</p>
                                 <p class="text-sm text-gray-500">{{ user.email }}</p>
                             </div>
                         </div>
                         
-                        <div class="border-t pt-4 space-y-3">
-                            <div>
-                                <span class="text-xs text-gray-500 uppercase block">Phone</span>
-                                <span class="font-medium">{{ profile.phone_number|default:"Not set" }}</span>
+                        <div class="space-y-4">
+                            <div class="group p-3 rounded-lg hover:bg-blue-50 transition-colors duration-200">
+                                <span class="text-xs text-gray-400 uppercase font-bold tracking-wider block mb-1 group-hover:text-blue-500">Phone</span>
+                                <span class="font-medium text-gray-700">{{ profile.phone_number|default:"Not set" }}</span>
                             </div>
-                            <div>
-                                <span class="text-xs text-gray-500 uppercase block">Address</span>
-                                <span class="font-medium">{{ profile.address|default:"Not set" }}</span>
+                            <div class="group p-3 rounded-lg hover:bg-blue-50 transition-colors duration-200">
+                                <span class="text-xs text-gray-400 uppercase font-bold tracking-wider block mb-1 group-hover:text-blue-500">Address</span>
+                                <span class="font-medium text-gray-700">{{ profile.address|default:"Not set" }}</span>
                             </div>
-                            <div>
-                                <span class="text-xs text-gray-500 uppercase block">Emergency Contact</span>
-                                <span class="font-medium">{{ profile.emergency_contact|default:"Not set" }}</span>
+                            <div class="group p-3 rounded-lg hover:bg-red-50 transition-colors duration-200">
+                                <span class="text-xs text-gray-400 uppercase font-bold tracking-wider block mb-1 group-hover:text-red-500">Emergency Contact</span>
+                                <span class="font-medium text-gray-700">{{ profile.emergency_contact|default:"Not set" }}</span>
                             </div>
                         </div>
                     </div>
@@ -53,43 +73,59 @@
             </div>
 
             <!-- Right Column: Health Stats & Activity -->
-            <div class="lg:col-span-2 space-y-8">
+            <div class="lg:col-span-2 space-y-8 fade-in-up delay-200">
                 
                 <!-- Health Stats -->
-                <div class="bg-white rounded-lg shadow-sm overflow-hidden">
-                    <div class="px-6 py-4 border-b border-gray-100">
-                        <h3 class="font-bold text-gray-900">Medical Information</h3>
+                <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300">
+                    <div class="px-6 py-5 border-b border-gray-400 flex items-center justify-between">
+                        <h3 class="font-bold text-gray-900 flex items-center">
+                            <span class="w-2 h-6 bg-blue-500 rounded-full mr-3"></span>
+                            Medical Information
+                        </h3>
                     </div>
+                    
                     <div class="p-6">
-                        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-                            <div class="text-center p-4 bg-gray-50 rounded-lg">
-                                <span class="block text-gray-500 text-xs uppercase">Blood Group</span>
-                                <span class="block text-xl font-bold text-red-600">{{ profile.blood_group|default:"-" }}</span>
+                        <!-- Stats Grid -->
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                            <!-- Card 1 -->
+                            <div class="text-center p-4 bg-gray-50 rounded-xl border border-gray-100 hover:border-red-200 hover:bg-red-50 hover:-translate-y-1 transition-all duration-300 cursor-default">
+                                <span class="block text-gray-500 text-xs uppercase font-bold mb-1">Blood Group</span>
+                                <span class="block text-2xl font-black text-red-500">{{ profile.blood_group|default:"-" }}</span>
                             </div>
-                            <div class="text-center p-4 bg-gray-50 rounded-lg">
-                                <span class="block text-gray-500 text-xs uppercase">Age</span>
-                                <span class="block text-xl font-bold text-gray-800">{{ profile.age|default:"-" }}</span>
+                            <!-- Card 2 -->
+                            <div class="text-center p-4 bg-gray-50 rounded-xl border border-gray-100 hover:border-blue-200 hover:bg-blue-50 hover:-translate-y-1 transition-all duration-300 cursor-default">
+                                <span class="block text-gray-500 text-xs uppercase font-bold mb-1">Age</span>
+                                <span class="block text-2xl font-black text-gray-800">{{ profile.age|default:"-" }}</span>
                             </div>
-                            <div class="text-center p-4 bg-gray-50 rounded-lg">
-                                <span class="block text-gray-500 text-xs uppercase">Height</span>
-                                <span class="block text-xl font-bold text-gray-800">{{ profile.height|default:"-" }} <span class="text-sm font-normal">cm</span></span>
+                            <!-- Card 3 -->
+                            <div class="text-center p-4 bg-gray-50 rounded-xl border border-gray-100 hover:border-blue-200 hover:bg-blue-50 hover:-translate-y-1 transition-all duration-300 cursor-default">
+                                <span class="block text-gray-500 text-xs uppercase font-bold mb-1">Height</span>
+                                <span class="block text-2xl font-black text-gray-800">{{ profile.height|default:"-" }} <span class="text-sm font-bold text-gray-400">cm</span></span>
                             </div>
-                            <div class="text-center p-4 bg-gray-50 rounded-lg">
-                                <span class="block text-gray-500 text-xs uppercase">Weight</span>
-                                <span class="block text-xl font-bold text-gray-800">{{ profile.weight|default:"-" }} <span class="text-sm font-normal">kg</span></span>
+                            <!-- Card 4 -->
+                            <div class="text-center p-4 bg-gray-50 rounded-xl border border-gray-100 hover:border-blue-200 hover:bg-blue-50 hover:-translate-y-1 transition-all duration-300 cursor-default">
+                                <span class="block text-gray-500 text-xs uppercase font-bold mb-1">Weight</span>
+                                <span class="block text-2xl font-black text-gray-800">{{ profile.weight|default:"-" }} <span class="text-sm font-bold text-gray-400">kg</span></span>
                             </div>
                         </div>
 
-                        <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <span class="text-sm font-bold text-gray-700 block mb-2">Allergies</span>
-                                <div class="bg-red-50 text-red-700 p-3 rounded-md text-sm">
+                        <!-- Conditions Grid -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="bg-red-50/50 rounded-xl p-5 border border-red-100 hover:shadow-sm transition-shadow">
+                                <span class="flex items-center text-sm font-bold text-red-800 mb-3">
+                                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                                    Allergies
+                                </span>
+                                <div class="text-red-600 text-sm font-medium">
                                     {{ profile.allergies|default:"No known allergies" }}
                                 </div>
                             </div>
-                            <div>
-                                <span class="text-sm font-bold text-gray-700 block mb-2">Existing Conditions</span>
-                                <div class="bg-yellow-50 text-yellow-800 p-3 rounded-md text-sm">
+                            <div class="bg-yellow-50/50 rounded-xl p-5 border border-yellow-100 hover:shadow-sm transition-shadow">
+                                <span class="flex items-center text-sm font-bold text-yellow-800 mb-3">
+                                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                                    Existing Conditions
+                                </span>
+                                <div class="text-yellow-700 text-sm font-medium">
                                     {% if profile.disease_1 %}{{ profile.disease_1 }}{% endif %}
                                     {% if profile.disease_2 %}, {{ profile.disease_2 }}{% endif %}
                                     {% if not profile.disease_1 and not profile.disease_2 %}None listed{% endif %}
@@ -101,13 +137,29 @@
 
                 <!-- Quick Actions -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <a href="{% url 'appointment_index' %}" class="bg-blue-600 hover:bg-blue-700 text-white p-4 rounded-lg shadow-sm flex items-center justify-between transition-colors">
-                        <span class="font-bold">Book New Appointment</span>
-                        <i class="fas fa-calendar-plus text-xl"></i>
+                    <a href="{% url 'appointment_index' %}" class="group relative bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white p-6 rounded-2xl shadow-lg hover:shadow-blue-500/30 transform hover:-translate-y-1 transition-all duration-300 overflow-hidden">
+                        <div class="absolute top-0 right-0 -mr-6 -mt-6 w-24 h-24 bg-white opacity-10 rounded-full blur-xl group-hover:scale-150 transition-transform duration-500"></div>
+                        <div class="flex items-center justify-between relative z-10">
+                            <div>
+                                <span class="block text-blue-100 text-xs font-bold uppercase tracking-wider mb-1">Action</span>
+                                <span class="block font-bold text-lg">Book Appointment</span>
+                            </div>
+                            <div class="bg-white/20 p-3 rounded-lg backdrop-blur-sm group-hover:rotate-12 transition-transform duration-300">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                            </div>
+                        </div>
                     </a>
-                    <a href="{% url 'hospital_list' %}" class="bg-white hover:bg-gray-50 text-gray-800 p-4 rounded-lg shadow-sm border border-gray-200 flex items-center justify-between transition-colors">
-                        <span class="font-bold">Find Hospital</span>
-                        <i class="fas fa-hospital text-xl text-blue-500"></i>
+
+                    <a href="{% url 'hospital_list' %}" class="group relative bg-white hover:bg-gray-50 text-gray-800 p-6 rounded-2xl shadow-sm hover:shadow-md border border-gray-200 transform hover:-translate-y-1 transition-all duration-300">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <span class="block text-gray-400 text-xs font-bold uppercase tracking-wider mb-1">Search</span>
+                                <span class="block font-bold text-lg text-gray-900">Find Hospital</span>
+                            </div>
+                            <div class="bg-gray-100 p-3 rounded-lg group-hover:bg-blue-100 transition-colors duration-300">
+                                <svg class="w-6 h-6 text-gray-500 group-hover:text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                            </div>
+                        </div>
                     </a>
                 </div>
 
