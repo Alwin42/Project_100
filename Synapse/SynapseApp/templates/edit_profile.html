@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-in-up {
+        animation: fadeInUp 0.6s ease-out forwards;
+    }
+</style>
+
+<div class="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-blue-50 via-white to-gray-100">
+    <div class="max-w-4xl mx-auto fade-in-up">
+        
+        <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
+            
+            <!-- Header -->
+            <div class="bg-gradient-to-r from-blue-600 to-blue-700 px-8 py-6 flex justify-between items-center">
+                <div>
+                    <h2 class="text-2xl font-extrabold text-white">Edit Profile</h2>
+                    <p class="mt-1 text-blue-100">Update your personal and medical information.</p>
+                </div>
+                <div class="hidden sm:block bg-white/20 p-3 rounded-full">
+                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+                </div>
+            </div>
+
+            <form method="POST" class="p-8 space-y-8">
+                {% csrf_token %}
+
+                <!-- Basic Info Section -->
+                <div>
+                    <h3 class="text-lg font-bold text-gray-800 mb-4 border-b pb-2 flex items-center">
+                        <span class="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-sm mr-3">1</span>
+                        Account Information
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">First Name</label>
+                            {{ u_form.first_name }}
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Last Name</label>
+                            {{ u_form.last_name }}
+                        </div>
+                        <div class="col-span-1 md:col-span-2">
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Email Address</label>
+                            {{ u_form.email }}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Info Section -->
+                <div>
+                    <h3 class="text-lg font-bold text-gray-800 mb-4 border-b pb-2 flex items-center">
+                        <span class="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-sm mr-3">2</span>
+                        Contact Details
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Phone Number</label>
+                            {{ p_form.phone_number }}
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Emergency Contact</label>
+                            {{ p_form.emergency_contact }}
+                        </div>
+                        <div class="col-span-1 md:col-span-2">
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Address</label>
+                            {{ p_form.address }}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Medical Info Section -->
+                <div>
+                    <h3 class="text-lg font-bold text-gray-800 mb-4 border-b pb-2 flex items-center">
+                        <span class="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-sm mr-3">3</span>
+                        Medical Stats
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Height (cm)</label>
+                            {{ p_form.height }}
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Weight (kg)</label>
+                            {{ p_form.weight }}
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Blood Group</label>
+                            {{ p_form.blood_group }}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex items-center justify-end space-x-4 pt-6 border-t border-gray-100">
+                    <a href="{% url 'dashboard' %}" class="px-6 py-3 rounded-xl text-gray-600 font-medium hover:bg-gray-100 transition-colors">
+                        Cancel
+                    </a>
+                    <button type="submit" class="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-lg hover:shadow-blue-500/30 transform hover:-translate-y-1 transition-all">
+                        Save Changes
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

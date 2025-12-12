@@ -1,8 +1,9 @@
 from django.contrib import admin
-from .models import Profile, Hospital, Laboratory, Doctor, Appointment, Message
+# Added LabAppointment to the imports below
+from .models import Profile, Hospital, Laboratory, Doctor, Appointment, Message, LabAppointment
 
 # Unregister models to prevent "AlreadyRegistered" errors during hot-reloads
-models_to_unregister = [Profile, Hospital, Laboratory, Doctor, Appointment, Message]
+models_to_unregister = [Profile, Hospital, Laboratory, Doctor, Appointment, Message, LabAppointment]
 for model in models_to_unregister:
     try:
         admin.site.unregister(model)
@@ -33,7 +34,7 @@ class DoctorAdmin(admin.ModelAdmin):
     list_filter = ('specialization', 'hospital')
     search_fields = ('name', 'specialization')
 
-# 5. Appointment (Using the correct fields: patient, time_slot)
+# 5. Appointment
 @admin.register(Appointment)
 class AppointmentAdmin(admin.ModelAdmin):
     list_display = ('patient', 'doctor', 'date', 'time_slot', 'status')
@@ -45,3 +46,11 @@ class AppointmentAdmin(admin.ModelAdmin):
 class MessageAdmin(admin.ModelAdmin):
     list_display = ('subject', 'email', 'status', 'created_at')
     list_filter = ('status',)
+
+# 7. Lab Appointment
+@admin.register(LabAppointment)
+class LabAppointmentAdmin(admin.ModelAdmin):
+    list_display = ('full_name', 'laboratory', 'test_type', 'date', 'time_slot', 'status')
+    list_filter = ('status', 'date', 'laboratory')
+    search_fields = ('full_name', 'email', 'phone', 'test_type')
+    list_editable = ('status',)
