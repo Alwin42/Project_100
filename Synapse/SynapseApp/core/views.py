@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 from django.db.models import Avg, Min, Max
 from .models import Laboratory, LabAppointment
 from .forms import LabBookingForm
+from .models import Hospital, Doctor
 
 # Import your local models and forms
 from .models import Doctor, Hospital, Profile, Appointment
@@ -207,3 +208,17 @@ def book_lab(request, lab_id):
         form = LabBookingForm()
     
     return render(request, 'laboratory_booking.html', {'lab': lab, 'form': form})
+
+def hospital_detail(request, hospital_id):
+    # Fetch the specific hospital using the ID from the URL
+    hospital = get_object_or_404(Hospital, id=hospital_id)
+    
+    # Fetch all doctors associated with this hospital
+    # This assumes your Doctor model has a ForeignKey to Hospital named 'hospital'
+    doctors = Doctor.objects.filter(hospital=hospital)
+    
+    context = {
+        'hospital': hospital,
+        'doctors': doctors
+    }
+    return render(request, 'hospital_detail.html', context)
