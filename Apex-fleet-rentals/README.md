@@ -1,9 +1,3 @@
-Here is a professional **README.md** file for your project. You should save this in the root folder `Apex-fleet-rentals/`.
-
-This document serves as the central documentation for your project, explaining how to run both the Django backend and the Vue frontend.
-
----
-
 # Apex Fleet Rentals
 
 **Apex Fleet Rentals** is a comprehensive car rental management system designed to streamline vehicle bookings, fleet management, and customer interactions. It features a modern, responsive frontend and a robust, scalable backend API.
