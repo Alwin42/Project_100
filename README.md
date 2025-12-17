@@ -12,11 +12,11 @@
 |---|--------------|------------|--------|-----------------|
 | 1 | **Weatherly** | HTML, CSS, JavaScript, OpenWeather API | Completed |[Weatherly](https://github.com/Alwin42/Project_100/tree/main/Weatherly)|
 | 2 | **DoNotes** | HTML, CSS, JavaScript | Completed | [DoNotes](https://github.com/Alwin42/Project_100/tree/main/DoNotes)|
-| 3 | **Agro-Tech** | HTML, Bootstrap CSS | Completed | [Agro-Tech](https://github.com/Alwin42/Project_100/tree/main/Agro-Tech)|
-| 4 | **Deadline-Dash** | HTML, Tailwind CSS | Completed | [Deadline-Dash](https://github.com/Alwin42/Project_100/tree/main/Deadline-Dash)|
-| 5 | **Pearl-Pavilion** | HTML, Tailwind CSS | Completed | [Pearl-Pavilion](https://github.com/Alwin42/Project_100/tree/main/Pearl-Paviliontree/main/Deadline-Dash)|
-| 6 | **Eco-Sync** | HTML, Tailwind CSS | Completed | [Eco-Sync](https://github.com/Alwin42/Project_100/tree/main/Eco-Sync)|
-| 7 | **Synapse** | HTML, Tailwind CSS , Django | Ongoing | [Synapse](https://github.com/Alwin42/Project_100/tree/main/Synapse)|
+| 3 | **Agro-Tech** | HTML, Bootstrap CSS ,Flask | Completed | [Agro-Tech](https://github.com/Alwin42/Project_100/tree/main/Agro-Tech)|
+| 4 | **Deadline-Dash** | HTML, Tailwind CSS , Flask| Completed | [Deadline-Dash](https://github.com/Alwin42/Project_100/tree/main/Deadline-Dash)|
+| 5 | **Pearl-Pavilion** | HTML, Tailwind CSS , Flask | Completed | [Pearl-Pavilion](https://github.com/Alwin42/Project_100/tree/main/Pearl-Paviliontree/main/Deadline-Dash)|
+| 6 | **Eco-Sync** | HTML, Tailwind CSS , Django| Completed | [Eco-Sync](https://github.com/Alwin42/Project_100/tree/main/Eco-Sync)|
+| 7 | **Synapse** | HTML, Tailwind CSS , Django | Completed | [Synapse](https://github.com/Alwin42/Project_100/tree/main/Synapse)|
 
 ---
 
