@@ -1,4 +1,15 @@
+# --- Python & Django ---
 __pycache__/
-venv/
-*.sqlite3
+*.py[cod]
+*$py.class
+db.sqlite3
 .env
+
+# --- Virtual Environment (CRITICAL) ---
+venv/
+env/
+
+# --- System & IDE ---
+.DS_Store
+.vscode/
+.idea/
