@@ -1,10 +1,8 @@
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
+from rest_framework import viewsets
 from .models import Car
 from .serializers import CarSerializer
 
-@api_view(['GET']) # Only allow reading data, not changing it
-def get_cars(request):
-    cars = Car.objects.all()          # 1. Get data from DB (Python)
-    serializer = CarSerializer(cars, many=True) # 2. Convert to JSON
-    return Response(serializer.data)  # 3. Send it to the frontend
+class CarViewSet(viewsets.ModelViewSet):
+    # This single class handles GET (all), GET (one), POST, PUT, and DELETE
+    queryset = Car.objects.all()
+    serializer_class = CarSerializer

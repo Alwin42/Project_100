@@ -58,9 +58,11 @@ const getImageUrl = (imagePath) => {
           {{ car.is_available ? 'Available' : 'Booked' }}
         </span>
 
-        <button :disabled="!car.is_available">
-          {{ car.is_available ? 'Rent Now' : 'Unavailable' }}
-        </button>
+        <router-link :to="{ name: 'details', params: { id: car.id } }">
+            <button :disabled="!car.is_available">
+              {{ car.is_available ? 'Rent Now' : 'Unavailable' }}
+            </button>
+        </router-link>
       </div>
     </div>
   </div>
