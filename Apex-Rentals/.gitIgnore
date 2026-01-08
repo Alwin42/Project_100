@@ -1,16 +1,18 @@
+# Python bytecode
 __pycache__/
 *.pyc
 *.pyo
-*$py.class
-*.so
-backend/rentals/__pycache__/
-backend/rentals/migrations/0001_initial.py
-backend/rentals/migrations/__pycache__/
+backend/**/__pycache__/
+backend/**/*.pyc
 
-# Frontend
-frontend/.vscode/
-frontend/node_modules/
-
-# Database (recommended)
+# Django
 db.sqlite3
 *.sqlite3
+**/migrations/0001_initial.py
+backend/rentals/migrations/0001_initial.py
+
+# Frontend
+frontend/node_modules/
+frontend/.vscode/
+frontend/**/__pycache__/
+
