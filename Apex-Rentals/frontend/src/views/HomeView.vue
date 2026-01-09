@@ -2,113 +2,90 @@
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
 
-// 1. Create a variable to hold our list of cars
 const cars = ref([])
-const error = ref(null)
-
-// 2. Define the Base URL for your Backend
-// (This handles the issue where the image path is just "/media/..." without the domain)
 const API_URL = "http://127.0.0.1:8000"
 
-// 3. When the component loads, go get the data
 onMounted(async () => {
   try {
     const response = await axios.get(`${API_URL}/api/cars/`)
     cars.value = response.data
-    console.log("Data loaded:", cars.value)
   } catch (err) {
-    error.value = "Failed to load cars. Is the backend running?"
     console.error(err)
   }
 })
 
-// 4. Helper function to fix image URLs
-// Django sends "/media/img.png", but we need "http://localhost:8000/media/img.png"
 const getImageUrl = (imagePath) => {
-  if (!imagePath) return "https://via.placeholder.com/300x200?text=No+Image"
+  if (!imagePath) return "https://via.placeholder.com/600x400"
   if (imagePath.startsWith("http")) return imagePath
   return `${API_URL}${imagePath}`
 }
 </script>
 
 <template>
-  <div class="home-container">
-    <h1>Available Cars</h1>
+  <div>
+    <div class="text-white py-12 px-4 text-center">
+      <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight mb-4">
+        Find Your Perfect Drive
+      </h1>
+      <p class="text-gray-400 mb-6 max-w-xl mx-auto">
+        Premium cars. Instant booking. Zero hassle.
+      </p>
+      <button class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-2.5 rounded-full font-bold transition">
+        Browse Fleet
+      </button>
+    </div>
 
-    <div v-if="error" class="error-msg">{{ error }}</div>
+    <div class="w-full max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      
+      <h2 class="text-2xl font-bold text-gray-900 mb-6 px-2">Available Vehicles</h2>
 
-    <div v-else-if="cars.length === 0">Loading cars...</div>
-
-    <div v-else class="car-grid">
-      <div class="car-card" v-for="car in cars" :key="car.id">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         
-        <img 
-          :src="getImageUrl(car.image)" 
-          :alt="car.model" 
-          class="car-image"
-        />
-
-        <h3>{{ car.year }} {{ car.make }} {{ car.model }}</h3>
-        <p class="price">₹{{ car.price_per_day }} / day</p>
-        
-        <span 
-          class="status" 
-          :class="{ available: car.is_available, booked: !car.is_available }"
+        <div 
+          v-for="car in cars" 
+          :key="car.id" 
+          class="bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-200 flex flex-col group"
         >
-          {{ car.is_available ? 'Available' : 'Booked' }}
-        </span>
+          <div class="h-52 overflow-hidden relative rounded-t-xl bg-gray-100">
+            <img 
+              :src="getImageUrl(car.image)" 
+              :alt="car.model" 
+              class="w-full h-full object-cover transform group-hover:scale-105 transition duration-500"
+            />
+            <div v-if="!car.is_available" class="absolute inset-0 bg-black/50 flex items-center justify-center">
+              <span class="bg-red-600 text-white text-xs font-bold px-2 py-1 rounded uppercase">Booked</span>
+            </div>
+          </div>
 
-        <router-link :to="{ name: 'details', params: { id: car.id } }">
-            <button :disabled="!car.is_available">
-              {{ car.is_available ? 'Rent Now' : 'Unavailable' }}
-            </button>
-        </router-link>
+          <div class="p-4 flex-1 flex flex-col">
+            <div class="flex justify-between items-start mb-2">
+              <div>
+                <p class="text-xs text-blue-600 font-bold uppercase">{{ car.make }}</p>
+                <h3 class="text-lg font-bold text-gray-900">{{ car.model }}</h3>
+              </div>
+              <span class="text-xs font-semibold text-gray-500 border border-gray-300 px-1.5 py-0.5 rounded">
+                {{ car.year }}
+              </span>
+            </div>
+            
+            <p class="text-gray-500 text-xs mb-4 line-clamp-2">
+              Automatic • Petrol • 5 Seats
+            </p>
+
+            <div class="mt-auto pt-3 border-t border-gray-100 flex items-center justify-between">
+              <p class="text-xl font-bold text-gray-900">₹{{ Number(car.price_per_day).toLocaleString() }}</p>
+              
+              <router-link 
+                :to="{ name: 'details', params: { id: car.id } }"
+                class="bg-gray-900 group-hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition"
+              >
+                Rent
+              </router-link>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
 </template>
-
-<style scoped>
-.home-container { padding: 20px; }
-.error-msg { color: red; font-weight: bold; }
-.car-grid { 
-  display: grid; 
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); 
-  gap: 20px; 
-}
-.car-card { 
-  border: 1px solid #ddd; 
-  border-radius: 8px; 
-  overflow: hidden;
-  transition: transform 0.2s;
-  background: white;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-.car-card:hover { transform: translateY(-5px); }
-.car-image { 
-  width: 100%; 
-  height: 180px; 
-  object-fit: cover; 
-}
-h3 { margin: 10px; font-size: 1.2rem; }
-.price { color: #2c3e50; font-weight: bold; margin: 0 10px 10px; }
-button { 
-  width: 100%; 
-  padding: 12px; 
-  border: none; 
-  background: #007bff; 
-  color: white; 
-  font-weight: bold; 
-  cursor: pointer;
-}
-button:disabled { background: #ccc; cursor: not-allowed; }
-.status {
-  display: inline-block;
-  margin: 0 10px 10px;
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 0.8rem;
-}
-.available { background: #e6fffa; color: #00b894; }
-.booked { background: #ffe6e6; color: #d63031; }
-</style>
