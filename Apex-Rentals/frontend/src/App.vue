@@ -1,27 +1,29 @@
 <template>
-  <div class="min-h-screen bg-white font-sans text-gray-900">
+  <div class="min-h-screen w-full bg-gray-300 font-sans text-[#061E29] overflow-x-hidden">
     
-    <nav class="bg-gray-900 text-white shadow-lg sticky top-0 z-50 w-full">
-      
-      <div class="max-w-full mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between items-center h-16">
+    <nav class="bg-[#061E29] text-white shadow-md sticky top-0 z-50 w-full">
+      <div class="w-full px-4 sm:px-6 lg:px-12">
+        <div class="flex justify-between items-center h-20">
           
-          <router-link to="/" class="flex-shrink-0 flex items-center">
-            <span class="text-xl sm:text-2xl font-bold tracking-tight">
-              Apex<span class="text-blue-500">Rentals</span>
+          <router-link to="/" class="flex items-center gap-2 group">
+              <span class="text-2xl font-bold tracking-tight">
+              Apex <span class="text-[#5F9598]">Rentals</span>
             </span>
           </router-link>
           
-          <div class="hidden md:flex space-x-8 items-center text-sm font-medium">
-            <router-link to="/" class="hover:text-blue-400 transition">Home</router-link>
-            <a href="#" class="hover:text-blue-400 transition">Fleet</a>
-            <a href="#" class="hover:text-blue-400 transition">About</a>
-            <a href="#" class="bg-blue-600 hover:bg-blue-700 px-5 py-2 rounded-full transition">Login</a>
+          <div class="hidden md:flex space-x-8 items-center text-sm font-medium tracking-wide">
+            <router-link to="/" class="hover:text-[#5F9598] transition duration-300">HOME</router-link>
+            <a href="#" class="hover:text-[#5F9598] transition duration-300">FLEET</a>
+            <a href="#" class="hover:text-[#5F9598] transition duration-300">ABOUT</a>
+            
+            <a href="#" class="bg-[#1D546D] hover:bg-white hover:text-[#061E29] px-6 py-2.5 rounded-lg transition duration-300 font-bold border border-transparent hover:border-white">
+              LOGIN
+            </a>
           </div>
 
-          <div class="md:hidden">
-            <button class="text-gray-300 hover:text-white focus:outline-none">
-              <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <div class="md:hidden text-white">
+            <button class="focus:outline-none">
+              <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
               </svg>
             </button>
