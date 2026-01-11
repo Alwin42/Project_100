@@ -13,7 +13,7 @@ onMounted(async () => {
 })
 
 const getImageUrl = (imagePath) => {
-  if (!imagePath) return "https://via.placeholder.com/600x400"
+  if (!imagePath) return "https://via.placeholder.com/600x400?text=No+Image"
   if (imagePath.startsWith("http")) return imagePath
   return `${API_URL}${imagePath}`
 }
@@ -21,78 +21,69 @@ const getImageUrl = (imagePath) => {
 
 <template>
   <div>
-    <div class="bg-[#1D546D] text-white py-24 px-4 text-center">
-      <h1 class="text-4xl md:text-6xl font-bold mb-6 tracking-tight">
-        Drive the <span class="text-apex-teal">Extraordinary</span>
-      </h1>
-      <p class="text-gray-300 mb-10 text-lg max-w-2xl mx-auto font-light">
-        Experience premium travel with our exclusive fleet. 
-        Unmatched comfort at unbeatable daily rates.
-      </p>
-      <button class="border-2 border-apex-teal text-apex-teal hover:bg-apex-teal hover:text-white px-10 py-3 rounded-xl font-bold tracking-widest transition duration-300 uppercase text-sm">
-        Explore Fleet
-      </button>
+    <div class="relative bg-navy py-24 px-6 border-b border-white/5">
+      <div class="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-full bg-blue/20 blur-[120px] rounded-full pointer-events-none"></div>
+      
+      <div class="relative z-10 text-center max-w-4xl mx-auto">
+        <h1 class="text-5xl md:text-7xl font-bold mb-6 tracking-tight">
+          ELEVATE YOUR <span class="text-transparent bg-clip-text bg-gradient-to-r from-teal to-blue">DRIVE</span>
+        </h1>
+        <p class="text-gray-400 text-lg md:text-xl mb-10 font-light">
+          Experience the pinnacle of automotive engineering. 
+          Reserved for those who demand excellence.
+        </p>
+      </div>
     </div>
 
-    <div class="w-full max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-12 py-16">
-      
-      <div class="flex items-center justify-between mb-10 border-b border-gray-300 pb-4">
-        <h2 class="text-3xl font-bold text-apex-navy">Available Vehicles</h2>
-        <span class="text-apex-blue font-semibold">{{ cars.length }} Cars Ready</span>
+    <div class="max-w-[1800px] mx-auto px-6 lg:px-12 py-20">
+      <div class="flex items-end justify-between mb-12">
+        <div>
+          <h2 class="text-3xl font-bold">Exclusive Fleet</h2>
+          <div class="h-1 w-20 bg-teal mt-4"></div>
+        </div>
+        <span class="text-gray-500 font-mono">{{ cars.length }} VEHICLES AVAILABLE</span>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-        
+      <div class="grid grid-cols-1  md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
         <div 
           v-for="car in cars" 
           :key="car.id" 
-          class="bg-white group hover:shadow-2xl transition-all duration-500 border-b-4 border-transparent hover:border-apex-teal flex flex-col"
+          class="group bg-[#5F9598] rounded-xl hover:border-teal/50 transition-all duration-500"
         >
-          <div class="h-64 overflow-hidden relative bg-gray-200">
+          <div class="relative h-64 overflow-hidden bg-black/50">
             <img 
               :src="getImageUrl(car.image)" 
               :alt="car.model" 
-              class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700"
+              class="w-full h-full object-cover rounded-xl opacity-80 group-hover:opacity-100 group-hover:scale-105 transition duration-700"
             />
-            <div class="absolute top-4 left-4">
-              <span v-if="car.is_available" class="bg-apex-teal text-white text-xs font-bold px-3 py-1 uppercase tracking-wider shadow-md">
-                Available
+            <div class="absolute top-4 right-4">
+              <span v-if="car.is_available" class="bg-teal/90 text-navy text-xs font-bold px-3 py-1 backdrop-blur-sm">
+                AVAILABLE
               </span>
-              <span v-else class="bg-apex-navy text-white text-xs font-bold px-3 py-1 uppercase tracking-wider shadow-md">
-                Booked
+              <span v-else class="bg-red-500/90 text-white text-xs font-bold px-3 py-1 backdrop-blur-sm">
+                RESERVED
               </span>
             </div>
           </div>
 
-          <div class="p-6 flex-1 flex flex-col">
-            <div class="mb-4">
-              <p class="text-xs text-apex-teal font-bold uppercase tracking-widest mb-1">{{ car.make }}</p>
-              <h3 class="text-2xl font-bold text-apex-navy">{{ car.model }}</h3>
-            </div>
+          <div class="p-6">
+            <p class="text-teal text-xs font-bold tracking-widest uppercase mb-2">{{ car.make }}</p>
+            <h3 class="text-2xl font-bold text-white mb-6">{{ car.model }}</h3>
             
-            <div class="flex items-center gap-4 text-gray-500 text-sm mb-6">
-              <span>{{ car.year }}</span>
-              <span>•</span>
-              <span>Automatic</span>
-              <span>•</span>
-              <span>Petrol</span>
-            </div>
-
-            <div class="mt-auto flex items-center justify-between pt-4 border-t border-gray-100">
+            <div class="flex items-center justify-between border-t border-white/10 pt-6">
               <div>
-                <span class="text-xl font-bold text-apex-navy">₹{{ Number(car.price_per_day).toLocaleString() }}</span>
-                <span class="text-xs text-gray-400">/day</span>
+                <p class="text-2xl font-bold text-white">₹{{ Number(car.price_per_day).toLocaleString() }}</p>
+                <p class="text-xs text-gray-500 uppercase">Per Day</p>
               </div>
-              
               <router-link 
                 :to="{ name: 'details', params: { id: car.id } }"
-                class="bg-[#061E29] text-white hover:bg-[#1D546D] rounded-lg px-6 py-2 text-sm font-bold uppercase tracking-wider transition duration-300">
-                Rent
+                class="bg-[#061E29] hover:bg-[#1D546D] rounded-lg hover:text-navy text-white px-6 py-3 transition-colors duration-300 font-medium"
+              >
+                View Details
               </router-link>
             </div>
           </div>
         </div>
-
       </div>
     </div>
   </div>

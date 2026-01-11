@@ -1,13 +1,13 @@
 <template>
-  <div class="min-h-screen w-full bg-gray-300 font-sans text-[#061E29] overflow-x-hidden">
+  <div class="min-h-screen w-full bg-black font-sans text-white overflow-x-hidden">
     
-    <nav class="bg-[#061E29] text-white shadow-md sticky top-0 z-50 w-full">
+    <nav class="bg-[#061E29] text-[#F3F4F4] shadow-md sticky top-0 z-50 w-full">
       <div class="w-full px-4 sm:px-6 lg:px-12">
         <div class="flex justify-between items-center h-20">
           
           <router-link to="/" class="flex items-center gap-2 group">
               <span class="text-2xl font-bold tracking-tight">
-              Apex <span class="text-[#5F9598]">Rentals</span>
+              Apex<span class="text-[#5F9598]">Rentals</span>
             </span>
           </router-link>
           
@@ -16,7 +16,7 @@
             <a href="#" class="hover:text-[#5F9598] transition duration-300">FLEET</a>
             <a href="#" class="hover:text-[#5F9598] transition duration-300">ABOUT</a>
             
-            <a href="#" class="bg-[#1D546D] hover:bg-white hover:text-[#061E29] px-6 py-2.5 rounded-lg transition duration-300 font-bold border border-transparent hover:border-white">
+            <a href="#" class="bg-[#1D546D] rounded-xl hover:bg-white hover:text-[#061E29] px-6 py-2.5 rounded-none transition duration-300 font-bold border border-transparent hover:border-white">
               LOGIN
             </a>
           </div>
