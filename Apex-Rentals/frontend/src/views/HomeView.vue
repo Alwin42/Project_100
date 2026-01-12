@@ -17,70 +17,83 @@ const getImageUrl = (imagePath) => {
   if (imagePath.startsWith("http")) return imagePath
   return `${API_URL}${imagePath}`
 }
+
+const scrollToFleet = () => {
+  document.getElementById('fleet').scrollIntoView({ behavior: 'smooth' })
+}
 </script>
 
 <template>
   <div>
-    <div class="relative bg-navy py-24 px-6 border-b border-white/5">
-      <div class="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-full bg-blue/20 blur-[120px] rounded-full pointer-events-none"></div>
+    <div class="relative h-screen w-full overflow-hidden">
       
-      <div class="relative z-10 text-center max-w-4xl mx-auto">
-        <h1 class="text-5xl md:text-7xl font-bold mb-6 tracking-tight">
-          ELEVATE YOUR <span class="text-transparent bg-clip-text bg-gradient-to-r from-teal to-blue">DRIVE</span>
+      <div 
+        class="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style="background-image: url('/hero-bg.jpg');"
+      >
+        <div class="absolute inset-0 bg-black/40"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-[#061E29] via-transparent to-transparent"></div>
+      </div>
+
+      <div class="absolute inset-0 flex flex-col items-center justify-center text-center px-4 pt-20">
+        <h1 class="text-5xl md:text-8xl font-bold text-white mb-8 tracking-tighter opacity-0 animate-fade-in-up" style="animation-fill-mode: forwards;">
+          DEFY <span class="text-[#5F9598]">ORDINARY</span>
         </h1>
-        <p class="text-gray-400 text-lg md:text-xl mb-10 font-light">
-          Experience the pinnacle of automotive engineering. 
-          Reserved for those who demand excellence.
+        
+        <p class="text-gray-200 text-lg md:text-xl max-w-xl mb-12 font-light tracking-wide opacity-0 animate-fade-in-up" style="animation-delay: 0.3s; animation-fill-mode: forwards;">
+          Experience the thrill of the extraordinary.
         </p>
+
+        <button 
+          @click="scrollToFleet"
+          class="group relative px-10 py-4 bg-transparent border border-white/30 text-white font-medium tracking-[0.2em] uppercase overflow-hidden hover:border-[#5F9598] transition-all duration-500 opacity-0 animate-fade-in-up"
+          style="animation-delay: 0.6s; animation-fill-mode: forwards;"
+        >
+          <span class="absolute inset-0 w-full h-full bg-[#5F9598]/20 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out"></span>
+          <span class="relative">Explore Fleet</span>
+        </button>
       </div>
     </div>
 
-    <div class="max-w-[1800px] mx-auto px-6 lg:px-12 py-20">
-      <div class="flex items-end justify-between mb-12">
-        <div>
-          <h2 class="text-3xl font-bold">Exclusive Fleet</h2>
-          <div class="h-1 w-20 bg-teal mt-4"></div>
+    <div id="fleet" class="bg-[#061E29] py-24 px-6 lg:px-16 min-h-screen">
+      <div class="max-w-[1920px] mx-auto">
+        <div class="flex items-end justify-between mb-16 border-b border-white/10 pb-6">
+          <h2 class="text-4xl font-bold text-white">The Collection</h2>
+          <span class="text-[#5F9598] font-mono">AVAILABLE MODELS</span>
         </div>
-        <span class="text-gray-500 font-mono">{{ cars.length }} VEHICLES AVAILABLE</span>
-      </div>
 
-      <div class="grid grid-cols-1  md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-        <div 
-          v-for="car in cars" 
-          :key="car.id" 
-          class="group bg-[#5F9598] rounded-xl hover:border-teal/50 transition-all duration-500"
-        >
-          <div class="relative h-64 overflow-hidden bg-black/50">
-            <img 
-              :src="getImageUrl(car.image)" 
-              :alt="car.model" 
-              class="w-full h-full object-cover rounded-xl opacity-80 group-hover:opacity-100 group-hover:scale-105 transition duration-700"
-            />
-            <div class="absolute top-4 right-4">
-              <span v-if="car.is_available" class="bg-teal/90 text-navy text-xs font-bold px-3 py-1 backdrop-blur-sm">
-                AVAILABLE
-              </span>
-              <span v-else class="bg-red-500/90 text-white text-xs font-bold px-3 py-1 backdrop-blur-sm">
-                RESERVED
-              </span>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+          <div 
+            v-for="car in cars" 
+            :key="car.id" 
+            class="group bg-[#0B2B38] border border-white/5 hover:border-[#5F9598]/50 transition-all duration-500 relative"
+          >
+            <div class="h-72 overflow-hidden relative">
+              <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-500 z-10"></div>
+              <img 
+                :src="getImageUrl(car.image)" 
+                :alt="car.model" 
+                class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700 ease-in-out"
+              />
             </div>
-          </div>
 
-          <div class="p-6">
-            <p class="text-teal text-xs font-bold tracking-widest uppercase mb-2">{{ car.make }}</p>
-            <h3 class="text-2xl font-bold text-white mb-6">{{ car.model }}</h3>
-            
-            <div class="flex items-center justify-between border-t border-white/10 pt-6">
-              <div>
-                <p class="text-2xl font-bold text-white">₹{{ Number(car.price_per_day).toLocaleString() }}</p>
-                <p class="text-xs text-gray-500 uppercase">Per Day</p>
+            <div class="p-8">
+              <h3 class="text-3xl font-bold text-white mb-2">{{ car.model }}</h3>
+              <p class="text-[#5F9598] text-xs font-bold tracking-[0.2em] uppercase mb-8">{{ car.make }}</p>
+              
+              <div class="flex items-center justify-between border-t border-white/10 pt-6">
+                <div>
+                  <span class="text-2xl font-bold text-white">₹{{ Number(car.price_per_day).toLocaleString() }}</span>
+                  <span class="text-gray-500 text-sm ml-1">/DAY</span>
+                </div>
+                
+                <router-link 
+                  :to="{ name: 'details', params: { id: car.id } }"
+                  class="text-white hover:text-[#5F9598] transition-colors uppercase tracking-wider text-sm font-medium"
+                >
+                  Reserve &rarr;
+                </router-link>
               </div>
-              <router-link 
-                :to="{ name: 'details', params: { id: car.id } }"
-                class="bg-[#061E29] hover:bg-[#1D546D] rounded-lg hover:text-navy text-white px-6 py-3 transition-colors duration-300 font-medium"
-              >
-                View Details
-              </router-link>
             </div>
           </div>
         </div>
@@ -88,3 +101,20 @@ const getImageUrl = (imagePath) => {
     </div>
   </div>
 </template>
+
+<style>
+/* Custom Keyframes for this file only */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-fade-in-up {
+  animation: fadeInUp 1s ease-out;
+}
+</style>

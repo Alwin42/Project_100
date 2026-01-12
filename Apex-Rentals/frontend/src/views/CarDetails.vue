@@ -36,31 +36,31 @@ const getImageUrl = (imagePath) => {
         <img :src="getImageUrl(car.image)" :alt="car.model" class="relative w-full rounded shadow-xl border border-gray-200" />
       </div>
 
-      <div class="bg-white p-8 md:p-12 shadow-sm border-t-4 border-apex-teal">
-        <span class="text-apex-teal font-bold tracking-[0.2em] text-sm uppercase">{{ car.make }} COLLECTION</span>
-        <h1 class="text-5xl font-extrabold text-apex-navy mt-2 mb-6">{{ car.model }}</h1>
+      <div class="bg-gray-600 rounded-xl p-8 md:p-12 shadow-sm border-t-4 ">
+        <span class="text-white font-bold tracking-[0.2em] text-sm uppercase">{{ car.make }} COLLECTION</span>
+        <h1 class="text-5xl font-extrabold text-white mt-2 mb-6">{{ car.model }}</h1>
         
-        <p class="text-gray-500 leading-relaxed mb-8 border-l-4 border-gray-200 pl-4 italic">
+        <p class="text-white leading-relaxed mb-8 border-l-4 border-gray-200 pl-4 italic">
           "The {{ car.year }} {{ car.model }} combines engineering excellence with daily practicality. 
           Perfect for the roads of Kerala."
         </p>
 
         <div class="flex items-baseline mb-8">
-          <span class="text-4xl font-bold text-apex-blue">₹{{ Number(car.price_per_day).toLocaleString() }}</span>
-          <span class="text-gray-400 ml-2">per day</span>
+          <span class="text-4xl font-bold text-gray-200">₹{{ Number(car.price_per_day).toLocaleString() }}</span>
+          <span class="text-gray-200 ml-2">per day</span>
         </div>
 
         <button 
           :disabled="!car.is_available"
           class="w-full py-4 text-white font-bold text-lg uppercase tracking-widest transition transform hover:-translate-y-1"
           :class="car.is_available 
-            ? 'bg-apex-blue hover:bg-apex-navy shadow-lg shadow-blue-900/20' 
+            ? 'bg-[#061E29] rounded-xl hover:bg-[#5F9598] shadow-lg shadow-blue-900/20' 
             : 'bg-gray-300 text-gray-500 cursor-not-allowed'"
         >
           {{ car.is_available ? 'Confirm Booking' : 'Currently Unavailable' }}
         </button>
 
-        <div class="grid grid-cols-2 gap-4 mt-8 text-sm text-apex-navy font-semibold">
+        <div class="grid rounded-lg grid-cols-2 gap-4 mt-8 text-sm text-gray-200 font-semibold">
           <div class="flex items-center gap-2">✅ Instant Confirmation</div>
           <div class="flex items-center gap-2">✅ Insurance Included</div>
           <div class="flex items-center gap-2">✅ GPS Navigation</div>
