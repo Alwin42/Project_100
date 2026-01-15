@@ -13,9 +13,9 @@
           <router-link to="/about" class="hover:text-[#5F9598] transition-colors duration-300">About</router-link>
           <router-link to="/fleet" class="hover:text-[#5F9598] transition-colors duration-300">Fleet</router-link>
           
-          <a href="#" class="border-b border-transparent hover:border-white pb-1 transition-all duration-300">
+          <router-link to="/login" class="border-b border-transparent hover:border-white pb-1 transition-all duration-300">
             Login
-          </a>
+          </router-link>
         </div>
 
         <div class="md:hidden">
