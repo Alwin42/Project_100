@@ -2,11 +2,11 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from .views import CarViewSet
 
-# Create a router and register our ViewSet with it.
+# Create the router and register the 'cars' endpoint
 router = DefaultRouter()
-router.register(r'cars', CarViewSet) 
-# The 'r'cars'' argument means the URL prefix will be /cars/
+router.register(r'cars', CarViewSet)
 
 urlpatterns = [
+    # This includes the router URLs (e.g., /cars/, /cars/1/)
     path('', include(router.urls)),
 ]
