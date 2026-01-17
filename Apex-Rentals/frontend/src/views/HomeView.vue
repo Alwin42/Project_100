@@ -43,7 +43,7 @@ const scrollToFleet = () => {
         <p class="text-gray-200 text-lg md:text-xl max-w-xl mb-12 font-light tracking-wide opacity-0 animate-fade-in-up" style="animation-delay: 0.3s; animation-fill-mode: forwards;">
           Experience the thrill of the extraordinary.
         </p>
-
+        <router-link to="/fleet">
         <button 
           @click="scrollToFleet"
           class="group relative px-10 py-4 bg-transparent border border-white/30 text-white font-medium tracking-[0.2em] uppercase overflow-hidden hover:border-[#5F9598] transition-all duration-500 opacity-0 animate-fade-in-up"
@@ -52,6 +52,7 @@ const scrollToFleet = () => {
           <span class="absolute inset-0 w-full h-full bg-[#5F9598]/20 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out"></span>
           <span class="relative">Explore Fleet</span>
         </button>
+        </router-link>
       </div>
     </div>
 
