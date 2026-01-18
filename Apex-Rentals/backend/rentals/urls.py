@@ -1,12 +1,14 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import CarViewSet
+from .views import CarViewSet, auth_send_otp, auth_verify_otp 
 
-# Create the router and register the 'cars' endpoint
 router = DefaultRouter()
 router.register(r'cars', CarViewSet)
 
 urlpatterns = [
-    # This includes the router URLs (e.g., /cars/, /cars/1/)
     path('', include(router.urls)),
+    
+    # New Auth Routes
+    path('auth/send-otp/', auth_send_otp, name='send-otp'),
+    path('auth/verify-otp/', auth_verify_otp, name='verify-otp'),
 ]

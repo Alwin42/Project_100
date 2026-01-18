@@ -1,5 +1,7 @@
 from django.db import models
-
+from django.contrib.auth.models import User
+from django.utils import timezone
+import datetime
 class Car(models.Model):
     # --- CORRECT CHOICES FORMAT ---
     CATEGORY_CHOICES = [
@@ -11,7 +13,7 @@ class Car(models.Model):
     ]
     
     FUEL_CHOICES = [
-        ('Petrol', 'Petrol'),      # <--- Must be ('Value', 'Label')
+        ('Petrol', 'Petrol'),      
         ('Diesel', 'Diesel'),
         ('Electric', 'Electric'),
         ('Hybrid', 'Hybrid'),
@@ -48,3 +50,18 @@ class Car(models.Model):
 
     def __str__(self):
         return f"{self.year} {self.manufacturer} {self.model}"
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    otp = models.CharField(max_length=6, blank=True, null=True)
+    otp_created_at = models.DateTimeField(blank=True, null=True)
+
+    def is_otp_valid(self):
+        # Check if OTP was created within the last 5 minutes
+        if not self.otp_created_at:
+            return False
+        now = timezone.now()
+        return now - self.otp_created_at < datetime.timedelta(minutes=5)
+
+    def __str__(self):
+        return f"Profile for {self.user.email}"
