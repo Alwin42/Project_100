@@ -12,6 +12,20 @@ onMounted(async () => {
     cars.value = response.data
   } catch (err) { console.error(err) }
 })
+// Add this helper function to define colors
+const getTagStyle = (tag) => {
+  if (!tag) return 'bg-gray-500/10 text-gray-400 border-gray-500/20' // Fallback
+  
+  const t = tag.toLowerCase()
+  
+  if (t === 'economy') return 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30 shadow-[0_0_10px_-3px_rgba(52,211,153,0.3)]'
+  if (t === 'premium') return 'bg-amber-500/10 text-amber-300 border-amber-500/30 shadow-[0_0_15px_-3px_rgba(245,158,11,0.3)]'
+  if (t === 'sports') return 'bg-rose-600/10 text-rose-500 border-rose-500/30 shadow-[0_0_15px_-3px_rgba(225,29,72,0.4)]'
+  if (t === 'classic') return 'bg-slate-400/10 text-slate-300 border-slate-400/30 shadow-[0_0_10px_-3px_rgba(148,163,184,0.3)]'
+  if (t === 'vintage') return 'bg-orange-900/20 text-[#DEB887] border-[#DEB887]/30 shadow-[0_0_10px_-3px_rgba(222,184,135,0.3)]'
+  
+  return 'bg-[#5F9598]/10 text-[#5F9598] border-[#5F9598]/30' // Default Teal
+}
 
 const getImageUrl = (imagePath) => {
   if (!imagePath) return "https://via.placeholder.com/600x400?text=No+Image"
@@ -64,18 +78,23 @@ const getImageUrl = (imagePath) => {
           <div class="p-6">
             <div class="flex justify-between items-start mb-4">
               <div>
-                <p class="text-[#5F9598] text-[10px] font-bold tracking-[0.2em] uppercase mb-1">{{ car.make }}</p>
+                <p class="text-[#5F9598] text-[10px] font-bold tracking-[0.2em] uppercase mb-1">{{ car.manufacturer }}</p>
                 <h3 class="text-2xl font-bold text-white leading-tight group-hover:text-[#5F9598] transition-colors">{{ car.model }}</h3>
+              </div>
+              
+              <div 
+                v-if="car.tag"
+                class="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border backdrop-blur-sm transition-all duration-300 group-hover:scale-105"
+                :class="getTagStyle(car.tag)"
+              >
+                {{ car.tag }}
               </div>
             </div>
 
-            <div class="flex gap-4 mb-6 border-t border-white/5 pt-4">
-              <div class="text-xs text-gray-500 flex items-center gap-1">
-                <span class="w-2 h-2 rounded-full bg-[#5F9598]"></span> Automatic
-              </div>
-              <div class="text-xs text-gray-500 flex items-center gap-1">
-                <span class="w-2 h-2 rounded-full bg-[#5F9598]"></span> Petrol
-              </div>
+            <div class="flex gap-4 mb-6 border-t border-white/5 pt-4 text-gray-400 text-sm">
+              <div class="flex items-center gap-1"><ion-icon name="hardware-chip-outline" class="text-[#5F9598]"></ion-icon> {{ car.transmission }}</div>
+              <div class="flex items-center gap-1"><ion-icon name="water-outline" class="text-[#5F9598]"></ion-icon> {{ car.fuel_type }}</div>
+              
             </div>
 
             <router-link 
