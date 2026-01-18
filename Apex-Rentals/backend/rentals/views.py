@@ -1,19 +1,23 @@
 from rest_framework import viewsets
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view, permission_classes, parser_classes
 from rest_framework.response import Response
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated, IsAuthenticatedOrReadOnly
+from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework.authtoken.models import Token
 from django.contrib.auth.models import User
 from django.utils import timezone
 from .models import Car, Profile
 from .serializers import CarSerializer
 from .utils import generate_otp, send_otp_email
 
-# CarViewSet
+# --- PUBLIC CAR API ---
 class CarViewSet(viewsets.ModelViewSet):
     queryset = Car.objects.all()
     serializer_class = CarSerializer
+    # This allows ANYONE to see cars (GET), but only Logged-in users to Edit/Delete
+    permission_classes = [IsAuthenticatedOrReadOnly] 
 
-# ---  AUTH VIEWS ---
+# --- AUTH VIEWS ---
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -32,7 +36,8 @@ def auth_send_otp(request):
         user.set_unusable_password() # We don't use passwords
         user.save()
         # Create the profile backpack
-        Profile.objects.create(user=user)
+        if not hasattr(user, 'profile'):
+            Profile.objects.create(user=user)
 
     # 2. Ensure Profile exists (just in case)
     if not hasattr(user, 'profile'):
@@ -49,7 +54,7 @@ def auth_send_otp(request):
         send_otp_email(email, otp)
         return Response({"message": "OTP sent successfully!"})
     except Exception as e:
-        print(e) # Print error to console for debugging
+        print(f"Email Error: {e}") # Print error to console for debugging
         return Response({"error": "Failed to send email"}, status=500)
 
 @api_view(['POST'])
@@ -58,51 +63,60 @@ def auth_verify_otp(request):
     email = request.data.get('email')
     submitted_otp = request.data.get('otp')
 
-    print("\n--- DEBUGGING LOGIN ---")
-    print(f"1. Client Email: {email}")
-    print(f"2. Client OTP: {submitted_otp}")
-
     try:
         user = User.objects.get(email=email)
         profile = user.profile
         
-        # Clean the data
+        # Clean data
         clean_submitted = str(submitted_otp).strip()
         clean_stored = str(profile.otp).strip()
         
-        print(f"3. Stored OTP (DB): '{clean_stored}'")
-        print(f"4. Submitted OTP  : '{clean_submitted}'")
-        
-        # Check MATCH
-        is_match = (clean_stored == clean_submitted)
-        print(f"5. Do they match? {is_match}")
-        
-        # Check TIME
-        is_time_valid = profile.is_otp_valid()
-        print(f"6. Is time valid? {is_time_valid}")
-        
-        if not is_time_valid:
-            # Print timing details if it failed
-            from django.utils import timezone
-            now = timezone.now()
-            print(f"   -> Created At: {profile.otp_created_at}")
-            print(f"   -> Current Time: {now}")
-            print(f"   -> Difference: {now - profile.otp_created_at if profile.otp_created_at else 'None'}")
-
-        if is_match and is_time_valid:
-            print("--- LOGIN SUCCESS ---\n")
+        # Verify OTP
+        if clean_stored == clean_submitted and profile.is_otp_valid():
+            
+            # 1. Clear OTP (Security)
             profile.otp = None
             profile.save()
+            
+            # 2. GENERATE TOKEN (The "Key")
+            token, _ = Token.objects.get_or_create(user=user)
+            
             return Response({
                 "message": "Login Successful", 
-                "user_id": user.id, 
-                "email": user.email
+                "user_id": user.id,
+                "email": user.email,
+                "token": token.key
             })
         else:
-            print("--- LOGIN FAILED ---\n")
-            error_msg = "OTP Mismatch" if not is_match else "OTP Expired"
-            return Response({"error": f"Invalid Code: {error_msg}"}, status=400)
+            return Response({"error": "Invalid or Expired OTP"}, status=400)
             
     except User.DoesNotExist:
-        print("ERROR: User not found in DB")
         return Response({"error": "User not found"}, status=404)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated]) # User must be logged in
+@parser_classes([MultiPartParser, FormParser]) # To handle image uploads
+def upload_id_proof(request):
+    user = request.user
+    profile = user.profile
+    
+    # Get the image from the request
+    image = request.FILES.get('id_proof')
+    
+    if not image:
+        return Response({"error": "No image provided"}, status=400)
+    
+    # Save it
+    profile.id_proof = image
+    profile.save()
+    
+    return Response({"message": "ID Proof uploaded! Waiting for Admin approval."})
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def check_verification_status(request):
+    profile = request.user.profile
+    return Response({
+        "is_verified": profile.is_verified,
+        "has_uploaded_id": bool(profile.id_proof)
+    })

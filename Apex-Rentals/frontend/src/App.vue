@@ -12,7 +12,7 @@
           <router-link to="/" class="hover:text-[#5F9598] transition-colors duration-300">Home</router-link>
           <router-link to="/about" class="hover:text-[#5F9598] transition-colors duration-300">About</router-link>
           <router-link to="/fleet" class="hover:text-[#5F9598] transition-colors duration-300">Fleet</router-link>
-          
+          <router-link to="/dashboard" class="hover:text-[#5F9598] transition-colors duration-300">Dashboard</router-link>
           <router-link to="/login" class="border-b border-transparent hover:border-white pb-1 transition-all duration-300">
             Login
           </router-link>

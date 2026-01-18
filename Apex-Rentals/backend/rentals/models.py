@@ -55,13 +55,17 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     otp = models.CharField(max_length=6, blank=True, null=True)
     otp_created_at = models.DateTimeField(blank=True, null=True)
+    
+    # --- NEW FIELDS ---
+    id_proof = models.ImageField(upload_to='id_proofs/', blank=True, null=True)
+    is_verified = models.BooleanField(default=False) # Only Admin can set this to True
+    # ------------------
 
     def is_otp_valid(self):
-        # Check if OTP was created within the last 5 minutes
-        if not self.otp_created_at:
-            return False
+        # ... (keep existing logic) ...
+        if not self.otp_created_at: return False
         now = timezone.now()
         return now - self.otp_created_at < datetime.timedelta(minutes=5)
 
     def __str__(self):
-        return f"Profile for {self.user.email}"
+        return f"{self.user.email} - {'Verified' if self.is_verified else 'Pending'}"

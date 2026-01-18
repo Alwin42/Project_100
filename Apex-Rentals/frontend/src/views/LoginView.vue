@@ -44,8 +44,10 @@ const handleVerifyOTP = async () => {
     // Login Success!
     // Store user ID or Token in localStorage if needed
     localStorage.setItem('user_id', response.data.user_id)
-    
-    router.push('/fleet') // Redirect to the car list
+    localStorage.setItem('user_email', response.data.email)
+    localStorage.setItem('token', response.data.token)
+
+    router.push('/dashboard') // Redirect to the car list
   } catch (err) {
     error.value = "Invalid code. Please try again."
   } finally {

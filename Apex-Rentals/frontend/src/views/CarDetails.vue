@@ -1,31 +1,82 @@
 <script setup>
 import { ref, onMounted } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import axios from 'axios'
 
 const route = useRoute()
+const router = useRouter()
+
 const car = ref(null)
 const loading = ref(true)
+const isVerified = ref(false)
+const hasUploadedID = ref(false)
+const userId = localStorage.getItem('user_id') // Check if user is logged in
+
 const API_URL = "http://127.0.0.1:8000"
 
+// --- 1. FETCH DATA ON LOAD ---
 onMounted(async () => {
   const carId = route.params.id
-  setTimeout(async () => {
+
+  // A. Fetch Car Details
+  try {
+    const carRes = await axios.get(`${API_URL}/api/cars/${carId}/`)
+    car.value = carRes.data
+  } catch (err) {
+    console.error("Failed to load car", err)
+  }
+
+  // B. Check User Status (If logged in)
+  if (userId) {
     try {
-      const response = await axios.get(`${API_URL}/api/cars/${carId}/`)
-      car.value = response.data
-    } catch (err) { 
-      console.error(err) 
-    } finally {
-      loading.value = false
+      // Note: In a real app, you'd send an Auth Header here. 
+      // For this prototype, we assume session or basic check.
+      const statusRes = await axios.get(`${API_URL}/api/user/status/`)
+      isVerified.value = statusRes.data.is_verified
+      hasUploadedID.value = statusRes.data.has_uploaded_id
+    } catch (e) {
+      console.warn("User status check failed - defaulting to unverified")
     }
-  }, 300)
+  }
+
+  // Stop loading animation after a brief delay for smoothness
+  setTimeout(() => loading.value = false, 300)
 })
 
+// --- 2. HELPER FUNCTIONS ---
+
 const getImageUrl = (imagePath) => {
-  if (!imagePath) return "https://via.placeholder.com/800x600"
+  if (!imagePath) return "https://via.placeholder.com/800x600?text=No+Image"
   if (imagePath.startsWith("http")) return imagePath
   return `${API_URL}${imagePath}`
+}
+
+const handleRentClick = () => {
+  // Scenario 1: Not Logged In
+  if (!userId) {
+    if(confirm("You must be logged in to rent a car. Go to Login?")) {
+      router.push('/login')
+    }
+    return
+  }
+
+  // Scenario 2: Logged In but No ID Uploaded
+  if (!hasUploadedID) {
+    alert("You haven't uploaded your ID Proof yet. Redirecting to Dashboard...")
+    router.push('/dashboard') // You will build this page next
+    return
+  }
+
+  // Scenario 3: ID Uploaded but Not Approved by Admin
+  if (!isVerified.value) {
+    alert("Your ID is still pending approval by the Admin. Please wait.")
+    return
+  }
+
+  // Scenario 4: All Good!
+  if(confirm(`Confirm booking for ${car.value.model} at ₹${car.value.price_per_day}/day?`)) {
+    alert("Booking Request Sent! (This is where payment logic goes)")
+  }
 }
 </script>
 
@@ -62,13 +113,12 @@ const getImageUrl = (imagePath) => {
             />
             
             <div class="absolute top-6 left-6 bg-[#061E29]/90 backdrop-blur border border-[#5F9598]/30 px-4 py-2 rounded-lg">
-              <span class="text-[#5F9598] font-bold tracking-widest text-xs uppercase">{{ car.model }} Series</span>
+              <span class="text-[#5F9598] font-bold tracking-widest text-xs uppercase">{{ car.manufacturer }} Series</span>
             </div>
-            
           </div>
         </div>
 
-        <div class="lg:col-span-5 bg-[#0B2B38]/60 backdrop-blur-md rounded-2xl p-8 shadow-2xl border border-white/5 relative overflow-hidden">
+        <div class="lg:col-span-5 bg-[#0B2B38]/60 backdrop-blur-md rounded-2xl p-6 shadow-2xl border border-white/5 relative overflow-hidden">
           
           <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#5F9598] to-transparent"></div>
 
@@ -83,8 +133,7 @@ const getImageUrl = (imagePath) => {
           <div class="flex items-center gap-2 mb-6">
             <span class="px-3 py-1 bg-white/10 rounded text-xs font-bold text-gray-300 uppercase tracking-wider">{{ car.category }}</span>
             <span class="px-3 py-1 bg-white/10 rounded text-xs font-bold text-gray-300 uppercase tracking-wider">{{ car.year }}</span>
-            <span class="px-3 py-1 bg-white/10 rounded text-xs font-bold text-gray-300 uppercase tracking-wider">{{ car.color }} Color</span>
-            
+             <span class="px-3 py-1 bg-white/10 rounded text-xs font-bold text-gray-300 uppercase tracking-wider">{{ car.color }}</span>
           </div>
           
           <div class="grid grid-cols-2 gap-x-4 gap-y-4 mb-6 border-t border-b border-white/10 py-6">
@@ -125,10 +174,9 @@ const getImageUrl = (imagePath) => {
               </div>
               <div>
                 <p class="text-[10px] text-gray-400 uppercase tracking-widest">Location</p>
-                <p class="text-white font-bold text-sm leading-tight  max-w-[140px]">{{ car.location }}</p>
+                <p class="text-white font-bold text-sm leading-tight truncate max-w-[120px]">{{ car.location }}</p>
               </div>
             </div>
-
           </div>
 
           <div class="flex items-baseline mb-4">
@@ -137,13 +185,20 @@ const getImageUrl = (imagePath) => {
           </div>
 
           <button 
+            @click="handleRentClick"
             :disabled="!car.is_available"
-            class="w-full py-4 text-[#061E29] font-bold text-lg uppercase tracking-[0.2em] rounded-xl transition-all duration-300 transform hover:-translate-y-1 hover:shadow-[0_10px_40px_-10px_rgba(95,149,152,0.5)] relative overflow-hidden group/btn mb-6"
-            :class="car.is_available 
-              ? 'bg-[#5F9598] hover:bg-white' 
-              : 'bg-gray-700 text-gray-500 cursor-not-allowed'"
+            class="w-full py-4 font-bold text-sm uppercase tracking-[0.2em] rounded-xl transition-all duration-300 transform hover:-translate-y-1 relative overflow-hidden group/btn mb-6"
+            :class="[
+               !car.is_available 
+                 ? 'bg-gray-700 text-gray-500 cursor-not-allowed' 
+                 : isVerified 
+                    ? 'bg-[#5F9598] hover:bg-white text-[#061E29] shadow-[0_10px_40px_-10px_rgba(95,149,152,0.5)]' 
+                    : 'bg-amber-600/10 text-amber-500 border border-amber-600/30 hover:bg-amber-600/20'
+            ]"
           >
-            <span class="relative z-10">{{ car.is_available ? 'Confirm Reservation' : 'Unavailable' }}</span>
+            <span class="relative z-10">
+              {{ !car.is_available ? 'Currently Unavailable' : (isVerified ? 'Confirm Reservation' : 'Verify ID to Rent') }}
+            </span>
           </button>
 
           <div class="bg-[#061E29]/30 rounded-lg p-3 flex items-center justify-between border border-white/5">
