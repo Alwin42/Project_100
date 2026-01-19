@@ -5,20 +5,35 @@ import axios from 'axios'
 
 const route = useRoute()
 const router = useRouter()
+const API_URL = "http://127.0.0.1:8000"
 
+// --- STATE ---
 const car = ref(null)
 const loading = ref(true)
 const isVerified = ref(false)
 const hasUploadedID = ref(false)
-const userId = localStorage.getItem('user_id') // Check if user is logged in
+const userId = localStorage.getItem('user_id')
 
-const API_URL = "http://127.0.0.1:8000"
+// --- MODAL STATE ---
+const showModal = ref(false)
+const modalConfig = ref({ 
+  title: '', 
+  message: '', 
+  type: 'info', 
+  action: null 
+})
 
-// --- 1. FETCH DATA ON LOAD ---
+// Helper to Open Modal
+const openModal = (title, message, type = 'info', action = null) => {
+  modalConfig.value = { title, message, type, action }
+  showModal.value = true
+}
+
+// 1. Fetch Data
 onMounted(async () => {
   const carId = route.params.id
 
-  // A. Fetch Car Details
+  // A. Fetch Car (Public)
   try {
     const carRes = await axios.get(`${API_URL}/api/cars/${carId}/`)
     car.value = carRes.data
@@ -26,162 +41,147 @@ onMounted(async () => {
     console.error("Failed to load car", err)
   }
 
-  // B. Check User Status (If logged in)
+  // B. Check Status (Private)
   if (userId) {
     try {
-      // Note: In a real app, you'd send an Auth Header here. 
-      // For this prototype, we assume session or basic check.
-      const statusRes = await axios.get(`${API_URL}/api/user/status/`)
+      const token = localStorage.getItem('token')
+      const statusRes = await axios.get(`${API_URL}/api/user/status/`, {
+        headers: { 'Authorization': `Token ${token}` }
+      })
       isVerified.value = statusRes.data.is_verified
       hasUploadedID.value = statusRes.data.has_uploaded_id
     } catch (e) {
-      console.warn("User status check failed - defaulting to unverified")
+      console.warn("User status check failed", e)
     }
   }
 
-  // Stop loading animation after a brief delay for smoothness
   setTimeout(() => loading.value = false, 300)
 })
 
-// --- 2. HELPER FUNCTIONS ---
+// 2. Handle Rent Logic
+const handleRentClick = () => {
+  if (!userId) {
+    openModal("Login Required", "You must be logged in to reserve a vehicle.", "confirm", () => router.push('/login'))
+    return
+  }
+  if (!hasUploadedID) {
+    openModal("ID Proof Missing", "You must upload your ID proof in the Dashboard before renting.", "error", () => router.push('/dashboard'))
+    return
+  }
+  if (!isVerified.value) {
+    openModal("Verification Pending", "Your ID is currently under review by our Admin team.", "info")
+    return
+  }
 
-const getImageUrl = (imagePath) => {
-  if (!imagePath) return "https://via.placeholder.com/800x600?text=No+Image"
-  if (imagePath.startsWith("http")) return imagePath
-  return `${API_URL}${imagePath}`
+  openModal(
+    "Confirm Reservation", 
+    `Are you sure you want to proceed with booking the ${car.value.model} for ₹${car.value.price_per_day}/day?`, 
+    "confirm",
+    () => {
+      router.push({ name: 'payment', params: { id: car.value.id } })
+    }
+  )
 }
 
-const handleRentClick = () => {
-  // Scenario 1: Not Logged In
-  if (!userId) {
-    if(confirm("You must be logged in to rent a car. Go to Login?")) {
-      router.push('/login')
-    }
-    return
-  }
-
-  // Scenario 2: Logged In but No ID Uploaded
-  if (!hasUploadedID) {
-    alert("You haven't uploaded your ID Proof yet. Redirecting to Dashboard...")
-    router.push('/dashboard') // You will build this page next
-    return
-  }
-
-  // Scenario 3: ID Uploaded but Not Approved by Admin
-  if (!isVerified.value) {
-    alert("Your ID is still pending approval by the Admin. Please wait.")
-    return
-  }
-
-  // Scenario 4: All Good!
-  if(confirm(`Confirm booking for ${car.value.model} at ₹${car.value.price_per_day}/day?`)) {
-    alert("Booking Request Sent! (This is where payment logic goes)")
-  }
+const getImageUrl = (imagePath) => {
+  if (!imagePath) return "https://via.placeholder.com/600x400?text=No+Image"
+  if (imagePath.startsWith("http")) return imagePath
+  return `${API_URL}${imagePath}`
 }
 </script>
 
 <template>
-  <div class="min-h-screen w-full bg-[#061E29] pt-32 pb-20 px-4 sm:px-6 lg:px-12 relative overflow-hidden">
+  <div class="min-h-screen bg-[#061E29] pt-32 pb-20 relative overflow-hidden">
     
-    <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-[#1D546D]/20 blur-[150px] rounded-full pointer-events-none animate-pulse-slow"></div>
-    <div class="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[#5F9598]/10 blur-[150px] rounded-full pointer-events-none"></div>
+    <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-[#1D546D]/20 blur-[120px] rounded-full pointer-events-none"></div>
 
-    <div v-if="loading" class="max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center animate-pulse">
-      <div class="lg:col-span-7 h-[600px] bg-[#0B2B38]/50 rounded-xl"></div>
-      <div class="lg:col-span-5 space-y-4">
-        <div class="h-10 w-1/2 bg-[#0B2B38]/50 rounded"></div>
-        <div class="h-40 w-full bg-[#0B2B38]/50 rounded"></div>
-      </div>
+    <div v-if="loading" class="flex justify-center items-center h-[60vh]">
+      <div class="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-[#5F9598]"></div>
     </div>
 
-    <div v-else-if="car" class="relative z-10 max-w-[1600px] mx-auto animate-fade-in-up">
+    <div v-else-if="car" class="max-w-7xl mx-auto px-6 relative z-10">
       
-      <router-link to="/fleet" class="inline-flex items-center text-[#5F9598] hover:text-white mb-8 font-bold tracking-widest uppercase text-xs transition-colors duration-300">
-        <span class="mr-2">←</span> Back to Collection
-      </router-link>
+      <button @click="router.back()" class="flex items-center gap-2 text-gray-400 hover:text-white mb-8 transition-colors group">
+        <ion-icon name="arrow-back" class="group-hover:-translate-x-1 transition-transform"></ion-icon>
+        Back to Fleet
+      </button>
 
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
         
-        <div class="lg:col-span-7 relative group perspective-1000">
-          <div class="absolute -inset-1 bg-gradient-to-r from-[#5F9598] to-[#1D546D] rounded-xl opacity-30 group-hover:opacity-60 blur-lg transition duration-700"></div>
+        <div class="lg:col-span-2 relative group rounded-2xl overflow-hidden border border-white/10 shadow-2xl h-[500px] lg:h-[600px]">
+          <div class="absolute inset-0 bg-gradient-to-t from-[#061E29] via-transparent to-transparent opacity-60 z-10"></div>
           
-          <div class="relative rounded-xl overflow-hidden border border-white/10 shadow-2xl h-[400px] lg:h-[600px]">
-            <img 
-              :src="getImageUrl(car.image)" 
-              :alt="car.model" 
-              class="w-full h-full object-cover transform transition duration-700 group-hover:scale-105" 
-            />
-            
-            <div class="absolute top-6 left-6 bg-[#061E29]/90 backdrop-blur border border-[#5F9598]/30 px-4 py-2 rounded-lg">
-              <span class="text-[#5F9598] font-bold tracking-widest text-xs uppercase">{{ car.manufacturer }} Series</span>
+          <img 
+            :src="getImageUrl(car.image)" 
+            :alt="car.model" 
+            class="w-full h-full object-cover transform group-hover:scale-105 transition duration-700"
+          >
+          
+          <div class="absolute bottom-6 left-6 z-20">
+            <div class="inline-block px-4 py-1 bg-[#5F9598] text-[#061E29] font-bold text-xs uppercase tracking-widest rounded-full mb-2">
+              {{ car.tag || 'Premium' }}
             </div>
+            <h1 class="text-4xl md:text-5xl font-bold text-white">{{ car.model }}</h1>
           </div>
         </div>
 
-        <div class="lg:col-span-5 bg-[#0B2B38]/60 backdrop-blur-md rounded-2xl p-6 shadow-2xl border border-white/5 relative overflow-hidden">
+        <div class="bg-[#0B2B38]/60 backdrop-blur-md p-8 rounded-2xl border border-white/5 shadow-xl h-full">
           
-          <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#5F9598] to-transparent"></div>
-
-          <span class="text-[#5F9598] font-bold tracking-[0.3em] text-[10px] uppercase mb-1 block">
-            The {{ car.manufacturer }} Collection
-          </span>
-          
-          <h1 class="text-3xl md:text-5xl font-extrabold text-white mb-4 leading-tight">
-            {{ car.model }}
-          </h1>
-
-          <div class="flex items-center gap-2 mb-6">
-            <span class="px-3 py-1 bg-white/10 rounded text-xs font-bold text-gray-300 uppercase tracking-wider">{{ car.category }}</span>
-            <span class="px-3 py-1 bg-white/10 rounded text-xs font-bold text-gray-300 uppercase tracking-wider">{{ car.year }}</span>
-             <span class="px-3 py-1 bg-white/10 rounded text-xs font-bold text-gray-300 uppercase tracking-wider">{{ car.color }}</span>
+          <div class="flex justify-between items-end border-b border-white/10 pb-6 mb-8">
+            <div>
+              <p class="text-[#5F9598] font-bold uppercase tracking-widest text-xs mb-1">{{ car.manufacturer }}</p>
+              <h2 class="text-2xl font-bold text-white">Overview</h2>
+            </div>
+            <div class="text-right">
+              <p class="text-2xl font-bold text-[#5F9598]">₹{{ Number(car.price_per_day).toLocaleString() }}</p>
+              <p class="text-gray-400 text-sm">per day</p>
+            </div>
           </div>
-          
-          <div class="grid grid-cols-2 gap-x-4 gap-y-4 mb-6 border-t border-b border-white/10 py-6">
+
+          <div class="grid grid-cols-3 gap-4 mb-10">
             
-            <div class="flex items-center gap-3">
-              <div class="p-2 bg-[#061E29] rounded-lg text-[#5F9598] border border-white/5">
-                <ion-icon name="water" style="font-size: 20px;"></ion-icon>
-              </div>
-              <div>
-                <p class="text-[10px] text-gray-400 uppercase tracking-widest">Fuel Type</p>
-                <p class="text-white font-bold text-sm leading-none">{{ car.fuel_type }}</p>
-              </div>
+            <div class="bg-[#061E29] p-2 rounded-xl border border-white/5 flex flex-col items-center text-center">
+              <ion-icon name="speedometer-outline" class="text-2xl text-[#5F9598] mb-2"></ion-icon>
+              <p class="text-gray-400 text-xs uppercase">Transmission</p>
+              <p class="text-white font-bold text-sm">{{ car.transmission }}</p>
+            </div>
+            
+            <div class="bg-[#061E29] p-4 rounded-xl border border-white/5 flex flex-col items-center text-center">
+              <ion-icon name="water-outline" class="text-2xl text-[#5F9598] mb-2"></ion-icon>
+              <p class="text-gray-400 text-xs uppercase">Fuel</p>
+              <p class="text-white font-bold text-sm">{{ car.fuel_type }}</p>
             </div>
 
-            <div class="flex items-center gap-3">
-              <div class="p-2 bg-[#061E29] rounded-lg text-[#5F9598] border border-white/5">
-                <ion-icon name="hardware-chip" style="font-size: 20px;"></ion-icon>
-              </div>
-              <div>
-                <p class="text-[10px] text-gray-400 uppercase tracking-widest">Transmission</p>
-                <p class="text-white font-bold text-sm leading-none">{{ car.transmission }}</p>
-              </div>
+            <div class="bg-[#061E29] p-4 rounded-xl border border-white/5 flex flex-col items-center text-center">
+              <ion-icon name="calendar-outline" class="text-2xl text-[#5F9598] mb-2"></ion-icon>
+              <p class="text-gray-400 text-xs uppercase">Year</p>
+              <p class="text-white font-bold text-sm">{{ car.year || '2024' }}</p>
             </div>
 
-            <div class="flex items-center gap-3">
-              <div class="p-2 bg-[#061E29] rounded-lg text-[#5F9598] border border-white/5">
-                <ion-icon name="speedometer" style="font-size: 20px;"></ion-icon>
-              </div>
-              <div>
-                <p class="text-[10px] text-gray-400 uppercase tracking-widest">Mileage</p>
-                <p class="text-white font-bold text-sm leading-none">{{ car.mileage }} km/L</p>
-              </div>
+            <div class="bg-[#061E29] p-4 rounded-xl border border-white/5 flex flex-col items-center text-center">
+              <ion-icon name="color-palette-outline" class="text-2xl text-[#5F9598] mb-2"></ion-icon>
+              <p class="text-gray-400 text-xs uppercase">Color</p>
+              <p class="text-white font-bold text-sm">{{ car.color || 'Black' }}</p>
             </div>
 
-            <div class="flex items-center gap-3">
-              <div class="p-2 bg-[#061E29] rounded-lg text-[#5F9598] border border-white/5">
-                <ion-icon name="location" style="font-size: 20px;"></ion-icon>
-              </div>
-              <div>
-                <p class="text-[10px] text-gray-400 uppercase tracking-widest">Location</p>
-                <p class="text-white font-bold text-sm leading-tight truncate max-w-[120px]">{{ car.location }}</p>
-              </div>
+             <div class="bg-[#061E29] p-4 rounded-xl border border-white/5 flex flex-col items-center text-center">
+              <ion-icon name="person-outline" class="text-2xl text-[#5F9598] mb-2"></ion-icon>
+              <p class="text-gray-400 text-xs uppercase">Owner</p>
+              <p class="text-white font-bold text-sm">{{ car.owner_name || 'Apex' }}</p>
             </div>
-          </div>
 
-          <div class="flex items-baseline mb-4">
-            <span class="text-4xl font-bold text-white">₹{{ Number(car.price_per_day).toLocaleString() }}</span>
-            <span class="text-gray-400 ml-2 text-sm font-light">/ day</span>
+            <div class="bg-[#061E29] p-4 rounded-xl border border-white/5 flex flex-col items-center text-center">
+              <ion-icon name="call-outline" class="text-2xl text-[#5F9598] mb-2"></ion-icon>
+              <p class="text-gray-400 text-xs uppercase">Contact</p>
+              <p class="text-white font-bold text-sm">{{ car.owner_phone || 'N/A' }}</p>
+            </div>
+
+            <div class="bg-[#061E29] p-6 rounded-xl border border-white/5 flex flex-col items-center text-center col-span-2">
+              <ion-icon name="location-outline" class="text-2xl text-[#5F9598] mb-2"></ion-icon>
+              <p class="text-gray-400 text-xs uppercase">Location</p>
+              <p class="text-white font-bold text-sm">{{ car.location || 'Kochi, Kerala' }}</p>
+            </div>
+
           </div>
 
           <button 
@@ -200,38 +200,51 @@ const handleRentClick = () => {
               {{ !car.is_available ? 'Currently Unavailable' : (isVerified ? 'Confirm Reservation' : 'Verify ID to Rent') }}
             </span>
           </button>
-
-          <div class="bg-[#061E29]/30 rounded-lg p-3 flex items-center justify-between border border-white/5">
-             <div class="flex items-center gap-3">
-               <div class="w-8 h-8 rounded-full bg-gradient-to-br from-[#5F9598] to-[#1D546D] flex items-center justify-center text-white font-bold text-xs">
-                 {{ car.owner_name ? car.owner_name.charAt(0) : 'A' }}
-               </div>
-               <div>
-                 <p class="text-[10px] text-gray-400 uppercase">Listed By</p>
-                 <p class="text-xs font-bold text-white">{{ car.owner_name }}</p>
-               </div>
-             </div>
-             <a :href="`tel:${car.owner_phone}`" class="text-[#5F9598] hover:text-white transition-colors">
-               <ion-icon name="call" style="font-size: 18px;"></ion-icon>
-             </a>
-          </div>
+          
+          <p v-if="!isVerified && userId" class="text-center text-xs text-amber-500/80">
+            * Complete ID verification in Dashboard to unlock booking.
+          </p>
 
         </div>
       </div>
     </div>
+
+    <div v-else class="text-center pt-20">
+      <h2 class="text-2xl text-white">Car not found</h2>
+      <button @click="router.push('/fleet')" class="text-[#5F9598] mt-4 hover:underline">Go back to fleet</button>
+    </div>
+
+    <div v-if="showModal" class="fixed inset-0 z-50 flex items-center justify-center p-4">
+      <div class="absolute inset-0 bg-black/80 backdrop-blur-sm transition-opacity" @click="showModal = false"></div>
+      
+      <div class="relative bg-[#0B2B38] border border-white/10 p-8 rounded-2xl max-w-md w-full shadow-2xl animate-fade-in-up">
+        
+        <div class="mb-4 text-4xl">
+           <ion-icon v-if="modalConfig.type === 'error'" name="warning" class="text-red-400"></ion-icon>
+           <ion-icon v-if="modalConfig.type === 'info'" name="information-circle" class="text-amber-400"></ion-icon>
+           <ion-icon v-if="modalConfig.type === 'confirm'" name="calendar" class="text-[#5F9598]"></ion-icon>
+        </div>
+
+        <h3 class="text-2xl font-bold text-white mb-2">{{ modalConfig.title }}</h3>
+        <p class="text-gray-400 mb-8">{{ modalConfig.message }}</p>
+
+        <div class="flex gap-4">
+          <button @click="showModal = false" class="flex-1 py-3 rounded-lg font-bold border border-white/10 text-gray-400 hover:bg-white/5 transition">Cancel</button>
+          
+          <button v-if="modalConfig.action" @click="modalConfig.action" class="flex-1 py-3 rounded-lg font-bold bg-[#5F9598] text-[#061E29] hover:bg-white transition">
+            {{ modalConfig.type === 'confirm' ? 'Continue' : 'Proceed' }}
+          </button>
+          
+          <button v-else @click="showModal = false" class="flex-1 py-3 rounded-lg font-bold bg-[#5F9598] text-[#061E29] hover:bg-white transition">Okay</button>
+        </div>
+
+      </div>
+    </div>
+
   </div>
 </template>
 
 <style scoped>
-@keyframes pulse-slow {
-  0%, 100% { opacity: 0.3; transform: scale(1); }
-  50% { opacity: 0.6; transform: scale(1.1); }
-}
-@keyframes fade-in-up {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.animate-pulse-slow { animation: pulse-slow 8s infinite ease-in-out; }
-.animate-fade-in-up { animation: fade-in-up 0.8s ease-out forwards; }
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+.animate-fade-in-up { animation: fadeInUp 0.3s ease-out forwards; }
 </style>

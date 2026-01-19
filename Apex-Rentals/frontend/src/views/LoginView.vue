@@ -10,6 +10,7 @@ const email = ref('')
 const otp = ref('')
 const message = ref('')
 const error = ref('')
+const showToast = ref(false)
 
 const API_URL = "http://127.0.0.1:8000"
 
@@ -19,10 +20,9 @@ const handleSendOTP = async () => {
   message.value = ''
   
   try {
-    // Send email to backend
     await axios.post(`${API_URL}/api/auth/send-otp/`, { email: email.value })
     message.value = `Code sent to ${email.value}`
-    step.value = 2 // Move to next screen
+    step.value = 2 
   } catch (err) {
     error.value = err.response?.data?.error || "Failed to send code. Check email."
   } finally {
@@ -35,19 +35,24 @@ const handleVerifyOTP = async () => {
   error.value = ''
   
   try {
-    // Verify code with backend
     const response = await axios.post(`${API_URL}/api/auth/verify-otp/`, { 
       email: email.value, 
       otp: otp.value 
     })
     
-    // Login Success!
-    // Store user ID or Token in localStorage if needed
+    // Save Token
     localStorage.setItem('user_id', response.data.user_id)
     localStorage.setItem('user_email', response.data.email)
     localStorage.setItem('token', response.data.token)
 
-    router.push('/dashboard') // Redirect to the car list
+    // Show Success Toast
+    showToast.value = true
+    
+    // Redirect after delay
+    setTimeout(() => {
+      router.push('/dashboard') 
+    }, 1500)
+
   } catch (err) {
     error.value = "Invalid code. Please try again."
   } finally {
@@ -59,10 +64,7 @@ const handleVerifyOTP = async () => {
 <template>
   <div class="relative min-h-screen w-full flex items-center justify-center overflow-hidden">
     
-    <div 
-      class="absolute inset-0 bg-cover bg-center bg-no-repeat"
-      style="background-image: url('/hero-bg.jpg');"
-    >
+    <div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style="background-image: url('/hero-bg.jpg');">
       <div class="absolute inset-0 bg-[#061E29]/80 backdrop-blur-sm"></div>
     </div>
 
@@ -80,19 +82,9 @@ const handleVerifyOTP = async () => {
       <form v-if="step === 1" @submit.prevent="handleSendOTP" class="space-y-6">
         <div class="group">
           <label class="block text-[#5F9598] text-xs font-bold uppercase tracking-widest mb-2">Email Address</label>
-          <input 
-            v-model="email" 
-            type="email" 
-            required
-            class="w-full bg-[#061E29] border border-white/10 text-white px-4 py-3 rounded focus:outline-none focus:border-[#5F9598] transition-colors duration-300 placeholder-gray-600"
-            placeholder="name@example.com"
-          >
+          <input v-model="email" type="email" required class="w-full bg-[#061E29] border border-white/10 text-white px-4 py-3 rounded focus:outline-none focus:border-[#5F9598] transition-colors duration-300 placeholder-gray-600" placeholder="name@example.com">
         </div>
-        <button 
-          type="submit"
-          :disabled="loading"
-          class="w-full bg-[#5F9598] text-[#061E29] font-bold py-4 rounded uppercase tracking-widest hover:bg-white transition-colors duration-300 mt-4 disabled:opacity-50"
-        >
+        <button type="submit" :disabled="loading" class="w-full bg-[#5F9598] text-[#061E29] font-bold py-4 rounded uppercase tracking-widest hover:bg-white transition-colors duration-300 mt-4 disabled:opacity-50">
           {{ loading ? 'Sending Code...' : 'Send Login Code' }}
         </button>
       </form>
@@ -100,39 +92,35 @@ const handleVerifyOTP = async () => {
       <form v-else @submit.prevent="handleVerifyOTP" class="space-y-6">
         <div class="group">
           <label class="block text-[#5F9598] text-xs font-bold uppercase tracking-widest mb-2">Verification Code</label>
-          <input 
-            v-model="otp" 
-            type="text" 
-            maxlength="6"
-            class="w-full bg-[#061E29] border border-white/10 text-white px-4 py-3 rounded text-center tracking-[0.5em] text-2xl font-bold focus:outline-none focus:border-[#5F9598] transition-colors duration-300"
-            placeholder="••••••"
-          >
+          <input v-model="otp" type="text" maxlength="6" class="w-full bg-[#061E29] border border-white/10 text-white px-4 py-3 rounded text-center tracking-[0.5em] text-2xl font-bold focus:outline-none focus:border-[#5F9598] transition-colors duration-300" placeholder="••••••">
         </div>
-        
-        <button 
-          type="submit"
-          :disabled="loading"
-          class="w-full bg-[#5F9598] text-[#061E29] font-bold py-4 rounded uppercase tracking-widest hover:bg-white transition-colors duration-300 mt-4 disabled:opacity-50"
-        >
+        <button type="submit" :disabled="loading" class="w-full bg-[#5F9598] text-[#061E29] font-bold py-4 rounded uppercase tracking-widest hover:bg-white transition-colors duration-300 mt-4 disabled:opacity-50">
           {{ loading ? 'Verifying...' : 'Login Now' }}
         </button>
-        
-        <button 
-          type="button" 
-          @click="step = 1" 
-          class="w-full text-gray-400 text-xs hover:text-white mt-4"
-        >
-          Entered wrong email? Go back
-        </button>
+        <button type="button" @click="step = 1" class="w-full text-gray-400 text-xs hover:text-white mt-4">Entered wrong email? Go back</button>
       </form>
 
-      <div v-if="message" class="mt-4 p-3 bg-green-500/20 border border-green-500/30 rounded text-green-400 text-xs text-center">
-        {{ message }}
-      </div>
-      <div v-if="error" class="mt-4 p-3 bg-red-500/20 border border-red-500/30 rounded text-red-400 text-xs text-center">
-        {{ error }}
-      </div>
+      <div v-if="message" class="mt-4 p-3 bg-green-500/20 border border-green-500/30 rounded text-green-400 text-xs text-center">{{ message }}</div>
+      <div v-if="error" class="mt-4 p-3 bg-red-500/20 border border-red-500/30 rounded text-red-400 text-xs text-center">{{ error }}</div>
+    </div>
 
+    <div v-if="showToast" class="fixed bottom-10 right-10 bg-[#5F9598] text-[#061E29] px-6 py-4 rounded-xl shadow-2xl flex items-center gap-3 animate-bounce-in z-50 border border-white/20">
+      <div class="bg-[#061E29]/20 p-2 rounded-full"><ion-icon name="checkmark-circle" class="text-2xl"></ion-icon></div>
+      <div>
+        <p class="font-bold text-lg leading-none">Login Successful!</p>
+        <p class="text-xs font-medium opacity-80 mt-1">Welcome back, {{ email }}</p>
+      </div>
     </div>
   </div>
 </template>
+
+<style scoped>
+@keyframes bounce-in {
+  0% { transform: scale(0.8) translateY(20px); opacity: 0; }
+  50% { transform: scale(1.05); opacity: 1; }
+  100% { transform: scale(1) translateY(0); }
+}
+.animate-bounce-in { animation: bounce-in 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+.animate-fade-in-up { animation: fadeInUp 0.5s ease-out forwards; }
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+</style>

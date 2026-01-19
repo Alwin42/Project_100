@@ -6,8 +6,9 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.authtoken.models import Token
 from django.contrib.auth.models import User
 from django.utils import timezone
-from .models import Car, Profile
-from .serializers import CarSerializer
+from datetime import timedelta
+from .models import Car, Profile, Rental, PaymentSettings
+from .serializers import CarSerializer, RentalSerializer, PaymentQRSerializer
 from .utils import generate_otp, send_otp_email
 
 # --- PUBLIC CAR API ---
@@ -120,3 +121,63 @@ def check_verification_status(request):
         "is_verified": profile.is_verified,
         "has_uploaded_id": bool(profile.id_proof)
     })
+
+# --- PAYMENT & RENTAL VIEWS ---
+
+@api_view(['GET'])
+@permission_classes([AllowAny]) # Anyone can see the QR to pay
+def get_payment_qr(request):
+    """
+    Returns the Admin's UPI QR Code and ID.
+    """
+    settings = PaymentSettings.objects.first()
+    if settings:
+        serializer = PaymentQRSerializer(settings)
+        return Response(serializer.data)
+    return Response({"error": "No QR code configured"}, status=404)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def create_rental(request):
+    """
+    Creates a new Rental record when user confirms payment.
+    """
+    user = request.user
+    car_id = request.data.get('car_id')
+    
+    try:
+        car = Car.objects.get(id=car_id)
+        
+        # Default: 1 Day Rental starting Today
+        start_date = timezone.now().date()
+        end_date = start_date + timedelta(days=1)
+        
+        # Create Record
+        rental = Rental.objects.create(
+            car=car,
+            user=user,
+            start_date=start_date,
+            end_date=end_date,
+            total_price=car.price_per_day, 
+            status='Confirmed' # Assume payment success via UPI
+        )
+        
+        # Mark car as unavailable so others can't rent it
+        car.is_available = False
+        car.save()
+        
+        return Response({"message": "Booking Confirmed!", "rental_id": rental.id})
+        
+    except Car.DoesNotExist:
+        return Response({"error": "Car not found"}, status=404)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def my_rentals(request):
+    """
+    Returns the list of cars rented by the current user.
+    """
+    # Fetch rentals for THIS user, ordered by newest first
+    rentals = Rental.objects.filter(user=request.user).order_by('-booked_at')
+    serializer = RentalSerializer(rentals, many=True)
+    return Response(serializer.data)

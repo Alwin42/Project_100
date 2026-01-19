@@ -28,15 +28,21 @@ onMounted(async () => {
   user.value.email = userEmail || localStorage.getItem('email') || 'User' 
 
   try {
-    // Correct Header: Token <key>
+    // Fetch Status
     const response = await axios.get(`${API_URL}/api/user/status/`, {
       headers: { Authorization: `Token ${localStorage.getItem('token')}` }
     })
     user.value.is_verified = response.data.is_verified
     user.value.has_uploaded_id = response.data.has_uploaded_id
 
+    // Fetch History
+    const historyRes = await axios.get(`${API_URL}/api/rentals/history/`, {
+      headers: { Authorization: `Token ${localStorage.getItem('token')}` }
+    })
+    rentals.value = historyRes.data
+
   } catch (err) {
-    console.error("Failed to fetch status")
+    console.error("Failed to fetch data")
   } finally {
     loading.value = false
   }
@@ -51,19 +57,17 @@ const onFileChange = (e) => {
 const handleUpload = async () => {
   if (!selectedFile.value) return
 
-  // --- NEW: CHECK FILE SIZE ---
-  const fileSizeInMB = selectedFile.value.size / 1024 / 1024; // Convert bytes to MB
+  // Check file size (5MB limit)
+  const fileSizeInMB = selectedFile.value.size / 1024 / 1024; 
   if (fileSizeInMB > 5) {
     alert("File is too large! Please upload an image smaller than 5MB.");
     return;
   }
-  // ----------------------------
 
   uploadStatus.value = 'uploading'
   const formData = new FormData()
   formData.append('id_proof', selectedFile.value)
 
-  // Retrieve the token
   const token = localStorage.getItem('token')
 
   try {
@@ -201,26 +205,32 @@ const handleLogout = () => {
             <thead class="text-xs text-gray-400 uppercase tracking-wider border-b border-white/10">
               <tr>
                 <th class="pb-4 pl-2">Vehicle</th>
-                <th class="pb-4">Date</th>
-                <th class="pb-4">Total Price</th>
+                <th class="pb-4">Dates</th>
+                <th class="pb-4">Total</th>
                 <th class="pb-4">Status</th>
                 <th class="pb-4">Action</th>
               </tr>
             </thead>
             <tbody class="text-sm">
               <tr v-for="rent in rentals" :key="rent.id" class="border-b border-white/5 last:border-0 hover:bg-white/5 transition-colors">
-                <td class="py-4 pl-2 font-bold text-white">{{ rent.model }}</td>
-                <td class="py-4 text-gray-300">{{ rent.date }}</td>
-                <td class="py-4 text-gray-300">₹{{ rent.price }}</td>
+                <td class="py-4 pl-2 font-bold text-white">
+                   {{ rent.car.manufacturer }} {{ rent.car.model }}
+                </td>
+                
+                <td class="py-4 text-gray-300">{{ rent.start_date }}</td>
+                
+                <td class="py-4 text-gray-300">₹{{ Number(rent.total_price).toLocaleString() }}</td>
+                
                 <td class="py-4">
                   <span class="px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider"
-                    :class="rent.status === 'Active' ? 'bg-green-500/20 text-green-400' : 'bg-gray-500/20 text-gray-400'">
+                    :class="rent.status === 'Confirmed' ? 'bg-green-500/20 text-green-400' : 'bg-amber-500/20 text-amber-400'">
                     {{ rent.status }}
                   </span>
                 </td>
+                
                 <td class="py-4">
                   <button class="text-[#5F9598] hover:text-white text-xs font-bold uppercase tracking-wider">
-                    View Details
+                    View Receipt
                   </button>
                 </td>
               </tr>
