@@ -1,39 +1,39 @@
 from django.contrib import admin
-from .models import Car, Profile, Rental, PaymentSettings
+from django.utils.html import format_html
+from .models import Car, Profile, Rental
 
 # --- CAR ADMIN ---
 @admin.register(Car)
 class CarAdmin(admin.ModelAdmin):
-    list_display = ('manufacturer', 'model', 'year', 'category', 'price_per_day', 'is_available')
-    list_filter = ('category', 'fuel_type', 'transmission', 'is_available')
-    search_fields = ('manufacturer', 'model', 'owner_name')
+    list_display = ('manufacturer', 'model', 'owner_name', 'price_per_day', 'is_available')
+    # Use fieldsets to organize the payment info clearly
+    fieldsets = (
+        ('Basic Info', {'fields': ('manufacturer', 'model', 'year', 'color', 'tag')}),
+        ('Technical', {'fields': ('category', 'fuel_type', 'transmission', 'mileage')}),
+        ('Owner & Payment', {'fields': ('owner_name', 'owner_phone', 'upi_id', 'qr_image')}),
+        ('Rental Details', {'fields': ('location', 'price_per_day', 'is_available', 'image')}),
+    )
 
 # --- PROFILE ADMIN ---
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
-    list_display = ('user_email', 'is_verified', 'has_id_proof', 'otp_created_at')
+    list_display = ('user_email', 'is_verified', 'has_id_proof')
     list_filter = ('is_verified',)
-    search_fields = ('user__email',)
-    
-    # Helper to show email in the list
-    def user_email(self, obj):
-        return obj.user.email
-
-    # Helper to check if they uploaded an image
-    def has_id_proof(self, obj):
-        return bool(obj.id_proof)
+    def user_email(self, obj): return obj.user.email
+    def has_id_proof(self, obj): return bool(obj.id_proof)
     has_id_proof.boolean = True
 
-# --- RENTAL ADMIN (Combined into one) ---
+# --- RENTAL ADMIN ---
 @admin.register(Rental)
 class RentalAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user', 'car', 'status', 'start_date', 'end_date', 'total_price', 'booked_at')
-    list_filter = ('status', 'start_date')
-    search_fields = ('user__username', 'car__model', 'user__email')
+    list_display = ('id', 'user', 'car', 'status', 'total_price', 'payment_preview', 'booked_at')
+    list_filter = ('status', 'booked_at')
+    search_fields = ('user__username', 'car__model')
+    list_editable = ('status',) # Quick edit status from list view
 
-# --- PAYMENT SETTINGS ADMIN ---
-@admin.register(PaymentSettings)
-class PaymentSettingsAdmin(admin.ModelAdmin):
-    # This ensures only 1 QR code can be added
-    def has_add_permission(self, request):
-        return not PaymentSettings.objects.exists()
+    # Helper to show image thumbnail
+    def payment_preview(self, obj):
+        if obj.payment_proof:
+            return format_html('<a href="{}" target="_blank"><img src="{}" width="50" height="50" style="border-radius:4px;"/></a>', obj.payment_proof.url, obj.payment_proof.url)
+        return "No Proof"
+    payment_preview.short_description = "Receipt"

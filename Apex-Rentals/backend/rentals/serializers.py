@@ -1,20 +1,19 @@
 from rest_framework import serializers
-from .models import Rental, Car, PaymentSettings
+from .models import Car, Rental, Profile
 
+# 1. This converts a Car Database row -> JSON for the Payment Page
 class CarSerializer(serializers.ModelSerializer):
     class Meta:
         model = Car
-        fields = '__all__'
+        # '__all__' means it sends EVERY field (including upi_id and qr_image)
+        fields = '__all__' 
 
+# 2. This converts Rental History -> JSON for the Dashboard
 class RentalSerializer(serializers.ModelSerializer):
-    # We nest the CarSerializer so the Dashboard sees car details (name, image)
-    car = CarSerializer(read_only=True) 
+    # This 'nesting' puts the Car Details INSIDE the Rental JSON
+    # so the dashboard can show the car name/image, not just an ID number.
+    car = CarSerializer(read_only=True)
     
     class Meta:
         model = Rental
-        fields = ['id', 'car', 'start_date', 'end_date', 'total_price', 'status', 'booked_at']
-
-class PaymentQRSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = PaymentSettings
-        fields = ['upi_id', 'qr_image']
+        fields = ['id', 'car', 'start_date', 'end_date', 'total_price', 'status', 'payment_proof', 'booked_at']

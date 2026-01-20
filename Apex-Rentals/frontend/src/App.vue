@@ -1,3 +1,39 @@
+<script setup>
+import { ref, onMounted, watch } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
+
+const router = useRouter()
+const route = useRoute()
+
+// Reactive state to track login status
+const isLoggedIn = ref(false)
+
+// Function to check if user is logged in
+const checkLoginStatus = () => {
+  const token = localStorage.getItem('token')
+  const userId = localStorage.getItem('user_id')
+  // Returns true if both exist, otherwise false
+  isLoggedIn.value = !!(token && userId)
+}
+
+// 1. Check on initial load
+onMounted(() => {
+  checkLoginStatus()
+})
+
+// 2. Watch the route to re-check login status on navigation
+watch(() => route.path, () => {
+  checkLoginStatus()
+})
+
+// Logout Logic
+const handleLogout = () => {
+  localStorage.clear()
+  isLoggedIn.value = false
+  router.push('/login')
+}
+</script>
+
 <template>
   <div class="min-h-screen w-full bg-[#061E29] text-[#F3F4F4] font-sans selection:bg-[#5F9598] selection:text-[#061E29]">
     
@@ -13,9 +49,22 @@
           <router-link to="/about" class="hover:text-[#5F9598] transition-colors duration-300">About</router-link>
           <router-link to="/fleet" class="hover:text-[#5F9598] transition-colors duration-300">Fleet</router-link>
           <router-link to="/dashboard" class="hover:text-[#5F9598] transition-colors duration-300">Dashboard</router-link>
-          <router-link to="/login" class="border-b border-transparent hover:border-white pb-1 transition-all duration-300">
+          
+          <router-link 
+            v-if="!isLoggedIn" 
+            to="/login" 
+            class="border-b border-transparent hover:border-white pb-1 transition-all duration-300"
+          >
             Login
           </router-link>
+
+          <button 
+            v-else 
+            @click="handleLogout" 
+            class="border-b border-transparent hover:border-red-600 text-red-400 hover:text-red-500 pb-1 transition-all duration-300 cursor-pointer"
+          >
+            log-out
+          </button>
         </div>
 
         <div class="md:hidden">
@@ -25,6 +74,7 @@
             </svg>
           </button>
         </div>
+
       </div>
     </nav>
 
