@@ -1,84 +1,172 @@
-# Apex-Rentals
+# APEX-RENTALS
 
-A modern, full-featured car rental website built to provide a seamless vehicle booking experience.
+A sophisticated car rental platform offering seamless booking experiences with enterprise-grade security and premium vehicle collections.
 
-## Overview
+## ✨ Overview
 
-Apex-Rentals is a comprehensive car rental platform that allows customers to browse available vehicles, make reservations, and manage their bookings online. The platform provides an intuitive interface for both customers and administrators.
+This premium car rental system delivers a luxury booking experience while maintaining robust security measures to protect both vehicle owners and renters. The platform features passwordless authentication, comprehensive identity verification, and an extensive fleet ranging from vintage classics to modern supercars.
 
-## Features
+## 🎯 Key Features
 
-### Customer Features
-- **Vehicle Browsing**: Search and filter vehicles by type, price range, features, and availability
-- **Detailed Vehicle Information**: View comprehensive details including specifications, images, and pricing
-- **Online Booking**: Reserve vehicles with flexible pickup and return dates
-- **User Accounts**: Create profiles to manage bookings and view rental history
-- **Booking Management**: Modify or cancel reservations
-- **Payment Integration**: Secure online payment processing
-- **Location Selection**: Choose from multiple pickup and drop-off locations
+### 1. **Email-Based OTP Authentication**
+- Passwordless login system for enhanced security and user convenience
+- One-Time Password (OTP) delivery via email
+- Seamless authentication flow without the hassle of password management
+- Secure session management
 
-### Admin Features
-- **Fleet Management**: Add, update, and remove vehicles from inventory
-- **Booking Management**: View and manage all customer reservations
-- **Availability Tracking**: Real-time vehicle availability monitoring
-- **Customer Management**: Access customer information and rental history
-- **Analytics Dashboard**: Track bookings, revenue, and fleet utilization
+### 2. **Diverse Vehicle Collection**
+- **Vintage Cars**: Classic automobiles for nostalgic experiences
+- **Classic Cars**: Timeless vehicles with enduring appeal
+- **Modern Cars**: Latest models with cutting-edge technology
+- **Luxury Cars**: Premium vehicles for distinguished occasions
+- **Sports Cars**: High-performance vehicles for thrill-seekers
+- **SUVs & Sedans**: Practical options for various needs
 
-## Technology Stack
+### 3. **Identity Verification System**
+- Browse-before-book functionality - users can explore vehicles without registration
+- Mandatory admin verification of user IDs before booking privileges are granted
+- Multi-step verification process ensuring legitimate renters
+- Document upload and validation system
+- Real-time verification status tracking
 
-- **Frontend**: Vue.js 
-- **Backend**: Python with Django
-- **Database**: SQLite3
+### 4. **Vehicle Owner Security**
+- Comprehensive renter background verification
+- Admin-approved bookings only
+- Secure payment processing
+- Damage protection protocols
+- Insurance verification requirements
+- Rental agreement digital signing
+
+### 5. **Automated Account Management**
+- Automatic cleanup of unverified accounts after specified inactive period
+- Removal of accounts pending admin approval beyond timeout threshold
+- Database optimization through inactive user purging
+- Notification system before account deletion
+- Maintains system efficiency and data integrity
+
+### 6. **Premium User Experience**
+- Luxurious, modern interface design
+- High-quality vehicle imagery and 360° views
+- Smooth animations and transitions
+- Responsive design for all devices
+- Intuitive navigation and booking flow
+- Dark/light theme options
+- Premium typography and color schemes
+
+## 🔐 Security Features
+
+- Email OTP authentication (no password storage vulnerabilities)
+- Admin verification gate before booking access
+- Encrypted data transmission
+- Secure payment gateway integration
+- Regular security audits
+- GDPR-compliant data handling
+- Automated inactive account cleanup
+
+## 🚀 User Journey
+
+1. **Discovery Phase**: Browse vehicles without registration
+2. **Registration**: Sign up using email-based OTP
+3. **Verification**: Upload identification documents
+4. **Admin Review**: Wait for administrator approval
+5. **Booking Access**: Receive booking privileges upon approval
+6. **Rental**: Book premium vehicles with confidence
+
+## 📋 Account Status Types
+
+- **Guest**: Can browse vehicles only
+- **Pending Verification**: Registered but awaiting admin approval
+- **Verified**: Full booking access granted
+- **Inactive**: Subject to automatic deletion
+- **Suspended**: Temporarily restricted access
+
+## ⚙️ Admin Dashboard
+
+- User verification management
+- Document review and approval
+- Vehicle inventory management
+- Booking oversight
+- User activity monitoring
+- Automated cleanup configuration
+- Analytics and reporting
+
+## 🎨 Design Philosophy
+
+The platform embraces a premium aesthetic with:
+- Clean, minimalist layouts
+- High-resolution imagery
+- Sophisticated color palettes
+- Smooth micro-interactions
+- Professional typography
+- Luxury brand positioning
+
+## 🛠️ Technical Stack
+
+- Frontend: Vue.js
+- Backend: Python Django framework
+- Database: Sqlite3
 
 
-## Installation
+
+## 📦 Installation
 
 ```bash
 # Clone the repository
 git clone https://github.com/Alwin42/Project_100/tree/main/Apex-Rentals
-
 # Navigate to project directory
 cd Apex-Rentals
+
+# Navigate to frontend directory 
+cd frontend
 
 # Install dependencies
 npm install
 
-# Set up environment variables
-cp .env.example .env
 
-# Run database migrations
-npm run migrate
-
-# Start development server
+# Start the application
 npm run dev
+
+# Go back to root directory
+cd ..
+
+# Navigate backend 
+cd backend
+
+
+# Activate venv/ virtual environment
+python -m venv venv
+source venv/bin/activate
+
+# Install Dependencies
+pip install Django 
+
+# Run the backend
+python manage.py runserver
+
+
 ```
 
 
-## Usage
+## 📝 Usage
 
-### For Customers
-1. Create an account or log in
-2. Browse available vehicles using filters
-3. Select a vehicle and choose rental dates
-4. Complete booking with payment information
-5. Receive confirmation email with booking details
+### For Users
+1. Visit the platform and browse available vehicles
+2. Register using your email address
+3. Enter the OTP sent to your email
+4. Upload required identification documents
+5. Wait for admin verification
+6. Once approved, start booking premium vehicles
 
-### For Administrators
-1. Log in with admin credentials
-2. Access admin dashboard
-3. Manage fleet, bookings, and customer accounts
-4. Generate reports and analytics
+### For Admins
+1. Access admin dashboard
+2. Review pending user verifications
+3. Approve or reject ID documents
+4. Manage vehicle inventory
+5. Monitor booking activities
+6. Configure automated cleanup settings
 
 
-
-
-
-## License
+## 📄 License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-## Support
-
-For support, email pixeledcherry42.com or open an issue in the GitHub repository.
-admin 
-pass 123
