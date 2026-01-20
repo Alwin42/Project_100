@@ -7,7 +7,9 @@ from .views import (
     auth_send_otp, 
     auth_verify_otp, 
     upload_id_proof, 
-    check_verification_status
+    check_verification_status,
+    create_rental,
+    my_rentals
 )
 router = DefaultRouter()
 router.register(r'cars', CarViewSet)
@@ -20,4 +22,6 @@ urlpatterns = [
     path('auth/verify-otp/', auth_verify_otp, name='verify-otp'),
     path('user/upload-id/', upload_id_proof),
     path('user/status/', check_verification_status),
+    path('rentals/create/', create_rental, name='create-rental'),
+    path('rentals/history/', my_rentals, name='rental-history'),
 ]
