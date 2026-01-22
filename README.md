@@ -17,6 +17,7 @@
 | 5 | **Pearl-Pavilion** | HTML, Tailwind CSS , Flask | Completed | [Pearl-Pavilion](https://github.com/Alwin42/Project_100/tree/main/Pearl-Paviliontree/main/Deadline-Dash)|
 | 6 | **Eco-Sync** | HTML, Tailwind CSS , Django| Completed | [Eco-Sync](https://github.com/Alwin42/Project_100/tree/main/Eco-Sync)|
 | 7 | **Synapse** | HTML, Tailwind CSS , Django | Completed | [Synapse](https://github.com/Alwin42/Project_100/tree/main/Synapse)|
+| 8 | **Apex-Rental** | Vue.js , Tailwind CSS, Django | Completed | [Synapse](https://github.com/Alwin42/Project_100/tree/main/Apex-Rentals)|
 
 ---
 
