@@ -1,9 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import LoginView from '../views/LoginView.vue'
-// We will create these placeholder views next
+import RegisterView from '../views/RegisterView.vue'
 import SubjectsView from '../views/SubjectsView.vue' 
-// import CloudView from '../views/CloudView.vue' // Uncomment when created
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -17,6 +17,11 @@ const router = createRouter({
       path: '/login',
       name: 'login',
       component: LoginView
+    },
+    {
+      path: '/register',  
+      name: 'register',
+      component: RegisterView
     },
     {
       path: '/subjects',

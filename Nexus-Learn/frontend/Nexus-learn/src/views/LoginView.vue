@@ -1,111 +1,84 @@
-<template>
-  <div class="login-container">
-    <div class="login-card">
-      <h2>Student Login</h2>
-      <form @submit.prevent="handleLogin">
-        
-        <div class="form-group">
-          <label>Username</label>
-          <input 
-            v-model="username" 
-            type="text" 
-            placeholder="Enter your Reg No or Username" 
-            required
-          />
-        </div>
-
-        <div class="form-group">
-          <label>Password</label>
-          <input 
-            v-model="password" 
-            type="password" 
-            placeholder="Enter password" 
-            required
-          />
-        </div>
-
-        <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
-
-        <button type="submit" :disabled="isLoading">
-          {{ isLoading ? 'Logging in...' : 'Login' }}
-        </button>
-      </form>
-    </div>
-  </div>
-</template>
-
 <script setup>
-import { ref } from 'vue';
-import { useAuthStore } from '../stores/auth';
+import { ref } from 'vue'
+import { useAuthStore } from '@/stores/auth'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card'
 
-const authStore = useAuthStore();
-const username = ref('');
-const password = ref('');
-const errorMessage = ref('');
-const isLoading = ref(false);
+const authStore = useAuthStore()
+const username = ref('')
+const password = ref('')
+const errorMessage = ref('')
+const isLoading = ref(false)
 
 const handleLogin = async () => {
-  isLoading.value = true;
-  errorMessage.value = '';
+  isLoading.value = true
+  errorMessage.value = ''
   
   try {
-    await authStore.login(username.value, password.value);
+    await authStore.login(username.value, password.value)
   } catch (error) {
-    errorMessage.value = 'Invalid username or password';
+    errorMessage.value = 'Invalid username or password'
   } finally {
-    isLoading.value = false;
+    isLoading.value = false
   }
-};
+}
 </script>
 
-<style scoped>
-.login-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 80vh;
-  background-color: #f4f4f9;
-}
+<template>
+  <div class="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+    <Card class="w-full max-w-md">
+      
+      <CardHeader class="space-y-1">
+        <CardTitle class="text-2xl font-bold text-center">Student Login</CardTitle>
+        <CardDescription class="text-center">
+          Enter your credentials to access your dashboard
+        </CardDescription>
+      </CardHeader>
+      
+      <CardContent>
+        <form @submit.prevent="handleLogin" class="space-y-4">
+          
+          <div class="space-y-2">
+            <Label for="username">Username</Label>
+            <Input 
+              id="username" 
+              v-model="username" 
+              type="text" 
+              placeholder="Enter your username" 
+              required
+            />
+          </div>
 
-.login-card {
-  background: white;
-  padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  width: 100%;
-  max-width: 400px;
-}
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <Label for="password">Password</Label>
+              </div>
+            <Input 
+              id="password" 
+              v-model="password" 
+              type="password" 
+              placeholder="••••••••" 
+              required
+            />
+          </div>
 
-.form-group {
-  margin-bottom: 1rem;
-}
+          <div v-if="errorMessage" class="text-sm text-red-500 font-medium text-center">
+            {{ errorMessage }}
+          </div>
 
-input {
-  width: 100%;
-  padding: 0.8rem;
-  margin-top: 0.5rem;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-}
+          <Button type="submit" class="w-full" :disabled="isLoading">
+            {{ isLoading ? 'Signing in...' : 'Sign In' }}
+          </Button>
 
-button {
-  width: 100%;
-  padding: 0.8rem;
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: bold;
-}
+        </form>
+      </CardContent>
+      
+      <CardFooter class="text-center text-sm text-gray-500 justify-center">
+        Don't have an account? Contact your administrator.
+      </CardFooter>
 
-button:disabled {
-  background-color: #a5d6a7;
-}
-
-.error {
-  color: red;
-  font-size: 0.9rem;
-  margin-bottom: 1rem;
-}
-</style>
+    </Card>
+  </div>
+</template>
