@@ -1,6 +1,16 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from .models import StudentProfile
+from .models import (
+    StudentProfile, 
+    Task, 
+    Reminder, 
+    Timetable, 
+    Notification, 
+    Subject, 
+    PersonalFile
+)
+
+# --- YOUR EXISTING AUTH SERIALIZERS ---
 
 class StudentProfileSerializer(serializers.ModelSerializer):
     class Meta:
@@ -27,3 +37,45 @@ class UserSerializer(serializers.ModelSerializer):
         # Create the linked Student Profile
         StudentProfile.objects.create(user=user, **profile_data)
         return user
+
+
+# --- NEW DASHBOARD SERIALIZERS (ADD THESE) ---
+
+class TaskSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Task
+        fields = '__all__'
+        extra_kwargs = {'student': {'read_only': True}}
+
+class ReminderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Reminder
+        fields = '__all__'
+        extra_kwargs = {'student': {'read_only': True}}
+
+class TimetableSerializer(serializers.ModelSerializer):
+    # This read-only field lets us see the Subject Name (e.g. "Math") instead of just ID "1"
+    subject_name = serializers.CharField(source='subject.name', read_only=True)
+
+    class Meta:
+        model = Timetable
+        fields = '__all__'
+        extra_kwargs = {'student': {'read_only': True}}
+
+class NotificationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Notification
+        fields = '__all__'
+        extra_kwargs = {'student': {'read_only': True}}
+
+class SubjectSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Subject
+        fields = '__all__'
+        extra_kwargs = {'student': {'read_only': True}}
+
+class PersonalFileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PersonalFile
+        fields = '__all__'
+        extra_kwargs = {'student': {'read_only': True}}
