@@ -1,8 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useTaskStore } from '@/stores/task'
-import { useAuthStore } from '@/stores/auth'
-import Navbar from '@/components/Navbar.vue' 
+import { useAuthStore } from '@/stores/auth' 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Checkbox } from '@/components/ui/checkbox'

@@ -29,10 +29,10 @@
 
       <div class="flex items-center gap-4">
         <div v-if="auth.isAuthenticated" class="flex items-center gap-4">
-          <span class="text-sm text-gray-400 hidden sm:inline-block">
+          <span class="text-sm text-white hidden sm:inline-block">
             Welcome, {{ auth.user?.username || 'Student' }}
           </span>
-          <Button variant="destructive" size="sm" @click="handleLogout">
+          <Button class="text-white"variant="destructive" size="sm" @click="handleLogout">
             Logout
           </Button>
         </div>

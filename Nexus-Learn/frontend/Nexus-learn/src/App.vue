@@ -1,6 +1,8 @@
 <template>
   <div class="min-h-screen font-sans bg-nexus-main antialiased">
     
+    <Navbar v-if="$route.name !== 'landing'" />
+
     <main>
       <router-view />
     </main>
@@ -9,9 +11,8 @@
 </template>
 
 <script setup>
-// No script needed here for now
-</script>
+import Navbar from './components/Navbar.vue';
+import { useRoute } from 'vue-router'; // Import useRoute to check current page
 
-<style>
-/* Global styles can go here */
-</style>
+// No extra logic needed, $route is available in template
+</script>

@@ -57,9 +57,11 @@ import { ArrowRightIcon, CheckIcon } from '@radix-icons/vue'
               <ArrowRightIcon class="ml-2 h-5 w-5" />
             </Button>
           </router-link>
+          <router-link to="/dashboard">
           <Button variant="outline" class="h-12 px-8 text-lg border-gray-700 text-gray-300 hover:bg-gray-800 hover:text-white">
-            Login
+            Dashboard
           </Button>
+          </router-link>
         </div>
 
         <div class="pt-8 flex items-center gap-6 text-gray-500 text-sm">
