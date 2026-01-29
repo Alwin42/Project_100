@@ -18,6 +18,16 @@ export default {
       },
     },
     extend: {
+      // --- NEW: Custom Color Palette added here ---
+      colors: {
+        nexus: {
+          main: '#000000',    // Main Background
+          card: '#222222',    // Card Background
+          accent: '#1DCD9F',  // Bright Teal (Primary Action)
+          dark: '#169976',    // Darker Teal (Hover States)
+        }
+      },
+      // ---------------------------------------------
       keyframes: {
         "accordion-down": {
           from: { height: 0 },

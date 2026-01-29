@@ -9,7 +9,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@radix-icons/vue": "^1.0.0",
     "@vueuse/core": "^14.1.0",
+    "@vueuse/motion": "^3.0.3",
     "axios": "^1.13.4",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",

@@ -1,9 +1,7 @@
 <template>
-  <div class="min-h-screen bg-slate-50 font-sans antialiased">
+  <div class="min-h-screen font-sans bg-nexus-main antialiased">
     
-    <Navbar />
-
-    <main class="container mx-auto py-6 px-4">
+    <main>
       <router-view />
     </main>
     
@@ -11,9 +9,9 @@
 </template>
 
 <script setup>
-import Navbar from './components/Navbar.vue';
+// No script needed here for now
 </script>
 
 <style>
-
+/* Global styles can go here */
 </style>

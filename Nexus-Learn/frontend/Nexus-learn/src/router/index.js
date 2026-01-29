@@ -3,15 +3,15 @@ import HomeView from '../views/HomeView.vue'
 import LoginView from '../views/LoginView.vue'
 import RegisterView from '../views/RegisterView.vue'
 import SubjectsView from '../views/SubjectsView.vue' 
-
+import LandingView from '../views/LandingView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: HomeView
+      name: 'landing',
+      component: LandingView
     },
     {
       path: '/login',
@@ -28,11 +28,13 @@ const router = createRouter({
       name: 'subjects',
       component: SubjectsView
     },
-    // {
-    //   path: '/cloud',
-    //   name: 'cloud',
-    //   component: CloudView
-    // }
+    {
+      path: '/dashboard', // Moved HomeView here
+      name: 'dashboard',
+      component: HomeView,
+      // Optional: Add a meta field to check auth later
+      meta: { requiresAuth: true }
+    },
   ]
 })
 
