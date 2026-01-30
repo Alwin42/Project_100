@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-
+import datetime
 # 1. Student Profile
 class StudentProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -87,7 +87,7 @@ class Notification(models.Model):
 # 6. Cloud / Personal Files (NEW - Required for "Cloud" Section)
 class PersonalFile(models.Model):
     student = models.ForeignKey(User, on_delete=models.CASCADE)
-    title = models.CharField(max_length=200) # e.g., "Aadhar Card", "Resume"
+    title = models.CharField(max_length=200) 
     file = models.FileField(upload_to='my_cloud/')
     uploaded_at = models.DateTimeField(auto_now_add=True)
 
@@ -96,7 +96,7 @@ class Expense(models.Model):
     student = models.ForeignKey(User, on_delete=models.CASCADE)
     category = models.CharField(max_length=100)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
-    date = models.DateField(auto_now_add=True)
+    date = models.DateField(default=datetime.date.today) 
 
 # 8. Activity/Tools
 class Activity(models.Model):
@@ -105,6 +105,7 @@ class Activity(models.Model):
     activity_type = models.CharField(max_length=50)
     description = models.TextField()
     image = models.ImageField(upload_to='activities/', blank=True, null=True)
+    date = models.DateField(default=datetime.date.today)
 
 # 9. Academic Notes
 class Note(models.Model):
