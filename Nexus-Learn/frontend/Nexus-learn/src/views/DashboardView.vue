@@ -9,25 +9,56 @@ import {
   Calendar, 
   CheckCircle2, 
   Clock,
-  ArrowRight,
-  Sparkles
+  Sparkles,
+  Check, 
+  Trash2 
 } from 'lucide-vue-next'
 
 const user = ref({ username: 'Student' })
 const todayClasses = ref([])
 const pendingTasks = ref([])
 
+// --- ACTIONS ---
+
+const markDone = async (id) => {
+  try {
+    // 1. Update backend
+    await api.patch(`tasks/${id}/`, { is_done: true })
+    
+    // 2. Remove from local list immediately (UI update)
+    pendingTasks.value = pendingTasks.value.filter(t => t.id !== id)
+  } catch (e) {
+    console.error("Failed to update task", e)
+  }
+}
+
+const deleteTask = async (id) => {
+  if(!confirm("Are you sure you want to delete this task?")) return
+
+  try {
+    // 1. Delete from backend
+    await api.delete(`tasks/${id}/`)
+    
+    // 2. Remove from local list
+    pendingTasks.value = pendingTasks.value.filter(t => t.id !== id)
+  } catch (e) {
+    console.error("Failed to delete task", e)
+  }
+}
+
+// --- LOAD DATA ---
+
 onMounted(async () => {
   try {
+    // 1. Get User Profile
     const userRes = await api.get('user/')
     user.value = userRes.data
-    
-    // Uncomment when API is ready
-    // const timetableRes = await api.get('timetable?day=today')
-    // todayClasses.value = timetableRes.data
-    
+
+    // 2. Get Pending Tasks (Not Done)
     const taskRes = await api.get('tasks/')
-    pendingTasks.value = taskRes.data.slice(0, 3) 
+    // Filter out tasks that are already done, just in case
+    pendingTasks.value = taskRes.data.filter(t => !t.is_done).slice(0, 5) 
+
   } catch (e) {
     console.error("Dashboard load failed", e)
   }
@@ -49,7 +80,7 @@ onMounted(async () => {
           <h1 class="text-4xl md:text-5xl font-extrabold text-white tracking-tight">
             Hello, <span class="text-transparent bg-clip-text bg-gradient-to-r from-nexus-accent to-white">{{ user.username }}</span>
           </h1>
-          <p class="text-gray-300 mt-2 text-lg">Focus on career gf/bf is temporary , but Sucess is permanent </p>
+          <p class="text-gray-300 mt-2 text-lg">Your academic focus is looking sharp today.</p>
         </div>
         
         <div class="text-right hidden md:block bg-black/20 px-6 py-3 rounded-2xl border border-white/5 backdrop-blur-md">
@@ -69,6 +100,7 @@ onMounted(async () => {
         Quick Actions
       </h3>
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        
         <RouterLink to="/dashboard/add-note" class="group">
           <Button variant="ghost" class="h-auto py-6 w-full flex flex-col gap-3 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-nexus-accent/50 hover:shadow-[0_0_20px_rgba(34,197,94,0.2)] transition-all duration-300 rounded-2xl backdrop-blur-md group-hover:-translate-y-1">
             <div class="p-3 bg-gradient-to-br from-nexus-accent/20 to-transparent rounded-xl group-hover:scale-110 transition-transform">
@@ -109,7 +141,7 @@ onMounted(async () => {
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
       
-      <Card class="bg-black/30 backdrop-blur-xl border border-white/10 rounded-3xl shadow-2xl overflow-hidden">
+      <Card class="bg-black/30 backdrop-blur-xl border border-white/10 rounded-3xl shadow-2xl overflow-hidden min-h-[300px]">
         <CardHeader class="border-b border-white/5 pb-4 bg-white/5">
           <CardTitle class="flex items-center justify-between">
             <div class="flex items-center gap-2">
@@ -119,6 +151,7 @@ onMounted(async () => {
             <Button variant="ghost" size="sm" class="h-8 text-xs text-gray-400 hover:text-white hover:bg-white/10">View All</Button>
           </CardTitle>
         </CardHeader>
+        
         <CardContent class="p-6 space-y-3">
           <div v-if="pendingTasks.length === 0" class="flex flex-col items-center justify-center py-8 text-center">
             <div class="w-12 h-12 bg-nexus-accent/10 rounded-full flex items-center justify-center mb-3">
@@ -130,23 +163,49 @@ onMounted(async () => {
           <div 
             v-for="task in pendingTasks" 
             :key="task.id" 
-            class="group p-4 rounded-xl bg-white/5 border border-white/5 hover:bg-white/10 hover:border-nexus-accent/30 transition-all cursor-pointer flex justify-between items-center"
+            class="group relative p-4 rounded-xl bg-white/5 border border-white/5 hover:bg-white/10 hover:border-nexus-accent/30 transition-all flex justify-between items-center overflow-hidden"
           >
-            <div class="flex items-center gap-3">
-              <div class="w-2 h-2 rounded-full bg-nexus-accent"></div>
-              <span class="text-gray-200 group-hover:text-white transition-colors">{{ task.title }}</span>
+            <div class="flex items-center gap-3 z-10">
+              <div 
+                class="w-2 h-2 rounded-full"
+                :class="task.priority === 'High' ? 'bg-red-500' : 'bg-nexus-accent'"
+              ></div>
+              <span class="text-gray-200 group-hover:text-white transition-colors font-medium">
+                {{ task.title }}
+              </span>
             </div>
+
             <span 
-              class="text-xs font-bold px-3 py-1 rounded-full border"
+              class="text-xs font-bold px-3 py-1 rounded-full border group-hover:opacity-0 transition-opacity duration-200"
               :class="task.priority === 'High' ? 'bg-red-500/10 text-red-400 border-red-500/20' : 'bg-blue-500/10 text-blue-400 border-blue-500/20'"
             >
               {{ task.priority || 'Normal' }}
             </span>
+
+            <div class="absolute right-2 top-1/2 -translate-y-1/2 flex gap-2 translate-x-full group-hover:translate-x-0 transition-transform duration-300 ease-out z-20">
+              
+              <button 
+                @click.stop="markDone(task.id)"
+                class="p-2 rounded-lg bg-nexus-accent/20 text-nexus-accent hover:bg-nexus-accent hover:text-black transition-colors"
+                title="Mark as Done"
+              >
+                <Check class="w-4 h-4" />
+              </button>
+
+              <button 
+                @click.stop="deleteTask(task.id)"
+                class="p-2 rounded-lg bg-red-500/20 text-red-400 hover:bg-red-500 hover:text-white transition-colors"
+                title="Delete Task"
+              >
+                <Trash2 class="w-4 h-4" />
+              </button>
+
+            </div>
           </div>
         </CardContent>
       </Card>
 
-      <Card class="bg-black/30 backdrop-blur-xl border border-white/10 rounded-3xl shadow-2xl overflow-hidden">
+      <Card class="bg-black/30 backdrop-blur-xl border border-white/10 rounded-3xl shadow-2xl overflow-hidden min-h-[300px]">
         <CardHeader class="border-b border-white/5 pb-4 bg-white/5">
           <CardTitle class="flex items-center justify-between">
             <div class="flex items-center gap-2">
@@ -157,7 +216,7 @@ onMounted(async () => {
           </CardTitle>
         </CardHeader>
         <CardContent class="p-6">
-          <div v-if="true" class="flex flex-col items-center justify-center py-8 text-center opacity-60">
+          <div class="flex flex-col items-center justify-center py-8 text-center opacity-60">
             <div class="w-16 h-16 bg-blue-500/10 rounded-full flex items-center justify-center mb-4 animate-pulse">
               <Calendar class="w-8 h-8 text-blue-400" />
             </div>
