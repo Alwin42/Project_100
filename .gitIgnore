@@ -1,0 +1,8 @@
+# Ignore these specific junk files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore database (optional)
+db.sqlite3
