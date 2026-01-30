@@ -7,10 +7,13 @@ from .models import (
     Timetable, 
     Notification, 
     Subject, 
-    PersonalFile
+    PersonalFile,
+    Expense,   # <--- Added
+    Activity,  # <--- Added
+    Note       # <--- Added
 )
 
-# --- YOUR EXISTING AUTH SERIALIZERS ---
+# --- AUTH & USER SERIALIZERS ---
 
 class StudentProfileSerializer(serializers.ModelSerializer):
     class Meta:
@@ -18,6 +21,7 @@ class StudentProfileSerializer(serializers.ModelSerializer):
         fields = ['age', 'dob', 'college', 'course']
 
 class UserSerializer(serializers.ModelSerializer):
+    # This handles the nested profile creation during Registration
     profile = StudentProfileSerializer(write_only=True)
 
     class Meta:
@@ -27,19 +31,26 @@ class UserSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         profile_data = validated_data.pop('profile')
-        # Create the User
         user = User.objects.create_user(
             username=validated_data['username'],
             password=validated_data['password'],
             first_name=validated_data['first_name'],
             email=validated_data.get('email', '')
         )
-        # Create the linked Student Profile
         StudentProfile.objects.create(user=user, **profile_data)
         return user
 
+# --- This is NEW: Use this to fetch User Profile Data for Dashboard ---
+class UserDetailSerializer(serializers.ModelSerializer):
+    # Nested serializer to read profile data (Course, College)
+    profile = StudentProfileSerializer(read_only=True, source='studentprofile')
 
-# --- NEW DASHBOARD SERIALIZERS (ADD THESE) ---
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'first_name', 'email', 'profile']
+
+
+# --- DASHBOARD SERIALIZERS ---
 
 class TaskSerializer(serializers.ModelSerializer):
     class Meta:
@@ -54,7 +65,7 @@ class ReminderSerializer(serializers.ModelSerializer):
         extra_kwargs = {'student': {'read_only': True}}
 
 class TimetableSerializer(serializers.ModelSerializer):
-    # This read-only field lets us see the Subject Name (e.g. "Math") instead of just ID "1"
+    # Shows "Math" instead of just ID "1" in the JSON response
     subject_name = serializers.CharField(source='subject.name', read_only=True)
 
     class Meta:
@@ -79,3 +90,27 @@ class PersonalFileSerializer(serializers.ModelSerializer):
         model = PersonalFile
         fields = '__all__'
         extra_kwargs = {'student': {'read_only': True}}
+
+# --- MISSING SERIALIZERS ADDED BELOW ---
+
+class ExpenseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Expense
+        fields = '__all__'
+        extra_kwargs = {'student': {'read_only': True}}
+
+class ActivitySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Activity
+        fields = '__all__'
+        extra_kwargs = {'student': {'read_only': True}}
+
+class NoteSerializer(serializers.ModelSerializer):
+    # Optional: Display subject name for easier reading in frontend
+    subject_name = serializers.CharField(source='subject.name', read_only=True)
+
+    class Meta:
+        model = Note
+        fields = '__all__'
+        # Note is linked to Subject, not directly to User in your model, 
+        # so we don't need to exclude 'student' here, but 'subject' is required.

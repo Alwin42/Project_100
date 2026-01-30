@@ -1,71 +1,106 @@
-from rest_framework import generics, status
+from rest_framework import viewsets, permissions, generics, status
 from rest_framework.response import Response
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.decorators import action
 from django.contrib.auth.models import User
-from .serializers import UserSerializer
-from rest_framework import viewsets, permissions
-from .models import Task, Reminder, Timetable, Notification, Subject, PersonalFile
-from .serializers import (
-    TaskSerializer, ReminderSerializer, TimetableSerializer, 
-    NotificationSerializer, SubjectSerializer, PersonalFileSerializer
+
+# Import Models
+from .models import (
+    Task, Reminder, Timetable, Notification, Subject, PersonalFile,
+    Expense, Activity, Note
 )
-# Registration View
+
+# Import Serializers
+from .serializers import (
+    UserSerializer, UserDetailSerializer, 
+    TaskSerializer, ReminderSerializer, TimetableSerializer, 
+    NotificationSerializer, SubjectSerializer, PersonalFileSerializer,
+    ExpenseSerializer, ActivitySerializer, NoteSerializer 
+)
+
+# --- AUTH VIEWS ---
+
 class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
     permission_classes = (AllowAny,)
     serializer_class = UserSerializer
 
-class TaskViewSet(viewsets.ModelViewSet):
+# This view allows the Dashboard to fetch the logged-in user's details (College, Course, etc.)
+class UserDetailView(generics.RetrieveUpdateAPIView):
+    queryset = User.objects.all()
+    permission_classes = (IsAuthenticated,)
+    serializer_class = UserDetailSerializer
+
+    def get_object(self):
+        return self.request.user
+
+# --- HELPER CLASS ---
+
+class BaseUserViewSet(viewsets.ModelViewSet):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def perform_create(self, serializer):
+        # Automatically assign the logged-in user as 'student'
+        serializer.save(student=self.request.user)
+
+    def get_queryset(self):
+        # Only show the logged-in user's data
+        return self.queryset.filter(student=self.request.user)
+
+# --- MAIN VIEWSETS ---
+
+class TaskViewSet(BaseUserViewSet):
+    queryset = Task.objects.all()
     serializer_class = TaskSerializer
-    permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        # Only show tasks belonging to the logged-in student
-        return Task.objects.filter(student=self.request.user).order_by('-created_at')
+        # Custom ordering for Tasks (newest first)
+        return super().get_queryset().order_by('-created_at')
 
-    def perform_create(self, serializer):
-        serializer.save(student=self.request.user)
-
-class ReminderViewSet(viewsets.ModelViewSet):
+class ReminderViewSet(BaseUserViewSet):
+    queryset = Reminder.objects.all()
     serializer_class = ReminderSerializer
-    permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        return Reminder.objects.filter(student=self.request.user).order_by('date_time')
+        # Custom ordering for Reminders (soonest first)
+        return super().get_queryset().order_by('date_time')
 
-    def perform_create(self, serializer):
-        serializer.save(student=self.request.user)
-
-class TimetableViewSet(viewsets.ModelViewSet):
+class TimetableViewSet(BaseUserViewSet):
+    queryset = Timetable.objects.all()
     serializer_class = TimetableSerializer
-    permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        return Timetable.objects.filter(student=self.request.user).order_by('day', 'start_time')
+        # Custom ordering for Timetable
+        return super().get_queryset().order_by('day', 'start_time')
 
-    def perform_create(self, serializer):
-        serializer.save(student=self.request.user)
-
-class NotificationViewSet(viewsets.ModelViewSet):
+class NotificationViewSet(BaseUserViewSet):
+    queryset = Notification.objects.all()
     serializer_class = NotificationSerializer
-    permission_classes = [permissions.IsAuthenticated]
 
-    def get_queryset(self):
-        return Notification.objects.filter(student=self.request.user).order_by('-created_at')
-
-class SubjectViewSet(viewsets.ModelViewSet):
+class SubjectViewSet(BaseUserViewSet):
+    queryset = Subject.objects.all()
     serializer_class = SubjectSerializer
-    permission_classes = [permissions.IsAuthenticated]
 
-    def get_queryset(self):
-        return Subject.objects.filter(student=self.request.user)
-
-class PersonalFileViewSet(viewsets.ModelViewSet):
+class PersonalFileViewSet(BaseUserViewSet):
+    queryset = PersonalFile.objects.all()
     serializer_class = PersonalFileSerializer
-    permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        return PersonalFile.objects.filter(student=self.request.user).order_by('-uploaded_at')
+        return super().get_queryset().order_by('-uploaded_at')
 
-    def perform_create(self, serializer):
-        serializer.save(student=self.request.user)
+class ExpenseViewSet(BaseUserViewSet):
+    queryset = Expense.objects.all()
+    serializer_class = ExpenseSerializer
+
+class ActivityViewSet(BaseUserViewSet):
+    queryset = Activity.objects.all()
+    serializer_class = ActivitySerializer
+
+
+class NoteViewSet(viewsets.ModelViewSet):
+    permission_classes = [permissions.IsAuthenticated]
+    serializer_class = NoteSerializer
+
+    def get_queryset(self):
+        # Return notes where the Subject belongs to the logged-in Student
+        return Note.objects.filter(subject__student=self.request.user).order_by('-created_at')
