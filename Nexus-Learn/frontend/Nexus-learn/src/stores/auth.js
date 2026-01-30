@@ -4,7 +4,7 @@ import router from '../router'
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
-    // Check if token exists in localStorage on load
+    // Initialize state from LocalStorage to handle page refreshes
     accessToken: localStorage.getItem('access_token') || null,
     refreshToken: localStorage.getItem('refresh_token') || null,
     user: JSON.parse(localStorage.getItem('user_data')) || null,
@@ -25,16 +25,16 @@ export const useAuthStore = defineStore('auth', {
       try {
         const response = await api.post('login/', { username, password })
         
-        // Save tokens to LocalStorage (so you stay logged in after refresh)
+        // Update State
         this.accessToken = response.data.access
         this.refreshToken = response.data.refresh
+        this.user = { username: username } // Set user object
         
+        // Save to LocalStorage (Persist data)
         localStorage.setItem('access_token', this.accessToken)
         localStorage.setItem('refresh_token', this.refreshToken)
+        localStorage.setItem('user_data', JSON.stringify(this.user))
 
-        // Ideally, fetch user details here (optional for now)
-        // this.user = { username: username } 
-        
         // Redirect to Dashboard
         router.push('/dashboard') 
         
@@ -53,9 +53,10 @@ export const useAuthStore = defineStore('auth', {
       this.error = null
       try {
         await api.post('register/', userData)
-        // Auto-login after register, or redirect to login page
+        // Redirect to login page after successful registration
         router.push('/login')
       } catch (err) {
+        console.error("Registration failed:", err)
         this.error = "Registration failed. Try a different username."
         throw err
       } finally {
@@ -65,14 +66,17 @@ export const useAuthStore = defineStore('auth', {
 
     // 3. LOGOUT ACTION
     logout() {
+      // Clear State
       this.accessToken = null
       this.refreshToken = null
       this.user = null
       
+      // Clear LocalStorage
       localStorage.removeItem('access_token')
       localStorage.removeItem('refresh_token')
       localStorage.removeItem('user_data')
       
+      // Redirect to Login
       router.push('/login')
     }
   }
