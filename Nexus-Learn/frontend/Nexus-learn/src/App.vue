@@ -12,7 +12,7 @@
 
 <script setup>
 import Navbar from './components/Navbar.vue';
-import { useRoute } from 'vue-router'; // Import useRoute to check current page
+import { useRoute } from 'vue-router'; 
 
 // No extra logic needed, $route is available in template
 </script>
