@@ -11,21 +11,27 @@ import {
   Clock,
   Sparkles,
   Check, 
-  Trash2 
+  Trash2,
+  MapPin
 } from 'lucide-vue-next'
 
 const user = ref({ username: 'Student' })
 const todayClasses = ref([])
 const pendingTasks = ref([])
 
+// --- HELPERS ---
+
+// Get current day abbreviation (Mon, Tue, Wed...)
+const getCurrentDay = () => {
+  const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+  return days[new Date().getDay()]
+}
+
 // --- ACTIONS ---
 
 const markDone = async (id) => {
   try {
-    // 1. Update backend
     await api.patch(`tasks/${id}/`, { is_done: true })
-    
-    // 2. Remove from local list immediately (UI update)
     pendingTasks.value = pendingTasks.value.filter(t => t.id !== id)
   } catch (e) {
     console.error("Failed to update task", e)
@@ -36,10 +42,7 @@ const deleteTask = async (id) => {
   if(!confirm("Are you sure you want to delete this task?")) return
 
   try {
-    // 1. Delete from backend
     await api.delete(`tasks/${id}/`)
-    
-    // 2. Remove from local list
     pendingTasks.value = pendingTasks.value.filter(t => t.id !== id)
   } catch (e) {
     console.error("Failed to delete task", e)
@@ -54,10 +57,18 @@ onMounted(async () => {
     const userRes = await api.get('user/')
     user.value = userRes.data
 
-    // 2. Get Pending Tasks (Not Done)
+    // 2. Get Pending Tasks
     const taskRes = await api.get('tasks/')
-    // Filter out tasks that are already done, just in case
     pendingTasks.value = taskRes.data.filter(t => !t.is_done).slice(0, 5) 
+
+    // 3. Get Timetable & Filter for TODAY
+    const timeRes = await api.get('timetable/')
+    const today = getCurrentDay()
+    
+    // Filter: Show only classes for today, sorted by start time
+    todayClasses.value = timeRes.data
+      .filter(item => item.day === today)
+      .sort((a, b) => a.start_time.localeCompare(b.start_time))
 
   } catch (e) {
     console.error("Dashboard load failed", e)
@@ -183,7 +194,6 @@ onMounted(async () => {
             </span>
 
             <div class="absolute right-2 top-1/2 -translate-y-1/2 flex gap-2 translate-x-full group-hover:translate-x-0 transition-transform duration-300 ease-out z-20">
-              
               <button 
                 @click.stop="markDone(task.id)"
                 class="p-2 rounded-lg bg-nexus-accent/20 text-nexus-accent hover:bg-nexus-accent hover:text-black transition-colors"
@@ -199,7 +209,6 @@ onMounted(async () => {
               >
                 <Trash2 class="w-4 h-4" />
               </button>
-
             </div>
           </div>
         </CardContent>
@@ -212,16 +221,43 @@ onMounted(async () => {
               <Clock class="w-5 h-5 text-blue-400" /> 
               <span class="text-white">Today's Schedule</span>
             </div>
-            <Button variant="ghost" size="sm" class="h-8 text-xs text-gray-400 hover:text-white hover:bg-white/10">Full Schedule</Button>
+            <RouterLink to="/dashboard/timetable">
+              <Button variant="ghost" size="sm" class="h-8 text-xs text-gray-400 hover:text-white hover:bg-white/10">Full Schedule</Button>
+            </RouterLink>
           </CardTitle>
         </CardHeader>
-        <CardContent class="p-6">
-          <div class="flex flex-col items-center justify-center py-8 text-center opacity-60">
-            <div class="w-16 h-16 bg-blue-500/10 rounded-full flex items-center justify-center mb-4 animate-pulse">
-              <Calendar class="w-8 h-8 text-blue-400" />
+        
+        <CardContent class="p-0">
+          <div v-if="todayClasses.length === 0" class="flex flex-col items-center justify-center py-10 text-center opacity-60">
+            <div class="w-12 h-12 bg-blue-500/10 rounded-full flex items-center justify-center mb-3">
+              <Calendar class="w-6 h-6 text-blue-400" />
             </div>
-            <h4 class="text-white font-medium">Timetable Syncing...</h4>
-            <p class="text-sm text-gray-500 mt-1">This feature is coming soon.</p>
+            <p class="text-white font-medium">No classes today</p>
+            <p class="text-sm text-gray-500">Enjoy your free time!</p>
+          </div>
+
+          <div v-else class="flex flex-col">
+            <div 
+              v-for="cls in todayClasses" 
+              :key="cls.id"
+              class="flex items-center gap-4 p-4 border-b border-white/5 last:border-0 hover:bg-white/5 transition-colors"
+            >
+              <div class="flex flex-col items-center min-w-[60px]">
+                <span class="text-white font-bold text-sm">{{ cls.start_time.slice(0, 5) }}</span>
+                <span class="text-xs text-gray-500">{{ cls.end_time.slice(0, 5) }}</span>
+              </div>
+
+              <div class="w-1 h-8 bg-blue-500/20 rounded-full"></div>
+
+              <div class="flex-1">
+                <h4 class="text-white font-medium truncate">{{ cls.subject_name || 'Unknown Subject' }}</h4>
+                <div class="flex items-center gap-2 text-xs text-gray-400 mt-0.5">
+                  <span v-if="cls.room_number" class="flex items-center gap-1 bg-white/10 px-1.5 py-0.5 rounded text-gray-300">
+                    <MapPin class="w-3 h-3" /> {{ cls.room_number }}
+                  </span>
+                </div>
+              </div>
+            </div>
           </div>
         </CardContent>
       </Card>
