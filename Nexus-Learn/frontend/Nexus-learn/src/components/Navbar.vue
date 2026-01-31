@@ -18,7 +18,7 @@
           Dashboard
         </router-link>
         
-        <router-link v-if="auth.isAuthenticated" to="/subjects" class="text-gray-300 hover:text-nexus-accent transition-colors">
+        <router-link v-if="auth.isAuthenticated" to="/dashboard/subjects" class="text-gray-300 hover:text-nexus-accent transition-colors">
           Subjects
         </router-link>
         

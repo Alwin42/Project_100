@@ -9,6 +9,7 @@ import LoginView from '../views/LoginView.vue'
 import LandingView from '../views/LandingView.vue'
 import DashboardView from '../views/DashboardView.vue' 
 import RegisterView from '../views/RegisterView.vue'
+import SubjectsView from '../views/SubjectsView.vue' // <--- Main List View
 
 // Forms
 import EditProfileView from '../views/forms/EditProfileView.vue'
@@ -39,16 +40,23 @@ const router = createRouter({
       component: DashboardLayout, 
       meta: { requiresAuth: true },
       children: [
-        // Main Dashboard (http://localhost:5173/dashboard)
+        // Main Dashboard
         { path: '', name: 'dashboard', component: DashboardView }, 
         
         // List Views (Grids)
-        // FIX: Removed leading slash '/' so these nest correctly under /dashboard
         { path: 'notes', name: 'notes-list', component: NoteListView }, 
         { path: 'profile', name: 'profile', component: EditProfileView },
-        { path: 'activities', name: 'activities-list', component: ActivityListView }, // Fixed
-        { path: 'expenses', name: 'expenses-list', component: ExpenseListView },     // Fixed
-        { path: 'timetable', name: 'timetable-list', component: TimetableListView }, // Fixed
+        { path: 'activities', name: 'activities-list', component: ActivityListView }, 
+        { path: 'expenses', name: 'expenses-list', component: ExpenseListView },     
+        { path: 'timetable', name: 'timetable-list', component: TimetableListView },
+        
+        // SUBJECTS ROUTES
+        // 1. The List (http://localhost:5173/dashboard/subjects)
+        { path: 'subjects', name: 'subjects-list', component: SubjectsView },
+        
+        
+        // FIX: Points to the NEW SubjectDetailView.vue file
+        { path: 'subjects/:id', name: 'subject-detail', component: () => import('../views/SubjectDetailView.vue') },
 
         // Forms
         { path: 'add-note', name: 'add-note', component: AddNoteView },
@@ -62,11 +70,9 @@ const router = createRouter({
   ]
 })
 
-// Navigation Guard (Protect Dashboard)
+// Navigation Guard
 router.beforeEach((to, from, next) => {
   const authStore = useAuthStore()
-  
-  // Redirect to login if not authenticated
   if (to.meta.requiresAuth && !authStore.isAuthenticated) {
     next('/login')
   } else {
