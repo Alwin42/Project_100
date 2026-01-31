@@ -62,7 +62,7 @@ const links = [
     ></div>
 
     <aside 
-      class="fixed inset-y-0 left-0 z-50 w-64 bg-black/60 backdrop-blur-xl border-r border-white/10 flex flex-col p-4 transition-transform duration-300 ease-in-out"
+      class="fixed inset-y-0 left-0 z-40 w-44 bg-black backdrop-blur-xl border-r border-white/10 flex flex-col p-4 transition-transform duration-400 ease-in-out"
       :class="isSidebarOpen ? 'translate-x-0' : '-translate-x-full'"
     >
       <div class="mb-8 flex items-center justify-between px-2">

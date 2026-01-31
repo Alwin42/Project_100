@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from .models import PersonalFile
 from django.contrib.auth.models import User
 from .models import (
     StudentProfile, 
@@ -8,9 +9,9 @@ from .models import (
     Notification, 
     Subject, 
     PersonalFile,
-    Expense,   # <--- Added
-    Activity,  # <--- Added
-    Note       # <--- Added
+    Expense,   
+    Activity,  
+    Note       
 )
 
 # --- AUTH & USER SERIALIZERS ---
@@ -88,10 +89,9 @@ class SubjectSerializer(serializers.ModelSerializer):
 class PersonalFileSerializer(serializers.ModelSerializer):
     class Meta:
         model = PersonalFile
-        fields = '__all__'
-        extra_kwargs = {'student': {'read_only': True}}
+        fields = ['id', 'title', 'file', 'uploaded_at']
+        read_only_fields = ['student', 'uploaded_at']
 
-# --- MISSING SERIALIZERS ADDED BELOW ---
 
 class ExpenseSerializer(serializers.ModelSerializer):
     class Meta:

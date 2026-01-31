@@ -22,7 +22,7 @@
           Subjects
         </router-link>
         
-        <router-link v-if="auth.isAuthenticated" to="/cloud" class="text-gray-300 hover:text-nexus-accent transition-colors">
+        <router-link v-if="auth.isAuthenticated" to="/dashboard/cloud" class="text-gray-300 hover:text-nexus-accent transition-colors">
           Cloud
         </router-link>
       </nav>

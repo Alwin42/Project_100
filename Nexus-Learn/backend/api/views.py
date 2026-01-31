@@ -3,7 +3,9 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.decorators import action
 from django.contrib.auth.models import User
-
+from rest_framework import viewsets, permissions
+from .models import PersonalFile
+from .serializers import PersonalFileSerializer
 # Import Models
 from .models import (
     Task, Reminder, Timetable, Notification, Subject, PersonalFile,
@@ -81,12 +83,17 @@ class SubjectViewSet(BaseUserViewSet):
     queryset = Subject.objects.all()
     serializer_class = SubjectSerializer
 
-class PersonalFileViewSet(BaseUserViewSet):
-    queryset = PersonalFile.objects.all()
+class PersonalFileViewSet(viewsets.ModelViewSet):
     serializer_class = PersonalFileSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        return super().get_queryset().order_by('-uploaded_at')
+        # SECURITY: Only return files that belong to the logged-in user
+        return PersonalFile.objects.filter(student=self.request.user).order_by('-uploaded_at')
+
+    def perform_create(self, serializer):
+        # AUTOMATION: Automatically assign the file to the logged-in user
+        serializer.save(student=self.request.user)
 
 class ExpenseViewSet(BaseUserViewSet):
     queryset = Expense.objects.all()

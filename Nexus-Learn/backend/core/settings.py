@@ -29,6 +29,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'api',
+    'cloudinary_storage', 
+    'cloudinary',
 ]
 
 MIDDLEWARE = [
@@ -125,3 +127,17 @@ REST_FRAMEWORK = {
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+from pathlib import Path
+from dotenv import load_dotenv
+load_dotenv()
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': os.getenv('CLOUD_NAME'),
+    'API_KEY': os.getenv('API_KEY'),
+    'API_SECRET': os.getenv('API_SECRET')
+}
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'

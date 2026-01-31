@@ -1,35 +1,63 @@
 <script setup>
-// Helper function to generate the animation variants based on index 'i'
+// NEXUS THEME COLORS
+const colors = {
+  green: '#22c55e',
+  blue: '#3b82f6',
+  purple: '#a855f7',
+  pink: '#ec4899'
+}
+
 const getTransition = (i) => ({
-  initial: { pathLength: 0, opacity: 0, scale: 1 },
+  // 1. Initial State: Hidden and slightly lower
+  initial: { 
+    pathLength: 0, 
+    opacity: 0, 
+    scale: 0.8, 
+    y: 20 
+  },
+  
+  // 2. Enter State: Draw + Fade In + Start Floating
   enter: { 
     pathLength: 1, 
-    opacity: 1,
+    opacity: 1, 
     scale: 1,
+    y: [0, -15, 0], // Continuous Float Animation (Keyframes)
     transition: {
-      pathLength: { delay: i * 500, type: 'spring', duration: 1500, bounce: 0 },
-      opacity: { delay: i * 500, duration: 10 }
+      // Drawing Animation (Smooth easeInOut)
+      pathLength: { delay: i * 200, duration: 1500, ease: "easeInOut" },
+      opacity: { delay: i * 200, duration: 800 },
+      scale: { delay: i * 200, duration: 800, type: 'spring' },
+      
+      // Floating Animation (Infinite Loop)
+      y: {
+        duration: 3000, 
+        repeat: Infinity, 
+        ease: "easeInOut", 
+        delay: i * 200 // Stagger the float so they don't move in sync
+      }
     }
   },
-  // --- NEW: Interactive Hover State ---
+
+  // 3. Hover State: Glow & Pop
   hovered: {
-    scale: 1.15,      // Grow slightly
-    strokeWidth: 15,  // Make lines thicker
-    filter: 'drop-shadow(0px 0px 10px rgba(255, 255, 255, 0.5))', // Add Glow
+    scale: 1.2,
+    strokeWidth: 12,
+    filter: 'drop-shadow(0px 0px 15px currentColor)', // Glows with the shape's color
     transition: {
       type: 'spring',
-      stiffness: 400,
-      damping: 10
+      stiffness: 300,
+      damping: 15
     }
   }
 })
 
-// Common styles for the shapes
 const shapeStyle = {
-  strokeWidth: 10,
+  strokeWidth: 8, // Slightly thinner for elegance
   strokeLinecap: "round",
   fill: "transparent",
-  cursor: "pointer" // Changes mouse to Hand icon
+  cursor: "pointer",
+  transformBox: "fill-box",
+  transformOrigin: "center"
 }
 </script>
 
@@ -40,95 +68,95 @@ const shapeStyle = {
   >
     <circle
       cx="100" cy="100" r="80"
-      stroke="#ff0088"
+      :stroke="colors.purple"
       :style="shapeStyle"
-      class="pointer-events-auto"
+      class="pointer-events-auto text-purple-500"
       v-motion="getTransition(1)"
     />
     
     <line
       x1="220" y1="30" x2="360" y2="170"
-      stroke="#4ff0b7"
+      :stroke="colors.green"
       :style="shapeStyle"
-      class="pointer-events-auto"
-      v-motion="getTransition(2)"
+      class="pointer-events-auto text-green-500"
+      v-motion="getTransition(1.5)"
     />
     <line
       x1="220" y1="170" x2="360" y2="30"
-      stroke="#4ff0b7"
+      :stroke="colors.green"
       :style="shapeStyle"
-      class="pointer-events-auto"
-      v-motion="getTransition(2.5)"
+      class="pointer-events-auto text-green-500"
+      v-motion="getTransition(1.8)"
     />
 
     <rect
-      width="140" height="140" x="410" y="30" rx="20"
-      stroke="#0d63f8"
+      width="140" height="140" x="410" y="30" rx="30"
+      :stroke="colors.blue"
       :style="shapeStyle"
-      class="pointer-events-auto"
-      v-motion="getTransition(3)"
+      class="pointer-events-auto text-blue-500"
+      v-motion="getTransition(2)"
     />
 
     <circle
       cx="100" cy="300" r="80"
-      stroke="#0d63f8"
+      :stroke="colors.blue"
       :style="shapeStyle"
-      class="pointer-events-auto"
-      v-motion="getTransition(2)"
+      class="pointer-events-auto text-blue-500"
+      v-motion="getTransition(2.5)"
     />
 
     <line
       x1="220" y1="230" x2="360" y2="370"
-      stroke="#ff0088"
+      :stroke="colors.pink"
       :style="shapeStyle"
-      class="pointer-events-auto"
+      class="pointer-events-auto text-pink-500"
       v-motion="getTransition(3)"
     />
     <line
       x1="220" y1="370" x2="360" y2="230"
-      stroke="#ff0088"
+      :stroke="colors.pink"
       :style="shapeStyle"
-      class="pointer-events-auto"
-      v-motion="getTransition(3.5)"
+      class="pointer-events-auto text-pink-500"
+      v-motion="getTransition(3.3)"
     />
 
     <rect
-      width="140" height="140" x="410" y="230" rx="20"
-      stroke="#4ff0b7"
+      width="140" height="140" x="410" y="230" rx="30"
+      :stroke="colors.green"
       :style="shapeStyle"
-      class="pointer-events-auto"
-      v-motion="getTransition(4)"
+      class="pointer-events-auto text-green-500"
+      v-motion="getTransition(3.8)"
     />
 
     <circle
       cx="100" cy="500" r="80"
-      stroke="#4ff0b7"
+      :stroke="colors.green"
       :style="shapeStyle"
-      class="pointer-events-auto"
-      v-motion="getTransition(3)"
+      class="pointer-events-auto text-green-500"
+      v-motion="getTransition(4.2)"
     />
 
     <line
       x1="220" y1="430" x2="360" y2="570"
-      stroke="#0d63f8"
+      :stroke="colors.blue"
       :style="shapeStyle"
-      class="pointer-events-auto"
-      v-motion="getTransition(4)"
+      class="pointer-events-auto text-blue-500"
+      v-motion="getTransition(4.8)"
     />
     <line
       x1="220" y1="570" x2="360" y2="430"
-      stroke="#0d63f8"
+      :stroke="colors.blue"
       :style="shapeStyle"
-      class="pointer-events-auto"
-      v-motion="getTransition(4.5)"
+      class="pointer-events-auto text-blue-500"
+      v-motion="getTransition(5.1)"
     />
 
     <rect
-      width="140" height="140" x="410" y="430" rx="20"
-      stroke="#ff0088"
+      width="140" height="140" x="410" y="430" rx="30"
+      :stroke="colors.purple"
       :style="shapeStyle"
-      class="pointer-events-auto"
-      v-motion="getTransition(5)"
+      class="pointer-events-auto text-purple-500"
+      v-motion="getTransition(5.5)"
     />
   </svg>
 </template>

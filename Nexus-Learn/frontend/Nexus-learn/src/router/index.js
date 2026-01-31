@@ -25,6 +25,8 @@ import NoteListView from '../views/lists/NoteListView.vue'
 import ActivityListView from '../views/lists/ActivityListView.vue'
 import ExpenseListView from '../views/lists/ExpenseListView.vue'
 import TimetableListView from '../views/lists/TimetableListView.vue'
+import CloudView from '../views/CloudView.vue'
+import AddFileView from '../views/forms/AddFileView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -65,6 +67,9 @@ const router = createRouter({
         { path: 'add-timetable', name: 'add-timetable', component: AddTimetableView },
         { path: 'add-subject', name: 'add-subject', component: AddSubjectView },
         { path: 'add-reminder', name: 'add-reminder', component: AddReminderView },
+        // Cloud
+        { path: 'cloud', name: 'cloud-list', component: CloudView },
+        { path: 'add-file', name: 'add-file', component: AddFileView },
       ]
     }
   ]
