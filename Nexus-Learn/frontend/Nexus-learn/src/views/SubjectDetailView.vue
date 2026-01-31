@@ -164,7 +164,7 @@ const getFileUrl = (path) => {
               </div>
               <div>
                 <p class="font-bold text-xl text-white">{{ subject.teacher_name || 'Not Assigned' }}</p>
-                <p class="text-sm text-nexus-accent/80 font-medium uppercase tracking-wide mt-1">Course Lead</p>
+                <p class="text-sm text-nexus-accent/80 font-medium uppercase tracking-wide mt-1">Course Instructor</p>
               </div>
             </div>
           </CardContent>
