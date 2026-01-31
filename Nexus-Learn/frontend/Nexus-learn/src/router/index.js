@@ -9,7 +9,7 @@ import LoginView from '../views/LoginView.vue'
 import LandingView from '../views/LandingView.vue'
 import DashboardView from '../views/DashboardView.vue' 
 import RegisterView from '../views/RegisterView.vue'
-import SubjectsView from '../views/SubjectsView.vue' // <--- Main List View
+import SubjectsView from '../views/SubjectsView.vue'
 
 // Forms
 import EditProfileView from '../views/forms/EditProfileView.vue'
@@ -19,6 +19,7 @@ import AddTimetableView from '../views/forms/AddTimetableView.vue'
 import AddReminderView from '../views/forms/AddReminderView.vue'
 import AddActivityView from '../views/forms/AddActivityView.vue'
 import AddNoteView from '../views/forms/AddNoteView.vue'
+import AddFileView from '../views/forms/AddFileView.vue'
 
 // Lists (Grid Views)
 import NoteListView from '../views/lists/NoteListView.vue'
@@ -26,7 +27,6 @@ import ActivityListView from '../views/lists/ActivityListView.vue'
 import ExpenseListView from '../views/lists/ExpenseListView.vue'
 import TimetableListView from '../views/lists/TimetableListView.vue'
 import CloudView from '../views/CloudView.vue'
-import AddFileView from '../views/forms/AddFileView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -36,6 +36,14 @@ const router = createRouter({
     { path: '/login', name: 'login', component: LoginView },
     { path: '/register', name: 'register', component: RegisterView },
     
+    
+    {
+      path: '/home',
+      name: 'home',
+      component: () => import('../views/HomeView.vue')
+    },
+    // ------------------------------------------------
+
     // PROTECTED ROUTES (Wrapped in DashboardLayout)
     {
       path: '/dashboard',
@@ -53,11 +61,7 @@ const router = createRouter({
         { path: 'timetable', name: 'timetable-list', component: TimetableListView },
         
         // SUBJECTS ROUTES
-        // 1. The List (http://localhost:5173/dashboard/subjects)
         { path: 'subjects', name: 'subjects-list', component: SubjectsView },
-        
-        
-        // FIX: Points to the NEW SubjectDetailView.vue file
         { path: 'subjects/:id', name: 'subject-detail', component: () => import('../views/SubjectDetailView.vue') },
 
         // Forms
@@ -67,6 +71,7 @@ const router = createRouter({
         { path: 'add-timetable', name: 'add-timetable', component: AddTimetableView },
         { path: 'add-subject', name: 'add-subject', component: AddSubjectView },
         { path: 'add-reminder', name: 'add-reminder', component: AddReminderView },
+        
         // Cloud
         { path: 'cloud', name: 'cloud-list', component: CloudView },
         { path: 'add-file', name: 'add-file', component: AddFileView },

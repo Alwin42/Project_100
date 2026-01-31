@@ -1,16 +1,16 @@
 <template>
   <header class="sticky top-0 z-40 w-full border-b border-gray-800 bg-nexus-card shadow-sm">
     <div class="container mx-auto flex h-16 items-center justify-between px-4">
-      
+      <router-link to="/" class="text-gray-300 hover:text-nexus-accent transition-colors">
       <div class="flex items-center gap-2">
         <div class="h-8 w-8 rounded-lg bg-nexus-accent flex items-center justify-center">
           <span class="text-black font-bold text-lg">N</span>
         </div>
         <span class="text-lg font-bold tracking-tight text-white">Nexus Learn</span>
       </div>
-
+      </router-link>
       <nav class="hidden md:flex items-center gap-6 text-sm font-medium">
-        <router-link to="/" class="text-gray-300 hover:text-nexus-accent transition-colors">
+        <router-link to="/home" class="text-gray-300 hover:text-nexus-accent transition-colors">
           Home
         </router-link>
         
