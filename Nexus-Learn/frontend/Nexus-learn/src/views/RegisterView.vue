@@ -6,50 +6,33 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card'
-// Importing icons for a premium feel
-import { 
-  ExclamationTriangleIcon, 
-  PersonIcon, 
-  CalendarIcon, 
-  BackpackIcon, 
-  LaptopIcon, 
-  EnvelopeClosedIcon, 
-  LockClosedIcon,
-  IdCardIcon 
-} from '@radix-icons/vue'
+import { Card } from '@/components/ui/card'
+import { PersonIcon, CalendarIcon, BackpackIcon, LaptopIcon, EnvelopeClosedIcon, LockClosedIcon, IdCardIcon, ExclamationTriangleIcon } from '@radix-icons/vue'
+import ShufflingGrid from '@/components/ShufflingGrid.vue' // Import Animation
 
 const authStore = useAuthStore()
 const router = useRouter()
+const isLoading = ref(false)
+const errorMessage = ref('')
 
 const formData = ref({
   username: '', password: '', email: '', first_name: '',
   age: '', dob: '', college: '', course: ''
 })
 
-const isLoading = ref(false)
-const errorMessage = ref('')
-
 const handleRegister = async () => {
   isLoading.value = true
   errorMessage.value = ''
   try {
+    // Construct payload (omitted for brevity, same as your code)
     const payload = {
-      username: formData.value.username,
-      password: formData.value.password,
-      email: formData.value.email,
-      first_name: formData.value.first_name,
-      profile: {
-        age: formData.value.age,
-        dob: formData.value.dob,
-        college: formData.value.college,
-        course: formData.value.course
-      }
+        username: formData.value.username, password: formData.value.password, email: formData.value.email, first_name: formData.value.first_name,
+        profile: { age: formData.value.age, dob: formData.value.dob, college: formData.value.college, course: formData.value.course }
     }
     await authStore.register(payload)
     router.push('/login')
   } catch (error) {
-    errorMessage.value = "Registration failed. Username might be taken."
+    errorMessage.value = "Registration failed."
   } finally {
     isLoading.value = false
   }
@@ -57,121 +40,79 @@ const handleRegister = async () => {
 </script>
 
 <template>
-  <div class="min-h-screen flex items-center justify-center bg-nexus-main bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-gray-900 via-nexus-main to-nexus-main py-12 px-4 relative overflow-hidden">
+  <div class="min-h-screen flex items-center justify-center bg-[#09090b] text-white p-4 relative overflow-hidden">
     
-    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px]  rounded-full  pointer-events-none"></div>
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_bottom_right,_rgba(168,85,247,0.1),_transparent_50%)]"></div>
 
     <Card 
-      class="w-full max-w-xl bg-black/60 backdrop-blur-xl border-white/10 text-white shadow-2xl relative z-10"
+      class="w-full max-w-6xl bg-black/40 backdrop-blur-2xl border-white/10 shadow-2xl overflow-hidden grid grid-cols-1 lg:grid-cols-12 relative z-10"
       v-motion
       :initial="{ opacity: 0, y: 20 }"
-      :enter="{ opacity: 1, y: 0, transition: { duration: 600 } }"
+      :enter="{ opacity: 1, y: 0, transition: { duration: 0.6 } }"
     >
-      <CardHeader class="space-y-2">
-        <div class="flex justify-center mb-2">
-          <div class="h-10 w-10 rounded-lg bg-nexus-accent flex items-center justify-center shadow-[0_0_15px_rgba(29,205,159,0.4)]">
-            <span class="text-black font-bold text-xl">N</span>
-          </div>
-        </div>
-        <CardTitle class="text-3xl font-bold text-center tracking-tight">
-          Join <span class="text-nexus-accent">Nexus Learn</span>
-        </CardTitle>
-        <CardDescription class="text-center text-gray-400 text-base">
-          Initialize your student workspace profile
-        </CardDescription>
-      </CardHeader>
       
-      <CardContent>
+      <div class="hidden lg:flex col-span-5 flex-col items-center justify-center bg-white/[0.02] border-r border-white/5 relative p-12">
+        <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black/50"></div>
+        
+        <div class="scale-125 mb-10">
+            <ShufflingGrid />
+        </div>
+
+        <div class="text-center space-y-4 max-w-xs relative z-10">
+          <h3 class="text-2xl font-bold text-white">Join the Network</h3>
+          <p class="text-gray-400 leading-relaxed">Create your student profile to access cloud storage, timetable tracking, and academic analytics.</p>
+        </div>
+      </div>
+
+      <div class="col-span-12 lg:col-span-7 p-8 md:p-12">
+        <div class="mb-8">
+          <h2 class="text-2xl font-bold text-white">Create Account</h2>
+          <p class="text-gray-400 text-sm">Initialize your student workspace profile</p>
+        </div>
+
         <form @submit.prevent="handleRegister" class="space-y-5">
-          
-          <Alert v-if="errorMessage" variant="destructive" class="bg-red-900/40 border-red-900/50 text-red-200">
-            <ExclamationTriangleIcon class="h-4 w-4 text-red-400" />
-            <AlertTitle class="text-red-400">Error</AlertTitle>
+           <Alert v-if="errorMessage" variant="destructive" class="bg-red-500/10 border-red-500/20 text-red-400">
+            <ExclamationTriangleIcon class="h-4 w-4" />
+            <AlertTitle>Error</AlertTitle>
             <AlertDescription>{{ errorMessage }}</AlertDescription>
           </Alert>
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div class="space-y-2">
-              <Label class="text-gray-300 text-xs uppercase tracking-wider font-semibold">First Name</Label>
-              <div class="relative">
-                <PersonIcon class="absolute left-3 top-2.5 h-4 w-4 text-gray-500" />
-                <Input v-model="formData.first_name" placeholder="John" class="pl-9 bg-white/5 border-white/10 text-white focus:border-nexus-accent focus:ring-nexus-accent/20" required />
-              </div>
-            </div>
-            <div class="space-y-2">
-              <Label class="text-gray-300 text-xs uppercase tracking-wider font-semibold">Age</Label>
-              <div class="relative">
-                <CalendarIcon class="absolute left-3 top-2.5 h-4 w-4 text-gray-500" />
-                <Input v-model="formData.age" type="number" placeholder="20" class="pl-9 bg-white/5 border-white/10 text-white focus:border-nexus-accent focus:ring-nexus-accent/20" required />
-              </div>
-            </div>
-          </div>
-
-          <div class="space-y-2">
-             <Label class="text-gray-300 text-xs uppercase tracking-wider font-semibold">Date of Birth</Label>
-             <div class="relative">
-               <Input 
-                 v-model="formData.dob" 
-                 type="date" 
-                 class="bg-white/5 border-white/10 text-white focus:border-nexus-accent focus:ring-nexus-accent/20 [color-scheme:dark]" 
-                 required 
-                />
+             <div class="space-y-2">
+                <Label class="text-xs text-gray-500 font-bold uppercase">First Name</Label>
+                <div class="relative"><PersonIcon class="absolute left-3 top-3 h-4 w-4 text-gray-500" /><Input v-model="formData.first_name" class="pl-9 bg-white/5 border-white/10" placeholder="John" /></div>
+             </div>
+             <div class="space-y-2">
+                <Label class="text-xs text-gray-500 font-bold uppercase">Age</Label>
+                <div class="relative"><CalendarIcon class="absolute left-3 top-3 h-4 w-4 text-gray-500" /><Input v-model="formData.age" type="number" class="pl-9 bg-white/5 border-white/10" placeholder="20" /></div>
              </div>
           </div>
 
           <div class="space-y-2">
-            <Label class="text-gray-300 text-xs uppercase tracking-wider font-semibold">Academic Details</Label>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div class="relative">
-                <BackpackIcon class="absolute left-3 top-2.5 h-4 w-4 text-gray-500" />
-                <Input v-model="formData.college" placeholder="College Name" class="pl-9 bg-white/5 border-white/10 text-white focus:border-nexus-accent focus:ring-nexus-accent/20" required />
-              </div>
-              <div class="relative">
-                <LaptopIcon class="absolute left-3 top-2.5 h-4 w-4 text-gray-500" />
-                <Input v-model="formData.course" placeholder="Course / Major" class="pl-9 bg-white/5 border-white/10 text-white focus:border-nexus-accent focus:ring-nexus-accent/20" required />
-              </div>
-            </div>
+             <Label class="text-xs text-gray-500 font-bold uppercase">College & Course</Label>
+             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+               <div class="relative"><BackpackIcon class="absolute left-3 top-3 h-4 w-4 text-gray-500" /><Input v-model="formData.college" class="pl-9 bg-white/5 border-white/10" placeholder="College Name" /></div>
+               <div class="relative"><LaptopIcon class="absolute left-3 top-3 h-4 w-4 text-gray-500" /><Input v-model="formData.course" class="pl-9 bg-white/5 border-white/10" placeholder="Course" /></div>
+             </div>
           </div>
 
-          <div class="space-y-4 pt-2">
-            <div class="relative flex py-2 items-center">
-              <div class="flex-grow border-t border-white/10"></div>
-              <span class="flex-shrink-0 mx-4 text-gray-500 text-xs uppercase">Account Credentials</span>
-              <div class="flex-grow border-t border-white/10"></div>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div class="relative">
-                <IdCardIcon class="absolute left-3 top-2.5 h-4 w-4 text-gray-500" />
-                <Input v-model="formData.username" placeholder="Username" class="pl-9 bg-white/5 border-white/10 text-white focus:border-nexus-accent focus:ring-nexus-accent/20" required />
+           <div class="space-y-4 pt-4 border-t border-white/10">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="relative"><IdCardIcon class="absolute left-3 top-3 h-4 w-4 text-gray-500" /><Input v-model="formData.username" class="pl-9 bg-white/5 border-white/10" placeholder="Username" /></div>
+                <div class="relative"><EnvelopeClosedIcon class="absolute left-3 top-3 h-4 w-4 text-gray-500" /><Input v-model="formData.email" type="email" class="pl-9 bg-white/5 border-white/10" placeholder="Email" /></div>
               </div>
-              <div class="relative">
-                <EnvelopeClosedIcon class="absolute left-3 top-2.5 h-4 w-4 text-gray-500" />
-                <Input v-model="formData.email" type="email" placeholder="Email Address" class="pl-9 bg-white/5 border-white/10 text-white focus:border-nexus-accent focus:ring-nexus-accent/20" required />
-              </div>
-            </div>
+              <div class="relative"><LockClosedIcon class="absolute left-3 top-3 h-4 w-4 text-gray-500" /><Input v-model="formData.password" type="password" class="pl-9 bg-white/5 border-white/10" placeholder="Password" /></div>
+           </div>
 
-            <div class="relative">
-              <LockClosedIcon class="absolute left-3 top-2.5 h-4 w-4 text-gray-500" />
-              <Input v-model="formData.password" type="password" placeholder="Create Password" class="pl-9 bg-white/5 border-white/10 text-white focus:border-nexus-accent focus:ring-nexus-accent/20" required />
-            </div>
-          </div>
-
-          <Button 
-            type="submit" 
-            class="w-full h-11 text-base bg-nexus-accent hover:bg-nexus-dark text-black font-bold shadow-[0_0_20px_rgba(29,205,159,0.2)] hover:shadow-[0_0_30px_rgba(29,205,159,0.4)] transition-all duration-300 mt-6" 
-            :disabled="isLoading"
-          >
-            {{ isLoading ? 'Initializing Profile...' : 'Complete Registration' }}
+           <Button type="submit" class="w-full h-11 bg-white text-black font-bold hover:bg-gray-200 mt-4" :disabled="isLoading">
+            {{ isLoading ? 'Creating Profile...' : 'Complete Registration' }}
           </Button>
-
+          
+           <p class="text-center text-sm text-gray-500 mt-4">
+            Already have an account? <a href="/login" class="text-nexus-accent hover:underline">Login</a>
+          </p>
         </form>
-      </CardContent>
-      <CardFooter class="justify-center pb-8">
-        <p class="text-sm text-gray-500">
-          Already part of the system? <a href="/login" class="text-nexus-accent hover:text-white transition-colors hover:underline underline-offset-4">Login </a>
-        </p>
-      </CardFooter>
+      </div>
     </Card>
   </div>
 </template>
