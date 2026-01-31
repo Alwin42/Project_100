@@ -6,18 +6,13 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { 
-  ArrowLeft, 
-  User, 
-  BookOpen, 
-  Trash2, 
-  Youtube,
-  Link as LinkIcon,
-  FileText,
-  Download,
-  Plus,
-  AlertCircle,
-  Layers
+  ArrowLeft, User, BookOpen, Trash2, Youtube,
+  Link as LinkIcon, FileText, Download, Plus,
+  AlertCircle, Layers
 } from 'lucide-vue-next'
+
+// IMPORT THE CUBE COMPONENT
+import AnimatedCube from '@/components/AnimatedCube.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -26,6 +21,7 @@ const notes = ref([])
 const loading = ref(true)
 const error = ref(null)
 
+// ... (Keep existing helper functions getDifficultyColor, getDifficultyLabel, etc.) ...
 const getDifficultyColor = (level) => {
   switch (Number(level)) {
     case 1: return 'bg-green-500/20 text-green-400 border-green-500/50'
@@ -44,15 +40,12 @@ const getDifficultyLabel = (level) => {
 onMounted(async () => {
   try {
     const id = route.params.id
-    
     // 1. Get Subject Details
     const res = await api.get(`subjects/${id}/`)
     subject.value = res.data
-
-    // 2. Get Notes filtered by this Subject
+    // 2. Get Notes
     const notesRes = await api.get('notes/')
     notes.value = notesRes.data.filter(n => n.subject === parseInt(id) || n.subject.id === parseInt(id))
-    
   } catch (e) {
     console.error("Failed to load details", e)
     error.value = "Subject not found or access denied."
@@ -73,10 +66,8 @@ const deleteSubject = async () => {
 
 const deleteNote = async (noteId) => {
   if (!confirm("Are you sure you want to delete this note?")) return
-
   try {
     await api.delete(`notes/${noteId}/`)
-    // Remove from local list
     notes.value = notes.value.filter(n => n.id !== noteId)
   } catch (e) {
     console.error("Failed to delete note", e)
@@ -119,16 +110,19 @@ const getFileUrl = (path) => {
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         
         <Card class="bg-black/40 backdrop-blur-3xl border-white/10 text-white relative overflow-hidden shadow-2xl rounded-3xl group h-full">
-          <div class="absolute top-0 right-0 w-64 h-64 bg-nexus-accent/10 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/2 pointer-events-none group-hover:bg-nexus-accent/20 transition-all duration-1000"></div>
+          
+          <div class="absolute -right-10 -top-10 opacity-60 pointer-events-none scale-125">
+             <AnimatedCube />
+          </div>
+
+          <div class="absolute bottom-0 left-0 w-64 h-64 bg-blue-500/10 rounded-full blur-[80px] pointer-events-none"></div>
           
           <CardHeader class="relative z-10 p-8 h-full flex flex-col justify-between">
             <div class="flex justify-between items-start gap-4">
-               <div class="space-y-4">
-                  <div class="flex items-center gap-3">
+               <div class="space-y-4 max-w-[70%]"> <div class="flex items-center gap-3">
                     <Badge class="px-3 py-1 text-sm font-medium backdrop-blur-md shadow-sm" :class="getDifficultyColor(subject.difficulty)">
                       {{ getDifficultyLabel(subject.difficulty) }}
                     </Badge>
-                    
                   </div>
                   <h1 class="text-4xl font-extrabold tracking-tight text-white leading-tight">
                     {{ subject.name }}

@@ -15,6 +15,9 @@ import {
   MapPin
 } from 'lucide-vue-next'
 
+// Import the new Animation Component
+import GeometricBackground from '@/components/GeometricBackground.vue'
+
 const user = ref({ username: 'Student' })
 const todayClasses = ref([])
 const pendingTasks = ref([])
@@ -79,8 +82,9 @@ onMounted(async () => {
 <template>
   <div class="space-y-10">
     
-    <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-nexus-accent/10 to-transparent p-8 border border-white/5 shadow-2xl backdrop-blur-3xl">
-      <div class="absolute -top-24 -right-24 w-64 h-64 bg-nexus-accent/20 rounded-full blur-[100px]"></div>
+    <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-nexus-accent/10 to-transparent p-8 border border-white/5 shadow-2xl backdrop-blur-3xl min-h-[250px] flex flex-col justify-end">
+      
+      <GeometricBackground />
 
       <div class="relative z-10 flex flex-col md:flex-row justify-between items-end gap-4">
         <div>
@@ -94,7 +98,7 @@ onMounted(async () => {
           <p class="text-gray-300 mt-2 text-lg">Your academic focus is looking sharp today.</p>
         </div>
         
-        <div class="text-right hidden md:block bg-black/20 px-6 py-3 rounded-2xl border border-white/5 backdrop-blur-md">
+        <div class="text-right hidden md:block bg-black/40 px-6 py-3 rounded-2xl border border-white/10 backdrop-blur-md shadow-xl">
           <p class="text-3xl font-mono text-white font-bold tracking-widest">
             {{ new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) }}
           </p>

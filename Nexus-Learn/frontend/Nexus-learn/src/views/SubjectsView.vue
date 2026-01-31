@@ -3,7 +3,6 @@ import { ref, onMounted } from 'vue'
 import { RouterLink } from 'vue-router'
 import api from '@/services/api'
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { 
   BookOpen, 
@@ -13,6 +12,7 @@ import {
   GraduationCap, 
   AlertCircle 
 } from 'lucide-vue-next'
+import AnimatedCube from '@/components/AnimatedCube.vue'
 
 const subjects = ref([])
 const loading = ref(true)
@@ -104,6 +104,9 @@ onMounted(async () => {
               <div class="p-3 bg-white/5 rounded-xl border border-white/5 group-hover:border-nexus-accent/30 transition-colors">
                 <BookOpen class="w-6 h-6 text-nexus-accent" />
               </div>
+              <div class="absolute -right-10 -top-10 opacity-60 pointer-events-none scale-125">
+             <AnimatedCube />
+          </div>
               <span 
                 class="text-xs font-bold px-2 py-1 rounded border capitalize"
                 :class="getDifficultyColor(sub.difficulty)"
