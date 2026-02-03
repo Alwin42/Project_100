@@ -7,7 +7,7 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { 
   Plus, Calendar, CheckCircle2, Clock, Sparkles, 
-  Trash2, MapPin, ArrowRight, Bell 
+  Trash2, MapPin, ArrowRight, Bell, CalendarClock, Upload 
 } from 'lucide-vue-next'
 import GeometricBackground from '@/components/GeometricBackground.vue'
 
@@ -82,7 +82,7 @@ const itemVar = { hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0, trans
         <h3 class="text-xl font-bold text-white tracking-wide">Quick Actions</h3>
       </div>
 
-      <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+      <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4">
         
         <RouterLink to="/dashboard/add-note" class="group relative">
           <div class="absolute inset-0 bg-nexus-accent/20 blur-xl rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
@@ -100,7 +100,7 @@ const itemVar = { hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0, trans
             <div class="p-3 bg-blue-500/10 rounded-2xl group-hover:bg-blue-500 group-hover:text-black transition-all duration-300">
               <Plus class="w-6 h-6 text-blue-400 group-hover:text-black" />
             </div>
-            <span class="text-gray-300 font-bold text-sm group-hover:text-white">Log Activity</span>
+            <span class="text-gray-300 font-bold text-sm group-hover:text-white">Activity</span>
           </Button>
         </RouterLink>
 
@@ -110,7 +110,7 @@ const itemVar = { hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0, trans
             <div class="p-3 bg-green-500/10 rounded-2xl group-hover:bg-green-500 group-hover:text-black transition-all duration-300">
               <Plus class="w-6 h-6 text-green-400 group-hover:text-black" />
             </div>
-            <span class="text-gray-300 font-bold text-sm group-hover:text-white">Add Expense</span>
+            <span class="text-gray-300 font-bold text-sm group-hover:text-white">Expense</span>
           </Button>
         </RouterLink>
         
@@ -120,7 +120,7 @@ const itemVar = { hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0, trans
             <div class="p-3 bg-purple-500/10 rounded-2xl group-hover:bg-purple-500 group-hover:text-black transition-all duration-300">
               <Plus class="w-6 h-6 text-purple-400 group-hover:text-black" />
             </div>
-            <span class="text-gray-300 font-bold text-sm group-hover:text-white">Add Subject</span>
+            <span class="text-gray-300 font-bold text-sm group-hover:text-white">Subject</span>
           </Button>
         </RouterLink>
 
@@ -128,9 +128,29 @@ const itemVar = { hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0, trans
            <div class="absolute inset-0 bg-pink-500/20 blur-xl rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
            <Button variant="ghost" class="relative h-auto py-6 w-full flex flex-col gap-3 bg-black/40 border border-white/10 hover:border-pink-400/50 rounded-3xl backdrop-blur-xl transition-all duration-300 group-hover:-translate-y-2">
             <div class="p-3 bg-pink-500/10 rounded-2xl group-hover:bg-pink-500 group-hover:text-black transition-all duration-300">
-              <Plus class="w-6 h-6 text-pink-400 group-hover:text-black" />
+              <Bell class="w-6 h-6 text-pink-400 group-hover:text-black" />
             </div>
-            <span class="text-gray-300 font-bold text-sm group-hover:text-white">Add Reminder</span>
+            <span class="text-gray-300 font-bold text-sm group-hover:text-white">Reminder</span>
+          </Button>
+        </RouterLink>
+
+        <RouterLink to="/dashboard/add-timetable" class="group relative">
+           <div class="absolute inset-0 bg-indigo-500/20 blur-xl rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+           <Button variant="ghost" class="relative h-auto py-6 w-full flex flex-col gap-3 bg-black/40 border border-white/10 hover:border-indigo-400/50 rounded-3xl backdrop-blur-xl transition-all duration-300 group-hover:-translate-y-2">
+            <div class="p-3 bg-indigo-500/10 rounded-2xl group-hover:bg-indigo-500 group-hover:text-black transition-all duration-300">
+              <CalendarClock class="w-6 h-6 text-indigo-400 group-hover:text-black" />
+            </div>
+            <span class="text-gray-300 font-bold text-sm group-hover:text-white">Timetable</span>
+          </Button>
+        </RouterLink>
+
+        <RouterLink to="/dashboard/add-file" class="group relative">
+           <div class="absolute inset-0 bg-cyan-500/20 blur-xl rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+           <Button variant="ghost" class="relative h-auto py-6 w-full flex flex-col gap-3 bg-black/40 border border-white/10 hover:border-cyan-400/50 rounded-3xl backdrop-blur-xl transition-all duration-300 group-hover:-translate-y-2">
+            <div class="p-3 bg-cyan-500/10 rounded-2xl group-hover:bg-cyan-500 group-hover:text-black transition-all duration-300">
+              <Upload class="w-6 h-6 text-cyan-400 group-hover:text-black" />
+            </div>
+            <span class="text-gray-300 font-bold text-sm group-hover:text-white">Add File</span>
           </Button>
         </RouterLink>
 
