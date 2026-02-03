@@ -4,7 +4,6 @@ import { RouterLink } from 'vue-router'
 import { Motion } from 'motion-v'
 import api from '@/services/api'
 
-
 import { Button } from '@/components/ui/button'
 import { 
   CalendarClock, 
@@ -12,7 +11,8 @@ import {
   BookOpen, 
   Trophy, 
   Cloud, 
-  ArrowRight 
+  ArrowRight,
+  Bell // Imported Bell Icon
 } from 'lucide-vue-next'
 import BackgroundShapes from '@/components/BackgroundShapes.vue'
 
@@ -31,25 +31,41 @@ const cardVariants = {
   },
 }
 
-const hue = (h) => `hsl(${h}, 100%, 50%)`
-const getGradient = (hA, hB) => `linear-gradient(135deg, ${hue(hA)}, ${hue(hB)})`
-
 // --- DATA LOADING ---
 onMounted(async () => {
   try {
     try { const u = await api.get('user/'); user.value = u.data } catch(e) {}
 
-    const [time, exp, note, act, file] = await Promise.allSettled([
-      api.get('timetable/'), api.get('expenses/'), api.get('notes/'), api.get('activities/'), api.get('files/')
+    // Added tasks/ to the fetch list
+    const [time, exp, note, act, file, task] = await Promise.allSettled([
+      api.get('timetable/'), 
+      api.get('expenses/'), 
+      api.get('notes/'), 
+      api.get('activities/'), 
+      api.get('files/'),
+      api.get('tasks/') 
     ])
 
     const w = []
     
+    // 0. Reminders (Pink Theme) - ADDED AT THE TOP
+    if (task.status === 'fulfilled' && task.value.data.length) {
+      const pending = task.value.data.filter(t => !t.is_done).slice(0, 3)
+      if (pending.length > 0) {
+        w.push({ 
+          id: 'reminders', title: 'Reminders', icon: Bell, 
+          color: '#ec4899', // Pink theme
+          items: pending.map(t => ({ main: t.title, sub: `${t.priority} Priority` })), 
+          link: '/dashboard' // Links to dashboard where tasks are managed
+        })
+      }
+    }
+
     // 1. Timetable (Blue Theme)
     if (time.status === 'fulfilled' && time.value.data.length) {
       w.push({ 
         id: 'time', title: 'Timetable', icon: CalendarClock, 
-        hueA: 210, hueB: 240, color: '#3b82f6',
+        color: '#3b82f6',
         items: time.value.data.slice(0,3).map(c => ({main: c.subject_name, sub: `${c.day} • ${c.start_time.slice(0,5)}`})), 
         link: '/dashboard/timetable' 
       })
@@ -59,7 +75,7 @@ onMounted(async () => {
       const total = exp.value.data.reduce((s, i) => s + parseFloat(i.amount||0), 0)
       w.push({ 
         id: 'exp', title: 'Expenses', icon: Wallet, 
-        hueA: 140, hueB: 160, color: '#22c55e',
+        color: '#22c55e',
         stat: `₹${total.toFixed(0)}`, statLabel: 'Total Spent', 
         items: exp.value.data.slice(0,3).map(e => ({main: e.category, sub: `₹${e.amount}`})), 
         link: '/dashboard/expenses' 
@@ -69,7 +85,7 @@ onMounted(async () => {
     if (note.status === 'fulfilled' && note.value.data.length) {
       w.push({ 
         id: 'note', title: 'Notes', icon: BookOpen, 
-        hueA: 260, hueB: 290, color: '#a855f7',
+        color: '#a855f7',
         items: note.value.data.slice(0,3).map(n => ({main: n.title, sub: n.subject_name})), 
         link: '/dashboard/notes' 
       })
@@ -78,7 +94,7 @@ onMounted(async () => {
     if (file.status === 'fulfilled' && file.value.data.length) {
       w.push({ 
         id: 'cloud', title: 'Cloud', icon: Cloud, 
-        hueA: 320, hueB: 340, color: '#ec4899',
+        color: '#f2f200',
         items: file.value.data.slice(0,3).map(f => ({main: f.title, sub: 'File'})), 
         link: '/dashboard/cloud' 
       })
@@ -92,9 +108,7 @@ onMounted(async () => {
 <template>
   <div class="min-h-screen bg-black text-white overflow-x-hidden relative selection:bg-nexus-accent selection:text-black">
     
-    <SpringCursor />
     <BackgroundShapes />
- 
 
     <div class="container mx-auto px-6 py-20 pb-40 relative z-10">
       
