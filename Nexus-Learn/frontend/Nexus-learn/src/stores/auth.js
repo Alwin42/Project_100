@@ -36,7 +36,7 @@ export const useAuthStore = defineStore('auth', {
         localStorage.setItem('user_data', JSON.stringify(this.user))
 
         // Redirect to Dashboard
-        router.push('/dashboard') 
+        router.push('/home') 
         
       } catch (err) {
         console.error("Login failed:", err)

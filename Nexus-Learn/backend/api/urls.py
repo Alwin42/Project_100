@@ -2,7 +2,7 @@ from django.urls import path, include
 from .views import PersonalFileViewSet
 from rest_framework.routers import DefaultRouter
 from .views import (
-    RegisterView, UserDetailView, # <--- Added UserDetailView
+    RegisterView, UserDetailView, 
     TimetableViewSet, TaskViewSet, ReminderViewSet, 
     SubjectViewSet, ExpenseViewSet, ActivityViewSet, 
     NoteViewSet, PersonalFileViewSet, NotificationViewSet
