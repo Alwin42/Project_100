@@ -7,7 +7,7 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { 
   Plus, Calendar, CheckCircle2, Clock, Sparkles, 
-  Trash2, MapPin, ArrowRight, Bell, CalendarClock, Upload 
+  Trash2, MapPin,  Bell, CalendarClock, Upload 
 } from 'lucide-vue-next'
 import GeometricBackground from '@/components/GeometricBackground.vue'
 
@@ -53,8 +53,8 @@ const itemVar = { hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0, trans
     
     <Motion :variants="itemVar" class="relative overflow-hidden rounded-[2.5rem] p-8 md:p-10 border border-white/10 shadow-2xl min-h-[280px] flex flex-col justify-end group">
       <div class="absolute inset-0 bg-gradient-to-br from-gray-900 via-black to-black z-0"></div>
-      <div class="absolute inset-0 opacity-40 mix-blend-overlay bg-[url('https://grainy-gradients.vercel.app/noise.svg')] z-0 pointer-events-none"></div>
-      <div class="absolute inset-0 z-0 opacity-60"><GeometricBackground /></div>
+      <div class="absolute inset-0 opacity-70 mix-blend-overlay bg-[url('https://grainy-gradients.vercel.app/noise.svg')] z-0 pointer-events-none"></div>
+      <div class="absolute inset-0 z-0 opacity-90"><GeometricBackground /></div>
 
       <div class="relative z-10 flex flex-col md:flex-row justify-between items-end gap-6">
         <div class="space-y-2">
@@ -65,6 +65,9 @@ const itemVar = { hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0, trans
           <h1 class="text-4xl md:text-6xl font-black text-white tracking-tight drop-shadow-lg">
             Hello, <span class="text-transparent bg-clip-text bg-gradient-to-r from-nexus-accent via-green-200 to-white animate-gradient-x">{{ user.username }}</span>
           </h1>
+          <p class="text-gray-400 text-lg font-medium max-w-lg">{{ user.age }}</p>
+          <p class="text-gray-400 text-lg font-medium max-w-lg">{{ user.college }}</p>
+          <p class="text-gray-400 text-lg font-medium max-w-lg">{{ user.course }}</p>
           <p class="text-gray-400 text-lg font-medium max-w-lg">Ready to conquer your academic goals today?</p>
         </div>
         <div class="hidden md:block text-right">
