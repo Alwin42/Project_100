@@ -3,6 +3,7 @@ import { onMounted, onUnmounted } from 'vue'
 import Navbar from './components/Navbar.vue'
 import Lenis from 'lenis'
 
+
 let lenis
 
 onMounted(() => {
