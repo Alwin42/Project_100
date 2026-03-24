@@ -51,11 +51,6 @@ MIDDLEWARE = [
 # CORS Configuration
 CORS_ALLOW_ALL_ORIGINS = True # Allow all for initial setup
 
-# In production, you should list your actual frontend URL:
-# CORS_ALLOWED_ORIGINS = [
-#     "http://localhost:5173",
-#     "https://your-frontend-app.vercel.app",
-# ]
 
 # CSRF Trusted Origins (Required for Render POST requests)
 CSRF_TRUSTED_ORIGINS = [
@@ -88,9 +83,9 @@ WSGI_APPLICATION = 'core.wsgi.application'
 
 DATABASES = {
     'default': dj_database_url.config(
-        # Use Render's DB URL if available, otherwise use local Postgres
-        default='postgres://postgres:password@localhost:5432/nexus_db',
-        conn_max_age=600
+        # This tells Django to automatically look for a 'DATABASE_URL' in your .env or Render environment
+        conn_max_age=600,
+        conn_health_checks=True,
     )
 }
 
@@ -124,9 +119,9 @@ MEDIA_URL = '/media/'
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME'),
-    'API_KEY': os.environ.get('CLOUDINARY_API_KEY'),
-    'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET')
+    'CLOUD_NAME': os.getenv('CLOUDINARY_STORAGE_CLOUD_NAME'),
+    'API_KEY': os.getenv('CLOUDINARY_STORAGE_API_KEY'),
+    'API_SECRET': os.getenv('CLOUDINARY_STORAGE_API_SECRET')
 }
 
 # REST Framework Config
