@@ -1,13 +1,13 @@
 import axios from 'axios'
 
 const api = axios.create({
+  // This will now successfully use Vercel's URL in production, 
+  // and safely fall back to your localhost when you are coding offline!
   baseURL: import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000/api/',
-  baseURL: 'http://127.0.0.1:8000/api/', 
   headers: {
     'Content-Type': 'application/json',
   }
 })
-
 
 api.interceptors.request.use(
   (config) => {
