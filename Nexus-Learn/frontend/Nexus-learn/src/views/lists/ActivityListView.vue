@@ -20,7 +20,7 @@ const error = ref(null)
 
 const getImageUrl = (path) => {
   if (!path) return null
-  return path.startsWith('http') ? path : `http://127.0.0.1:8000${path}`
+  return path.startsWith('http') ? path : `https://project-100-5tv1.onrender.com${path}`
 }
 
 // --- DELETE FUNCTION ---

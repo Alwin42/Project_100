@@ -77,7 +77,7 @@ const deleteNote = async (noteId) => {
 
 const getFileUrl = (path) => {
   if (!path) return '#'
-  return path.startsWith('http') ? path : `http://127.0.0.1:8000${path}`
+  return path.startsWith('http') ? path : `https://project-100-5tv1.onrender.com${path}`
 }
 </script>
 
