@@ -2,7 +2,7 @@
 
 **100 Projects Series** – a personal challenge to build 100 diverse and meaningful projects. These projects are designed to enhance my skills in **frontend**, **backend**, and **full-stack web & app development**, covering real-world problems, fun experiments, and creative tools.
 
-> 🚧 Currently in progress – 3 out of 100 projects completed.
+> 🚧 Currently in progress – 9 out of 100 projects completed.
 
 ---
 
@@ -17,8 +17,8 @@
 | 5 | **Pearl-Pavilion** | HTML, Tailwind CSS , Flask | Completed | [Pearl-Pavilion](https://github.com/Alwin42/Project_100/tree/main/Pearl-Paviliontree/main/Deadline-Dash)|
 | 6 | **Eco-Sync** | HTML, Tailwind CSS , Django| Completed | [Eco-Sync](https://github.com/Alwin42/Project_100/tree/main/Eco-Sync)|
 | 7 | **Synapse** | HTML, Tailwind CSS , Django | Completed | [Synapse](https://github.com/Alwin42/Project_100/tree/main/Synapse)|
-| 8 | **Apex-Rental** | Vue.js , Tailwind CSS, Django | Completed | [Synapse](https://github.com/Alwin42/Project_100/tree/main/Apex-Rentals)|
-| 9 | **Nexus-Learn** | Vue.js , Tailwind CSS, Django | Completed | [Synapse](https://github.com/Alwin42/Project_100/tree/main/Nexus-Learn)|
+| 8 | **Apex-Rental** | Vue.js , Tailwind CSS, Django | Completed | [Apex-Rental](https://github.com/Alwin42/Project_100/tree/main/Apex-Rentals)|
+| 9 | **Nexus-Learn** | Vue.js , Tailwind CSS, Django | Completed | [Nexus-Learn](https://github.com/Alwin42/Project_100/tree/main/Nexus-Learn)|
 ---
 
 ## 🎯 Goals
