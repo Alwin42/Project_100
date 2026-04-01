@@ -49,13 +49,19 @@ MIDDLEWARE = [
 ]
 
 # CORS Configuration
-CORS_ALLOW_ALL_ORIGINS = True # Allow all for initial setup
+CORS_ALLOW_ALL_ORIGINS = False 
+CORS_ALLOWED_ORIGINS = [
+    "https://nexuslearn-git-main-alwins-projects-1ac1f667.vercel.app", # Your live Vercel frontend
+    "http://localhost:5173", # For local Vue development
+    "http://127.0.0.1:5173",
+]
 
-
-# CSRF Trusted Origins (Required for Render POST requests)
+# --- CSRF Trusted Origins (Crucial for POST requests) ---
 CSRF_TRUSTED_ORIGINS = [
     "https://*.onrender.com", 
-    "http://localhost:5173"
+    "https://nexuslearn-git-main-alwins-projects-1ac1f667.vercel.app", # MUST be here for logins/registration to work!
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
 ]
 
 ROOT_URLCONF = 'core.urls'
