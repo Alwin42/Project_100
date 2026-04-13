@@ -15,7 +15,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure--g@dr16w$v+94vfod^%#0
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # Render sets 'RENDER' env var, so we use that to turn off Debug automatically
-DEBUG = 'RENDER' not in os.environ
+DEBUG = True
 
 ALLOWED_HOSTS = ['*'] # Allow all hosts for now (easiest for Render)
 
