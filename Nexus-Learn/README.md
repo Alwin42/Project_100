@@ -6,7 +6,8 @@
 **Nexus Learn** is a modern, cloud-based academic workspace designed to streamline the student experience. It serves as a central "operating system" for students to manage timetables, finances, study materials, and extracurricular activities in a unified, high-performance interface.
 
 Built with a **Glassmorphic** design language, it features smooth animations, a dark-themed UI, and seamless backend integration.
-
+---
+### 🌐 **[Live Demo: Nexus Learn](https://nexuslearn-lyart.vercel.app/)**
 ---
 
 ## ✨ Features
