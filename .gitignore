@@ -11,8 +11,7 @@ staticfiles/
 
 # Node
 node_modules/
-package-lock.json
-package.json
+
 
 # OS / misc
 .DS_Store
