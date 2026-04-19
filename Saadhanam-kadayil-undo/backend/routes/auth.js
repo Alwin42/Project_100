@@ -12,8 +12,8 @@ const transporter = nodemailer.createTransport({
     port: 587,
     secure: false, // true for 465, false for 587
     auth: {
-        user: process.env.BREVO_SMTP_LOGIN, // Usually your Brevo account email
-        pass: process.env.BREVO_SMTP_KEY    // Generate this in Brevo: SMTP & API -> SMTP
+        user: process.env.BREVO_SMTP_LOGIN, 
+        pass: process.env.BREVO_SMTP_KEY    
     }
 });
 
@@ -31,8 +31,12 @@ router.post('/send-otp', async (req, res) => {
     try {
         // Send the email via Brevo
         await transporter.sendMail({
-            from: '"StockUndo" <noreply@yourdomain.com>', // Replace with your verified Brevo sender email
-            to: email,
+            
+            from: `"StockUndo" <${process.env.BREVO_SENDER_EMAIL}>`, 
+            
+            
+            to: email, 
+            
             subject: "Your StockUndo Login Code",
             html: `
                 <div style="font-family: sans-serif; text-align: center; padding: 20px;">

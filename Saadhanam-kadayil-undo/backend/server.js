@@ -21,7 +21,7 @@ app.use('/api/auth', authRoutes);
 // 5. Health Check Route (Crucial for Render)
 // Render will ping this URL to make sure your server successfully booted up
 app.get('/', (req, res) => {
-    res.status(200).json({ message: "StockUndo Backend is live and running!" });
+    res.status(200).json({ message: " Backend is live and running!" });
 });
 
 // 6. Start the Server
@@ -29,5 +29,5 @@ app.get('/', (req, res) => {
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
-    console.log(`🚀 Server is up and running on port ${PORT}`);
+    console.log(`🚀 Server is up and running on port http://localhost:${PORT}`);
 });
