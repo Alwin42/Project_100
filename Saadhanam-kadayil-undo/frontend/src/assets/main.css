@@ -1,1 +1,10 @@
+/* Import the core Tailwind engine */
 @import "tailwindcss";
+
+/* Define your custom StockUndo color palette */
+@theme {
+  --color-primary: #468432;
+  --color-secondary: #9AD872;
+  --color-accent-1: #FFEF91;
+  --color-accent-2: #FFA02E;
+}

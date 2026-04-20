@@ -115,7 +115,7 @@ const verifyOTP = async () => {
     
     // 4. Close the modal and optionally reload or redirect
     emit('close');
-    alert("Login Successful! Check your console.");
+    alert("Login Successful!");
     
     // Quick refresh to update the UI (you can replace this with Vue Router navigation later)
     window.location.reload(); 
