@@ -87,10 +87,22 @@
                   <StarIcon class="w-3.5 h-3.5 text-accent-2 fill-accent-2" />
                   <span class="text-sm font-bold text-gray-700">{{ vendor.rating }}</span>
                 </div>
-                <div class="flex items-center gap-1 mt-1 text-gray-500">
+                
+                <a 
+                  v-if="vendor.mapUrl"
+                  :href="vendor.mapUrl" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  class="inline-flex items-center gap-1 mt-1.5 text-gray-500 hover:text-primary transition-colors group"
+                >
+                  <MapPinIcon class="w-3.5 h-3.5 group-hover:animate-bounce" />
+                  <span class="text-sm font-medium underline-offset-2 group-hover:underline">Get Directions ({{ vendor.distance }})</span>
+                </a>
+                <div v-else class="flex items-center gap-1 mt-1.5 text-gray-500">
                   <MapPinIcon class="w-3.5 h-3.5" />
                   <span class="text-sm">{{ vendor.distance }} away</span>
                 </div>
+
               </div>
             </div>
 
@@ -154,7 +166,8 @@ const nearbyVendors = ref([
     distance: '0.8 km', 
     rating: '4.8', 
     isOpen: true, 
-    emoji: '🏪' 
+    emoji: '🏪',
+    mapUrl: 'https://maps.google.com' // <-- Added map link
   },
   { 
     id: 2, 
@@ -162,7 +175,8 @@ const nearbyVendors = ref([
     distance: '1.2 km', 
     rating: '4.5', 
     isOpen: true, 
-    emoji: '🛒' 
+    emoji: '🛒',
+    mapUrl: 'https://maps.google.com' 
   },
   { 
     id: 3, 
@@ -170,7 +184,8 @@ const nearbyVendors = ref([
     distance: '2.5 km', 
     rating: '4.2', 
     isOpen: false, 
-    emoji: '🏬' 
+    emoji: '🏬',
+    mapUrl: 'https://maps.google.com' 
   }
 ])
 </script>
