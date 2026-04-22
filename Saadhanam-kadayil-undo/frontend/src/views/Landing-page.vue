@@ -1,7 +1,7 @@
 <template>
   <div class="min-h-screen bg-gray-50 flex flex-col items-center font-sans selection:bg-secondary/40 relative">
     
-    <Navbar />
+    <Navbar @open-login="isModalOpen = true" />
 
     <main class="mt-32 mb-16 px-6 max-w-7xl w-full grow grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
       
@@ -22,14 +22,27 @@
           Check live stock, reserve items, and order directly from local vendors. Stop guessing if it's in stock before you walk.
         </p>
 
-        <button 
-          @click="isModalOpen = true"
-          class="group relative overflow-hidden rounded-full bg-primary px-8 py-3.5 text-lg font-bold text-white shadow-[0_4px_14px_0_rgba(70,132,50,0.39)] transition-all hover:shadow-[0_6px_20px_rgba(70,132,50,0.23)] hover:-translate-y-1 active:translate-y-0 active:shadow-md flex items-center gap-2"
-        >
-          <span class="absolute inset-0 bg-white/20 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></span>
-          <span>Login to Start Shopping</span>
-          <ArrowRightIcon class="w-5 h-5 transition-all duration-300 group-hover:translate-x-1 group-hover:text-accent-2" />
-        </button>
+        <div>
+          <button 
+            v-if="!isLoggedIn"
+            @click="isModalOpen = true"
+            class="group relative overflow-hidden rounded-full bg-primary px-8 py-3.5 text-lg font-bold text-white shadow-[0_4px_14px_0_rgba(70,132,50,0.39)] transition-all hover:shadow-[0_6px_20px_rgba(70,132,50,0.23)] hover:-translate-y-1 active:translate-y-0 active:shadow-md flex items-center gap-2"
+          >
+            <span class="absolute inset-0 bg-white/20 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></span>
+            <span>Login to Start Shopping</span>
+            <ArrowRightIcon class="w-5 h-5 transition-all duration-300 group-hover:translate-x-1 group-hover:text-accent-2" />
+          </button>
+
+          <button 
+            v-else
+            @click="goToShop"
+            class="group relative overflow-hidden rounded-full bg-primary px-8 py-3.5 text-lg font-bold text-white shadow-[0_4px_14px_0_rgba(70,132,50,0.39)] transition-all hover:shadow-[0_6px_20px_rgba(70,132,50,0.23)] hover:-translate-y-1 active:translate-y-0 active:shadow-md flex items-center gap-2"
+          >
+            <span class="absolute inset-0 bg-white/20 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></span>
+            <span>Start Shopping</span>
+            <ArrowRightIcon class="w-5 h-5 transition-all duration-300 group-hover:translate-x-1 group-hover:text-accent-2" />
+          </button>
+        </div>
 
       </div>
 
@@ -52,10 +65,26 @@
 </template>
 
 <script setup>
-import { ref } from 'vue' 
+import { ref, onMounted } from 'vue' 
+import { useRouter } from 'vue-router'
 import Navbar from '../components/Navbar.vue'
 import LoginModal from '../components/LoginModal.vue' 
 import { ArrowRightIcon } from 'lucide-vue-next'
 
 const isModalOpen = ref(false)
+const isLoggedIn = ref(false)
+const router = useRouter()
+
+// Check if the user is logged in when the landing page loads
+onMounted(() => {
+  const token = localStorage.getItem('token')
+  if (token) {
+    isLoggedIn.value = true
+  }
+})
+
+// Function to route logged-in users directly to the store
+const goToShop = () => {
+  router.push('/home') // Make sure this matches the path in your router configuration
+}
 </script>

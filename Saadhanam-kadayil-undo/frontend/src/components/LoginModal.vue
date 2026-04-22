@@ -7,8 +7,8 @@
       </button>
 
       <div class="text-center mb-8">
-        <div class="mx-auto w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mb-4">
-          <MailIcon class="w-6 h-6 text-green-600" /> 
+        <div class="mx-auto w-12 h-12 bg-secondary/30 rounded-full flex items-center justify-center mb-4">
+          <MailIcon class="w-6 h-6 text-primary" /> 
         </div>
         <h3 class="text-2xl font-bold text-gray-900">Welcome to StockUndo</h3>
         <p class="text-gray-500 mt-2 text-sm">Log in instantly with a secure code.</p>
@@ -20,14 +20,14 @@
           v-model="email" 
           type="email" 
           placeholder="you@example.com"
-          class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all"
+          class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
           @keyup.enter="isValidEmail ? requestOTP() : null"
         />
 
         <button 
           @click="requestOTP"
           :disabled="!isValidEmail || isLoading"
-          class="w-full mt-6 bg-green-600 text-white font-bold py-3.5 rounded-xl hover:bg-green-700 disabled:bg-green-300 transition-colors flex justify-center items-center gap-2"
+          class="w-full mt-6 bg-primary text-white font-bold py-3.5 rounded-xl hover:opacity-90 disabled:opacity-50 transition-colors flex justify-center items-center gap-2"
         >
           <Loader2Icon v-if="isLoading" class="w-5 h-5 animate-spin" />
           <span v-else>Get Code</span>
@@ -37,7 +37,7 @@
       <div v-if="step === 2">
         <p class="text-sm text-center text-gray-600 mb-6">
           We sent a 4-digit code to <br/><strong>{{ email }}</strong>. 
-          <button @click="step = 1" class="text-green-600 font-medium hover:underline ml-1">Edit</button>
+          <button @click="step = 1" class="text-primary font-medium hover:underline ml-1">Edit</button>
         </p>
 
         <label class="block text-sm font-medium text-gray-700 mb-2">Enter Code</label>
@@ -45,7 +45,7 @@
           v-model="otp" 
           type="text" 
           placeholder="••••"
-          class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all text-center tracking-[0.5em] text-lg font-bold"
+          class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all text-center tracking-[0.5em] text-lg font-bold"
           maxlength="4"
           @keyup.enter="otp.length === 4 ? verifyOTP() : null"
         />
@@ -53,7 +53,7 @@
         <button 
           @click="verifyOTP"
           :disabled="otp.length !== 4 || isLoading"
-          class="w-full mt-6 bg-green-600 text-white font-bold py-3.5 rounded-xl hover:bg-green-700 disabled:bg-green-300 transition-colors flex justify-center items-center gap-2"
+          class="w-full mt-6 bg-primary text-white font-bold py-3.5 rounded-xl hover:opacity-90 disabled:opacity-50 transition-colors flex justify-center items-center gap-2"
         >
           <Loader2Icon v-if="isLoading" class="w-5 h-5 animate-spin" />
           <span v-else>Verify & Login</span>
@@ -68,7 +68,9 @@
 import { ref, computed } from 'vue'
 import axios from 'axios'
 import { XIcon, MailIcon, Loader2Icon } from 'lucide-vue-next' 
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
 const props = defineProps({
   isOpen: Boolean
 })
@@ -113,12 +115,12 @@ const verifyOTP = async () => {
     localStorage.setItem('token', response.data.token);
     localStorage.setItem('userEmail', email.value);
     
-    // 4. Close the modal and optionally reload or redirect
+    // 4. Close the modal and route to the dashboard
     emit('close');
     alert("Login Successful!");
     
-    // Quick refresh to update the UI (you can replace this with Vue Router navigation later)
-    window.location.reload(); 
+    // Smooth Vue Router navigation
+    router.push('/home'); 
     
   } catch (error) {
     console.error(error);
