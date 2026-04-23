@@ -108,11 +108,13 @@
             </div>
           </div>
 
-          <button 
+         <button 
             type="submit"
-            class="w-full mt-6 bg-accent-1 text-primary font-bold text-lg py-4 rounded-2xl hover:brightness-95 active:scale-[0.98] transition-all shadow-sm"
+            :disabled="isLoading"
+            class="w-full mt-6 bg-accent-1 text-primary font-bold text-lg py-4 rounded-2xl hover:brightness-95 active:scale-[0.98] transition-all shadow-sm flex justify-center items-center gap-2 disabled:opacity-70"
           >
-            Register My Shop
+            <Loader2Icon v-if="isLoading" class="w-6 h-6 animate-spin" />
+            <span v-else>Register My Shop</span>
           </button>
 
         </form>
@@ -128,10 +130,15 @@
     </main>
   </div>
 </template>
-
 <script setup>
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import axios from 'axios'
 import Navbar from '../components/Navbar.vue'
+import { Loader2Icon } from 'lucide-vue-next' 
+
+const router = useRouter()
+const isLoading = ref(false)
 
 const regForm = ref({
   shopName: '',
@@ -144,12 +151,33 @@ const regForm = ref({
   confirmPassword: ''
 })
 
-const handleVendorRegister = () => {
+const handleVendorRegister = async () => {
+  // 1. Double-check passwords match
   if(regForm.value.password !== regForm.value.confirmPassword) {
     alert("Passwords do not match!")
     return
   }
-  console.log("Registration Data Ready for Backend:", regForm.value)
-  // Backend logic will go here
+  
+  try {
+    isLoading.value = true;
+    
+    // 2. Send the data to your Node.js backend!
+    const response = await axios.post('http://localhost:3000/api/auth/vendor/register', regForm.value);
+    
+    // 3. Save the secure token so they are instantly logged in
+    localStorage.setItem('token', response.data.token);
+    localStorage.setItem('userEmail', regForm.value.email);
+    
+    // 4. Send them straight to their new dashboard
+    alert("Shop Registered Successfully!");
+    router.push('/dashboard'); 
+    
+  } catch (error) {
+    console.error("Registration Error:", error);
+    // Show the exact error message from the backend (e.g., "Email already registered")
+    alert(error.response?.data?.error || "Failed to register. Is your server running?");
+  } finally {
+    isLoading.value = false;
+  }
 }
 </script>

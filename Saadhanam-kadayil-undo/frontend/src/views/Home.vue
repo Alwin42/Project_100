@@ -3,7 +3,7 @@
     
     <Navbar @open-login="isModalOpen = true" />
 
-    <nav class="flex justify-center gap-8 pt-8 mt-9 mb-16 text-lg font-medium text-gray-600">
+    <nav class="flex justify-center gap-8 pt-8 mt-17 mb-16 text-lg font-medium text-gray-600">
       <a href="#" class="pb-2 border-b-[3px] border-black text-black font-semibold">Orders</a>
       <a href="#" class="pb-2 hover:text-black transition-colors">History</a>
       <a href="#" class="pb-2 hover:text-black transition-colors">Payments</a>
