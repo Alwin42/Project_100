@@ -22,6 +22,14 @@
         
         <router-link 
           v-if="isLoggedIn && userRole === 'vendor'" 
+          to="/inventory"
+          class="text-sm font-semibold text-gray-600 hover:text-primary bg-gray-50/50 hover:bg-secondary/20 border border-transparent hover:border-secondary/40 px-5 py-2 rounded-full transition-all duration-300"
+        >
+          Inventory
+        </router-link>
+        
+        <router-link 
+          v-if="isLoggedIn && userRole === 'vendor'" 
           to="/dashboard"
           class="text-sm font-bold text-primary bg-secondary/20 hover:bg-secondary/30 px-5 py-2 rounded-full transition-all duration-300"
         >
@@ -76,6 +84,15 @@
           class="w-full text-center text-sm font-semibold text-gray-700 hover:text-primary bg-gray-50 hover:bg-secondary/20 py-3 rounded-2xl transition-colors"
         >
           Become a Vendor
+        </router-link>
+
+        <router-link 
+          v-if="isLoggedIn && userRole === 'vendor'" 
+          to="/inventory"
+          @click="isMobileMenuOpen = false"
+          class="w-full text-center text-sm font-semibold text-gray-700 hover:text-primary bg-gray-50 hover:bg-secondary/20 py-3 rounded-2xl transition-colors"
+        >
+          Inventory
         </router-link>
 
         <router-link 

@@ -45,9 +45,11 @@
 
           <button 
             type="submit"
-            class="w-full mt-2 bg-primary text-white font-bold text-lg py-4 rounded-2xl hover:opacity-90 active:scale-[0.98] transition-all shadow-md shadow-primary/20"
+            :disabled="isLoading"
+            class="w-full mt-2 bg-primary text-white font-bold text-lg py-4 rounded-2xl hover:opacity-90 active:scale-[0.98] transition-all shadow-md shadow-primary/20 flex justify-center items-center gap-2 disabled:opacity-70"
           >
-            Login to Dashboard
+            <Loader2Icon v-if="isLoading" class="w-6 h-6 animate-spin" />
+            <span v-else>Login to Dashboard</span>
           </button>
 
         </form>
@@ -63,19 +65,41 @@
     </main>
   </div>
 </template>
-
 <script setup>
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import axios from 'axios'
 import Navbar from '../components/Navbar.vue'
-import { StoreIcon } from 'lucide-vue-next'
+import { StoreIcon, Loader2Icon } from 'lucide-vue-next'
+
+const router = useRouter()
+const isLoading = ref(false)
 
 const loginForm = ref({
   email: '',
   password: ''
 })
 
-const handleVendorLogin = () => {
-  console.log("Vendor Login Data Ready for Backend:", loginForm.value)
-  // Backend logic will go here
+const handleVendorLogin = async () => {
+  try {
+    isLoading.value = true;
+    
+    // 1. Send the email and password to your Node.js server!
+    const response = await axios.post('http://localhost:3000/api/auth/vendor/login', loginForm.value);
+    
+    // 2. Save the secure token so the app remembers who is logged in
+    localStorage.setItem('token', response.data.token);
+    localStorage.setItem('userEmail', loginForm.value.email);
+    
+    // 3. Send them straight to the new Vendor Dashboard!
+    router.push('/dashboard'); 
+    
+  } catch (error) {
+    console.error("Login Error:", error);
+    // This will pop up an alert if they type the wrong password
+    alert(error.response?.data?.error || "Login failed. Please check your connection.");
+  } finally {
+    isLoading.value = false;
+  }
 }
 </script>

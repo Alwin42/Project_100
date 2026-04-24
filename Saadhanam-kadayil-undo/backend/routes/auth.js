@@ -123,7 +123,12 @@ router.post('/vendor/login', async (req, res) => {
 
         // 4. Generate the secure JWT
         const token = jwt.sign(
-            { userId: user._id, email: user.email, role: user.role },
+            { 
+              userId: user._id, 
+              email: user.email, 
+              role: user.role,
+              shopName: user.shopName 
+            },
             process.env.JWT_SECRET,
             { expiresIn: '7d' }
         );
