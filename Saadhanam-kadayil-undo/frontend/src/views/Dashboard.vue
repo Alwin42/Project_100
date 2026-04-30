@@ -5,17 +5,22 @@
 
     <main class="max-w-6xl mx-auto px-6 w-full pt-28 md:pt-32">
       
+      <!-- Header -->
       <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4 animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out">
         <div>
           <h1 class="text-3xl font-bold text-gray-900 tracking-tight">Welcome back, {{ vendorName }}!</h1>
           <p class="text-gray-500 mt-1 font-medium">Here is what is happening at your shop today.</p>
         </div>
-        <button class="bg-primary text-white font-bold px-6 py-3 rounded-full hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/30 hover:-translate-y-0.5 active:scale-95 transition-all duration-300 flex items-center gap-2 group">
+        <button 
+          @click="openAddModal"
+          class="bg-primary text-white font-bold px-6 py-3 rounded-full hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/30 hover:-translate-y-0.5 active:scale-95 transition-all duration-300 flex items-center gap-2 group"
+        >
           <PlusIcon class="w-5 h-5 transition-transform duration-300 group-hover:rotate-90" />
           Add New Item
         </button>
       </div>
 
+      <!-- Stat Cards -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
         
         <div class="bg-primary rounded-4xl p-6 text-white shadow-lg shadow-primary/20 relative overflow-hidden group hover:-translate-y-1.5 transition-all duration-300 cursor-default">
@@ -58,6 +63,7 @@
 
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
         
+        <!-- Live Inventory Panel -->
         <div class="lg:col-span-2 bg-white rounded-4xl border border-gray-100 shadow-sm p-6 md:p-8 hover:shadow-md transition-shadow duration-300">
           <div class="flex justify-between items-center mb-6">
             <h2 class="text-xl font-bold text-primary flex items-center gap-2">
@@ -67,7 +73,7 @@
                 <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-primary"></span>
               </span>
             </h2>
-            <button class="text-sm font-bold text-primary hover:underline hover:text-primary/80 transition-colors">View All</button>
+            <button @click="router.push('/inventory')" class="text-sm font-bold text-primary hover:underline hover:text-primary/80 transition-colors">View All</button>
           </div>
 
           <div class="space-y-4">
@@ -78,7 +84,7 @@
             >
               <div class="flex items-center gap-4">
                 <div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-3xl shadow-sm shrink-0 group-hover:shadow transition-shadow">
-                  {{ item.emoji }}
+                  {{ item.emoji || '📦' }}
                 </div>
                 <div>
                   <h4 class="font-bold text-gray-900 group-hover:text-primary transition-colors">{{ item.name }}</h4>
@@ -108,6 +114,7 @@
           </div>
         </div>
 
+        <!-- Live Orders Panel -->
         <div class="bg-white rounded-4xl border border-gray-100 shadow-sm p-6 md:p-8 hover:shadow-md transition-shadow duration-300">
           <div class="flex justify-between items-center mb-6">
             <h2 class="text-xl font-bold text-primary">Live Orders</h2>
@@ -150,14 +157,162 @@
       </div>
 
     </main>
+
+    <!-- Add Item Modal with Smooth Transition -->
+    <transition
+      enter-active-class="transition duration-300 ease-out"
+      enter-from-class="opacity-0 scale-95 translate-y-4"
+      enter-to-class="opacity-100 scale-100 translate-y-0"
+      leave-active-class="transition duration-200 ease-in"
+      leave-from-class="opacity-100 scale-100 translate-y-0"
+      leave-to-class="opacity-0 scale-95 translate-y-4"
+    >
+      <div v-if="isModalOpen" class="fixed inset-0 flex items-center justify-center px-4">
+        
+        <div class="absolute inset-0 bg-gray-900/40 backdrop-blur-sm transition-opacity" @click="closeModal"></div>
+
+        <div class="bg-white w-full max-w-lg rounded-4xl shadow-2xl p-8 relative transform z-10 border border-gray-100">
+          
+          <button @click="closeModal" class="absolute top-6 right-6 text-gray-400 hover:text-gray-700 bg-gray-50 hover:bg-gray-100 p-2 rounded-full transition-colors active:scale-95">
+            <XIcon class="w-5 h-5" />
+          </button>
+
+          <h3 class="text-2xl font-bold text-gray-900 mb-6">Add New Item</h3>
+
+          <form @submit.prevent="saveItem" class="space-y-5">
+            
+            <div>
+              <label class="block text-sm font-bold text-gray-700 mb-2">Item Name</label>
+              <input 
+                v-model="formData.name" 
+                type="text" 
+                placeholder="e.g. Fresh Tomatoes"
+                class="w-full px-5 py-3.5 bg-gray-50 border border-gray-200 rounded-2xl focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all font-medium text-gray-800 hover:border-gray-300"
+                required
+              />
+            </div>
+
+            <div>
+              <label class="block text-sm font-bold text-gray-700 mb-2">Category</label>
+              <select 
+                v-model="formData.category"
+                class="w-full px-5 py-3.5 bg-gray-50 border border-gray-200 rounded-2xl focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all font-medium text-gray-800 appearance-none hover:border-gray-300 cursor-pointer"
+                required
+              >
+                <option value="" disabled>Select a category</option>
+                <option v-for="cat in categories" :key="cat" :value="cat">{{ cat }}</option>
+              </select>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label class="block text-sm font-bold text-gray-700 mb-2">Price (₹)</label>
+                <input 
+                  v-model="formData.price" 
+                  type="number" 
+                  min="0"
+                  step="0.01"
+                  placeholder="0.00"
+                  class="w-full px-5 py-3.5 bg-gray-50 border border-gray-200 rounded-2xl focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all font-medium text-gray-800 hover:border-gray-300"
+                  required
+                />
+              </div>
+              <div>
+                <label class="block text-sm font-bold text-gray-700 mb-2">Per Unit</label>
+                <select 
+                  v-model="formData.unit"
+                  class="w-full px-5 py-3.5 bg-gray-50 border border-gray-200 rounded-2xl focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all font-medium text-gray-800 appearance-none hover:border-gray-300 cursor-pointer"
+                  required
+                >
+                  <option v-for="u in units" :key="u" :value="u">{{ u }}</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between p-4 bg-gray-50 rounded-2xl border border-gray-200 mt-2 hover:border-primary/30 transition-colors">
+              <div>
+                <p class="font-bold text-gray-900">Stock Status</p>
+                <p class="text-xs text-gray-500 font-medium">Is this currently available?</p>
+              </div>
+              <button 
+                type="button"
+                @click="formData.inStock = !formData.inStock"
+                class="relative w-14 h-8 rounded-full transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 shadow-inner"
+                :class="formData.inStock ? 'bg-primary' : 'bg-gray-300'"
+              >
+                <div 
+                  class="absolute top-1 left-1 bg-white w-6 h-6 rounded-full transition-transform duration-300 shadow-sm"
+                  :class="formData.inStock ? 'translate-x-6' : 'translate-x-0'"
+                ></div>
+              </button>
+            </div>
+
+            <div class="flex gap-3 pt-4 border-t border-gray-100">
+              <button 
+                type="button"
+                @click="closeModal"
+                class="w-1/3 bg-gray-100 text-gray-600 font-bold py-3.5 rounded-2xl hover:bg-gray-200 hover:text-gray-800 transition-colors active:scale-95"
+              >
+                Cancel
+              </button>
+              <button 
+                type="submit"
+                class="w-2/3 bg-primary text-white font-bold py-3.5 rounded-2xl hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/30 hover:-translate-y-0.5 active:translate-y-0 active:scale-95 transition-all duration-300"
+              >
+                Add Item
+              </button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </transition>
+
   </div>
 </template>
 
 <script setup>
 import Navbar from '../components/Navbar.vue'
 import { ref, onMounted } from 'vue'
-import { PlusIcon, ShoppingBagIcon, TrendingUpIcon, PackageIcon, Edit2Icon } from 'lucide-vue-next'
+import { useRouter } from 'vue-router'
+import { PlusIcon, ShoppingBagIcon, TrendingUpIcon, PackageIcon, Edit2Icon, XIcon } from 'lucide-vue-next'
+
+const router = useRouter()
 const vendorName = ref('Partner')
+
+// --- MODAL STATE ---
+const isModalOpen = ref(false)
+const categories = ['Vegetables', 'Fruits', 'Dairy & Eggs', 'Bakery', 'Pantry Essentials', 'Meat & Seafood', 'Beverages', 'Snacks']
+const units = ['kg', 'gram', 'packet', 'liter', 'ml', 'nos', 'dozen']
+
+const formData = ref({
+  name: '',
+  category: '',
+  price: '',
+  unit: 'kg',
+  inStock: true
+})
+
+const openAddModal = () => {
+  formData.value = { name: '', category: '', price: '', unit: 'kg', inStock: true }
+  isModalOpen.value = true
+}
+
+const closeModal = () => {
+  isModalOpen.value = false
+}
+
+const saveItem = () => {
+  const newItem = {
+    id: Date.now(),
+    name: formData.value.name,
+    emoji: '📦', 
+    price: `₹${formData.value.price}/${formData.value.unit}`,
+    inStock: formData.value.inStock
+  }
+  inventory.value.unshift(newItem)
+  closeModal()
+}
 
 const parseJwt = (token) => {
   try {
