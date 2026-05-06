@@ -124,22 +124,36 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue' // <-- Add onMounted
+import axios from 'axios' // <-- Import axios
 import Navbar from '../components/Navbar.vue'
 import { SearchIcon, MapPinIcon, StarIcon, StoreIcon } from 'lucide-vue-next'
 
 const searchQuery = ref('')
 const isModalOpen = ref(false)
 
-const topSearches = ref([
-  { id: 1, name: 'Tomato', emoji: '🍅', status: 'In Stock', location: 'Kerala Traders', price: '20/kg' },
-  { id: 2, name: 'Curd', emoji: '🥣', status: 'In Stock', location: 'FreshMart', price: '35/pkt' },
-  { id: 3, name: 'Egg', emoji: '🥚', status: 'In Stock', location: 'Daily Needs', price: '6/nos' }
-])
+// Start with empty arrays! No more fake data.
+const topSearches = ref([]) 
+const nearbyVendors = ref([])
 
-const nearbyVendors = ref([
-  { id: 1, name: 'Kerala Traders', distance: '0.8 km', rating: '4.8', isOpen: true, emoji: '🏪', mapUrl: 'http://google.com/maps' },
-  { id: 2, name: 'FreshMart Supermarket', distance: '1.2 km', rating: '4.5', isOpen: true, emoji: '🛒', mapUrl: 'http://google.com/maps' },
-  { id: 3, name: 'Mini SupplyCo', distance: '2.5 km', rating: '4.2', isOpen: false, emoji: '🏬', mapUrl: 'http://google.com/maps' }
-])
+// Fetch real data when the home page loads
+onMounted(async () => {
+  try {
+    const response = await axios.get('http://localhost:3000/api/public/vendors');
+    if (response.data.success) {
+      // Map the MongoDB data to match your Vue UI variables
+      nearbyVendors.value = response.data.vendors.map(vendor => ({
+        id: vendor._id,
+        name: vendor.shopName,
+        distance: 'Nearby', // You can calculate real GPS distance later!
+        rating: 'New',
+        isOpen: true,
+        emoji: '🏪',
+        mapUrl: vendor.mapUrl || 'https://maps.google.com'
+      }));
+    }
+  } catch (error) {
+    console.error("Failed to load vendors:", error);
+  }
+})
 </script>

@@ -167,7 +167,7 @@
       leave-from-class="opacity-100 scale-100 translate-y-0"
       leave-to-class="opacity-0 scale-95 translate-y-4"
     >
-      <div v-if="isModalOpen" class="fixed inset-0 flex items-center justify-center px-4">
+      <div v-if="isModalOpen" class="fixed inset-0 z-50 flex items-center justify-center px-4">
         
         <div class="absolute inset-0 bg-gray-900/40 backdrop-blur-sm transition-opacity" @click="closeModal"></div>
 
@@ -327,26 +327,46 @@ const parseJwt = (token) => {
   }
 }
 
-onMounted(() => {
+// Start with an empty array
+const activeOrders = ref([]);
+
+onMounted(async () => {
   const token = localStorage.getItem('token');
   if (token) {
     const decoded = parseJwt(token);
     if (decoded && decoded.shopName) {
       vendorName.value = decoded.shopName;
     }
+
+    try {
+      // 1. Fetch live Inventory
+      const invResponse = await axios.get('http://localhost:3000/api/inventory', {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      if(invResponse.data.success) {
+        inventory.value = invResponse.data.products;
+      }
+
+      // 2. NEW: Fetch live Orders
+      const orderResponse = await axios.get('http://localhost:3000/api/inventory/orders', {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      if(orderResponse.data.success) {
+        // Map the DB output to your UI
+        activeOrders.value = orderResponse.data.orders.map(order => ({
+          id: order._id,
+          customerName: order.customerName,
+          itemsCount: order.itemsCount,
+          total: order.total,
+          time: 'Just now' // You can format order.createdAt using a date library later
+        }));
+      }
+
+    } catch (error) {
+      console.error("Failed to load dashboard data:", error);
+    }
   }
 })
 
-const inventory = ref([
-  { id: 1, name: 'Fresh Tomato', emoji: '🍅', price: '₹20/kg', inStock: true },
-  { id: 2, name: 'Milma Curd', emoji: '🥣', price: '₹35/pack', inStock: true },
-  { id: 3, name: 'Brown Eggs', emoji: '🥚', price: '₹6/nos', inStock: false },
-  { id: 4, name: 'Matta Rice', emoji: '🌾', price: '₹45/kg', inStock: true },
-])
 
-const activeOrders = ref([
-  { id: 101, customerName: 'Rahul K.', itemsCount: 4, total: '₹240', time: '2 mins ago' },
-  { id: 102, customerName: 'Sneha P.', itemsCount: 1, total: '₹35', time: '5 mins ago' },
-  { id: 103, customerName: 'Ajay V.', itemsCount: 8, total: '₹890', time: '12 mins ago' },
-])
 </script>
