@@ -5,7 +5,7 @@ const orderSchema = new mongoose.Schema({
     customerName: { type: String, required: true },
     itemsCount: { type: Number, required: true },
     total: { type: String, required: true },
-    status: { type: String, default: 'Pending' } 
+    status: { type: String, default: 'Pending' }
 }, { timestamps: true });
 
 module.exports = mongoose.model('Order', orderSchema);

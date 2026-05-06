@@ -12,14 +12,27 @@
       
       <div class="hidden md:flex items-center gap-3">
         
+        
+
+        <!-- NEW: Stores Link (Visible ONLY to Logged-in Customers) -->
         <router-link 
-          v-if="userRole !== 'vendor'" 
-          to="/vendor-register"
+          v-if="isLoggedIn && userRole === 'customer'" 
+          to="/home"
           class="text-sm font-semibold text-gray-600 hover:text-primary bg-gray-50/50 hover:bg-secondary/20 border border-transparent hover:border-secondary/40 px-5 py-2 rounded-full transition-all duration-300"
         >
-          Become a Vendor
+          Stores
         </router-link>
         
+        <!-- NEW: Customer Dashboard (Visible ONLY to Logged-in Customers) -->
+        <router-link 
+          v-if="isLoggedIn && userRole === 'customer'" 
+          to="/customer-dashboard"
+          class="text-sm font-bold text-primary bg-secondary/20 hover:bg-secondary/30 px-5 py-2 rounded-full transition-all duration-300"
+        >
+          Customer Dashboard 
+        </router-link>
+        
+        <!-- Vendor Links (Visible ONLY to Logged-in Vendors) -->
         <router-link 
           v-if="isLoggedIn && userRole === 'vendor'" 
           to="/inventory"
@@ -77,15 +90,28 @@
         v-if="isMobileMenuOpen"
         class="w-full max-w-sm mt-3 bg-white/95 backdrop-blur-xl border border-gray-200 shadow-2xl rounded-3xl p-5 flex flex-col gap-3 pointer-events-auto md:hidden"
       >
+
+        <!-- NEW: Stores Link (Mobile, Customer Only) -->
         <router-link 
-          v-if="userRole !== 'vendor'" 
-          to="/vendor-register"
+          v-if="isLoggedIn && userRole === 'customer'" 
+          to="/home"
           @click="isMobileMenuOpen = false"
           class="w-full text-center text-sm font-semibold text-gray-700 hover:text-primary bg-gray-50 hover:bg-secondary/20 py-3 rounded-2xl transition-colors"
         >
-          Become a Vendor
+          Stores
         </router-link>
 
+        <!-- NEW: Customer Dashboard Link (Mobile, Customer Only) -->
+        <router-link 
+          v-if="isLoggedIn && userRole === 'customer'" 
+          to="/customer-dashboard"
+          @click="isMobileMenuOpen = false"
+          class="w-full text-center text-sm font-bold text-primary bg-secondary/20 hover:bg-secondary/30 py-3 rounded-2xl transition-colors"
+        >
+          Customer Dashboard
+        </router-link>
+
+        <!-- Vendor Links (Mobile, Vendor Only) -->
         <router-link 
           v-if="isLoggedIn && userRole === 'vendor'" 
           to="/inventory"

@@ -19,6 +19,7 @@
         </button>
       </div>
 
+      <!-- Search Bar -->
       <div class="bg-white p-4 rounded-3xl border border-gray-100 shadow-sm flex items-center gap-4 mb-8 group hover:shadow-md transition-shadow duration-300">
         <div class="flex items-center bg-gray-50 rounded-2xl grow h-12 px-4 border border-gray-200 focus-within:border-primary focus-within:ring-4 focus-within:ring-primary/10 transition-all duration-300">
           <SearchIcon class="w-5 h-5 text-gray-400 group-focus-within:text-primary transition-colors duration-300" />
@@ -31,66 +32,83 @@
         </div>
       </div>
 
-      <div class="bg-white rounded-4xl border border-gray-100 shadow-sm p-2 transition-all duration-300">
+      <div class="bg-white rounded-4xl border border-gray-100 shadow-sm p-4 md:p-6 transition-all duration-300">
         
-        <div v-if="filteredInventory.length === 0" class="p-16 text-center text-gray-500 flex flex-col items-center">
+        <!-- Empty State -->
+        <div v-if="Object.keys(groupedInventory).length === 0" class="p-16 text-center text-gray-500 flex flex-col items-center">
           <PackageOpenIcon class="w-16 h-16 mb-4 text-gray-300 animate-bounce" />
           <p class="font-bold text-xl text-gray-700">No items found.</p>
           <p class="text-sm mt-1">Click "Add New Item" to stock your shop.</p>
         </div>
 
-        <div class="space-y-2">
-          <div 
-            v-for="item in filteredInventory" 
-            :key="item.id"
-            class="flex flex-col md:flex-row items-start md:items-center justify-between p-4 bg-white rounded-3xl hover:bg-gray-50 hover:shadow-md hover:scale-[1.005] transition-all duration-300 border border-gray-50 hover:border-gray-200 group gap-4"
-          >
-            <div class="flex items-center gap-4">
-              <div class="w-14 h-14 bg-secondary/10 rounded-2xl flex items-center justify-center text-primary shadow-sm shrink-0 group-hover:bg-primary group-hover:text-white transition-colors duration-300">
-                <PackageOpenIcon class="w-6 h-6" />
-              </div>
-              <div>
-                <h4 class="font-bold text-gray-900 text-lg leading-tight group-hover:text-primary transition-colors duration-300">{{ item.name }}</h4>
-                <div class="flex items-center gap-2 mt-1">
-                  <span class="text-xs font-bold text-gray-500 bg-gray-100 px-2.5 py-0.5 rounded-md border border-gray-200">{{ item.category }}</span>
-                  <span class="text-sm font-bold text-primary">₹{{ item.price }} / {{ item.unit }}</span>
+        <!-- Grouped Inventory List -->
+        <div v-else class="space-y-8">
+          
+          <!-- Loop through Categories -->
+          <div v-for="(items, category) in groupedInventory" :key="category" class="animate-in fade-in duration-500">
+            
+            <!-- Category Header -->
+            <div class="flex items-center gap-3 mb-4 pl-2">
+              <h3 class="text-xl font-bold text-gray-900">{{ category }}</h3>
+              <span class="bg-gray-100 text-gray-500 text-xs font-bold px-2.5 py-1 rounded-full">{{ items.length }}</span>
+            </div>
+
+            <!-- Items in Category -->
+            <div class="space-y-3">
+              <div 
+                v-for="item in items" 
+                :key="item._id"
+                class="flex flex-col md:flex-row items-start md:items-center justify-between p-4 bg-white rounded-3xl hover:bg-gray-50 hover:shadow-md hover:scale-[1.005] transition-all duration-300 border border-gray-100 group gap-4"
+              >
+                <div class="flex items-center gap-4">
+                  <div class="w-14 h-14 bg-secondary/10 rounded-2xl flex items-center justify-center text-primary shadow-sm shrink-0 group-hover:bg-primary group-hover:text-white transition-colors duration-300">
+                    <span class="text-2xl">{{ item.emoji || '📦' }}</span>
+                  </div>
+                  <div>
+                    <h4 class="font-bold text-gray-900 text-lg leading-tight group-hover:text-primary transition-colors duration-300">{{ item.name }}</h4>
+                    <div class="flex items-center gap-2 mt-1">
+                      <span class="text-sm font-bold text-primary">₹{{ item.price }} / {{ item.unit }}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="flex items-center gap-4 w-full md:w-auto justify-between md:justify-end border-t md:border-t-0 border-gray-100 pt-3 md:pt-0">
+                  
+                  <div class="flex items-center gap-3 bg-gray-50 px-3 py-1.5 rounded-2xl border border-gray-100 group-hover:border-gray-200 transition-colors">
+                    <button 
+                      @click="toggleStock(item)"
+                      class="relative w-12 h-6 rounded-full transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2"
+                      :class="item.inStock ? 'bg-primary' : 'bg-gray-300'"
+                    >
+                      <div 
+                        class="absolute top-1 left-1 bg-white w-4 h-4 rounded-full transition-transform duration-300 shadow-sm"
+                        :class="item.inStock ? 'translate-x-6' : 'translate-x-0'"
+                      ></div>
+                    </button>
+                    <span class="text-sm font-bold w-16 transition-colors duration-300" :class="item.inStock ? 'text-primary' : 'text-gray-400'">
+                      {{ item.inStock ? 'In Stock' : 'Out' }}
+                    </span>
+                  </div>
+
+                  <div class="flex items-center gap-2">
+                    <button @click="openEditModal(item)" class="p-2.5 text-gray-400 hover:text-primary hover:bg-secondary/10 transition-all duration-300 bg-white rounded-xl shadow-sm border border-gray-100 hover:border-primary/30 active:scale-95">
+                      <Edit2Icon class="w-4 h-4" />
+                    </button>
+                    <button @click="deleteItem(item._id)" class="p-2.5 text-gray-400 hover:text-red-600 hover:bg-red-50 transition-all duration-300 bg-white rounded-xl shadow-sm border border-gray-100 hover:border-red-200 active:scale-95">
+                      <Trash2Icon class="w-4 h-4" />
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
-
-            <div class="flex items-center gap-4 w-full md:w-auto justify-between md:justify-end border-t md:border-t-0 border-gray-100 pt-3 md:pt-0">
-              
-              <div class="flex items-center gap-3 bg-gray-50 px-3 py-1.5 rounded-2xl border border-gray-100 group-hover:border-gray-200 transition-colors">
-                <button 
-                  @click="toggleStock(item)"
-                  class="relative w-12 h-6 rounded-full transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2"
-                  :class="item.inStock ? 'bg-primary' : 'bg-gray-300'"
-                >
-                  <div 
-                    class="absolute top-1 left-1 bg-white w-4 h-4 rounded-full transition-transform duration-300 shadow-sm"
-                    :class="item.inStock ? 'translate-x-6' : 'translate-x-0'"
-                  ></div>
-                </button>
-                <span class="text-sm font-bold w-16 transition-colors duration-300" :class="item.inStock ? 'text-primary' : 'text-gray-400'">
-                  {{ item.inStock ? 'In Stock' : 'Out' }}
-                </span>
-              </div>
-
-              <div class="flex items-center gap-2">
-                <button @click="openEditModal(item)" class="p-2.5 text-gray-400 hover:text-primary hover:bg-secondary/10 transition-all duration-300 bg-white rounded-xl shadow-sm border border-gray-100 hover:border-primary/30 active:scale-95">
-                  <Edit2Icon class="w-4 h-4" />
-                </button>
-                <button @click="deleteItem(item.id)" class="p-2.5 text-gray-400 hover:text-red-600 hover:bg-red-50 transition-all duration-300 bg-white rounded-xl shadow-sm border border-gray-100 hover:border-red-200 active:scale-95">
-                  <Trash2Icon class="w-4 h-4" />
-                </button>
-              </div>
-            </div>
           </div>
+
         </div>
       </div>
 
     </main>
 
+    <!-- Modal -->
     <transition
       enter-active-class="transition duration-300 ease-out"
       enter-from-class="opacity-0 scale-95 translate-y-4"
@@ -99,7 +117,7 @@
       leave-from-class="opacity-100 scale-100 translate-y-0"
       leave-to-class="opacity-0 scale-95 translate-y-4"
     >
-      <div v-if="isModalOpen" class="fixed inset-0 flex items-center justify-center px-4">
+      <div v-if="isModalOpen" class="fixed inset-0 z-50 flex items-center justify-center px-4">
         
         <div class="absolute inset-0 bg-gray-900/40 backdrop-blur-sm transition-opacity" @click="closeModal"></div>
 
@@ -204,12 +222,15 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue' // Added onMounted
+import axios from 'axios' // Added axios
 import Navbar from '../components/Navbar.vue'
 import { PlusIcon, SearchIcon, Edit2Icon, Trash2Icon, PackageOpenIcon, XIcon } from 'lucide-vue-next'
 
 const categories = ['Vegetables', 'Fruits', 'Dairy & Eggs', 'Bakery', 'Pantry Essentials', 'Meat & Seafood', 'Beverages', 'Snacks']
 const units = ['kg', 'gram', 'packet', 'liter', 'ml', 'nos', 'dozen']
+
+const inventory = ref([]) // BUCKET FOR MONGODB DATA
 
 const searchQuery = ref('')
 const isModalOpen = ref(false)
@@ -224,23 +245,51 @@ const formData = ref({
   inStock: true
 })
 
-const inventory = ref([
-  { id: 1, name: 'Fresh Tomato', category: 'Vegetables', price: 20, unit: 'kg', inStock: true },
-  { id: 2, name: 'Milma Curd', category: 'Dairy & Eggs', price: 35, unit: 'packet', inStock: true },
-  { id: 3, name: 'Brown Eggs', category: 'Dairy & Eggs', price: 6, unit: 'nos', inStock: false },
-  { id: 4, name: 'Matta Rice', category: 'Pantry Essentials', price: 45, unit: 'kg', inStock: true },
-  { id: 5, name: 'Coconut Oil', category: 'Pantry Essentials', price: 180, unit: 'liter', inStock: true },
-])
+// FETCH INVENTORY ON LOAD
+const fetchInventory = async () => {
+  const token = localStorage.getItem('token');
+  try {
+    const response = await axios.get('http://localhost:3000/api/inventory', {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    if (response.data.success) {
+      inventory.value = response.data.products;
+    }
+  } catch (error) {
+    console.error("Failed to load inventory:", error);
+  }
+}
 
-const filteredInventory = computed(() => {
-  if (!searchQuery.value) return inventory.value
-  const query = searchQuery.value.toLowerCase()
-  return inventory.value.filter(item => 
-    item.name.toLowerCase().includes(query) || 
-    item.category.toLowerCase().includes(query)
-  )
+onMounted(() => {
+  fetchInventory();
 })
 
+// COMPUTED PROPERTY: Groups items by category and handles search!
+const groupedInventory = computed(() => {
+  let items = inventory.value;
+  
+  // 1. Filter by search query first
+  if (searchQuery.value) {
+    const query = searchQuery.value.toLowerCase()
+    items = items.filter(item => 
+      item.name.toLowerCase().includes(query) || 
+      item.category.toLowerCase().includes(query)
+    )
+  }
+
+  // 2. Group the filtered items by category
+  const groups = {};
+  items.forEach(item => {
+    if (!groups[item.category]) {
+      groups[item.category] = [];
+    }
+    groups[item.category].push(item);
+  });
+
+  return groups; // Returns an object like: { 'Vegetables': [item1, item2], 'Fruits': [item3] }
+})
+
+// MODAL LOGIC
 const openAddModal = () => {
   isEditing.value = false
   currentItemId.value = null
@@ -250,7 +299,7 @@ const openAddModal = () => {
 
 const openEditModal = (item) => {
   isEditing.value = true
-  currentItemId.value = item.id
+  currentItemId.value = item._id // Changed from id to _id
   formData.value = { ...item } 
   isModalOpen.value = true
 }
@@ -259,29 +308,62 @@ const closeModal = () => {
   isModalOpen.value = false
 }
 
-const toggleStock = (item) => {
-  item.inStock = !item.inStock
+// REAL DATABASE CRUD OPERATIONS
+const saveItem = async () => {
+  const token = localStorage.getItem('token');
+  try {
+    if (isEditing.value) {
+      // UPDATE EXISTING ITEM
+      const response = await axios.put(`http://localhost:3000/api/inventory/update/${currentItemId.value}`, formData.value, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      if (response.data.success) {
+        const index = inventory.value.findIndex(item => item._id === currentItemId.value);
+        if (index !== -1) inventory.value[index] = response.data.product;
+      }
+    } else {
+      // ADD NEW ITEM
+      const response = await axios.post('http://localhost:3000/api/inventory/add', formData.value, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      if (response.data.success) {
+        inventory.value.unshift(response.data.product); 
+      }
+    }
+    closeModal();
+  } catch (error) {
+    console.error("Failed to save item", error);
+  }
 }
 
-const deleteItem = (id) => {
+const toggleStock = async (item) => {
+  const token = localStorage.getItem('token');
+  // Instantly toggle in UI for snappiness
+  item.inStock = !item.inStock; 
+  try {
+    // Send update to DB behind the scenes
+    await axios.put(`http://localhost:3000/api/inventory/update/${item._id}`, { inStock: item.inStock }, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+  } catch (error) {
+    // If it fails, revert the UI toggle
+    item.inStock = !item.inStock;
+    console.error("Failed to update stock status", error);
+  }
+}
+
+const deleteItem = async (id) => {
   if(confirm("Are you sure you want to delete this item?")) {
-    inventory.value = inventory.value.filter(item => item.id !== id)
-  }
-}
-
-const saveItem = () => {
-  if (isEditing.value) {
-    const index = inventory.value.findIndex(item => item.id === currentItemId.value)
-    if (index !== -1) {
-      inventory.value[index] = { ...formData.value, id: currentItemId.value }
+    const token = localStorage.getItem('token');
+    try {
+      await axios.delete(`http://localhost:3000/api/inventory/delete/${id}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      // Remove from UI array
+      inventory.value = inventory.value.filter(item => item._id !== id);
+    } catch (error) {
+      console.error("Failed to delete item", error);
     }
-  } else {
-    const newItem = { 
-      ...formData.value, 
-      id: Date.now() 
-    }
-    inventory.value.unshift(newItem) 
   }
-  closeModal()
 }
 </script>

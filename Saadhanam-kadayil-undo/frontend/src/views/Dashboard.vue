@@ -275,12 +275,18 @@
 import Navbar from '../components/Navbar.vue'
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import axios from 'axios'
 import { PlusIcon, ShoppingBagIcon, TrendingUpIcon, PackageIcon, Edit2Icon, XIcon } from 'lucide-vue-next'
 
 const router = useRouter()
 const vendorName = ref('Partner')
 
-// --- MODAL STATE ---
+// 1. DECLARE YOUR DATA BUCKETS FIRST! 
+// These must be at the top so the functions below can see them.
+const inventory = ref([]) 
+const activeOrders = ref([])
+
+// 2. MODAL STATE
 const isModalOpen = ref(false)
 const categories = ['Vegetables', 'Fruits', 'Dairy & Eggs', 'Bakery', 'Pantry Essentials', 'Meat & Seafood', 'Beverages', 'Snacks']
 const units = ['kg', 'gram', 'packet', 'liter', 'ml', 'nos', 'dozen']
@@ -293,6 +299,7 @@ const formData = ref({
   inStock: true
 })
 
+// 3. MODAL FUNCTIONS
 const openAddModal = () => {
   formData.value = { name: '', category: '', price: '', unit: 'kg', inStock: true }
   isModalOpen.value = true
@@ -302,18 +309,28 @@ const closeModal = () => {
   isModalOpen.value = false
 }
 
-const saveItem = () => {
-  const newItem = {
-    id: Date.now(),
-    name: formData.value.name,
-    emoji: '📦', 
-    price: `₹${formData.value.price}/${formData.value.unit}`,
-    inStock: formData.value.inStock
+// 4. SAVE ITEM TO MONGODB
+const saveItem = async () => {
+  try {
+    const token = localStorage.getItem('token');
+    
+    // Send data to backend securely
+    const response = await axios.post('http://localhost:3000/api/inventory/add', formData.value, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+
+    // Because 'inventory' was declared at the top, this will now work perfectly!
+    if(response.data.success) {
+       inventory.value.unshift(response.data.product);
+       closeModal();
+    }
+  } catch (error) {
+    console.error("Error saving item:", error);
+    alert("Failed to save item to database.");
   }
-  inventory.value.unshift(newItem)
-  closeModal()
 }
 
+// 5. HELPER FUNCTION TO READ JWT TOKEN
 const parseJwt = (token) => {
   try {
     const base64Url = token.split('.')[1];
@@ -327,9 +344,7 @@ const parseJwt = (token) => {
   }
 }
 
-// Start with an empty array
-const activeOrders = ref([]);
-
+// 6. FETCH DATA WHEN PAGE LOADS
 onMounted(async () => {
   const token = localStorage.getItem('token');
   if (token) {
@@ -339,7 +354,7 @@ onMounted(async () => {
     }
 
     try {
-      // 1. Fetch live Inventory
+      // Fetch live Inventory
       const invResponse = await axios.get('http://localhost:3000/api/inventory', {
         headers: { Authorization: `Bearer ${token}` }
       });
@@ -347,18 +362,17 @@ onMounted(async () => {
         inventory.value = invResponse.data.products;
       }
 
-      // 2. NEW: Fetch live Orders
+      // Fetch live Orders
       const orderResponse = await axios.get('http://localhost:3000/api/inventory/orders', {
         headers: { Authorization: `Bearer ${token}` }
       });
       if(orderResponse.data.success) {
-        // Map the DB output to your UI
         activeOrders.value = orderResponse.data.orders.map(order => ({
           id: order._id,
           customerName: order.customerName,
           itemsCount: order.itemsCount,
           total: order.total,
-          time: 'Just now' // You can format order.createdAt using a date library later
+          time: 'Just now'
         }));
       }
 
@@ -367,6 +381,4 @@ onMounted(async () => {
     }
   }
 })
-
-
 </script>
