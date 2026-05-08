@@ -29,11 +29,9 @@
         </div>
       </div>
 
-      <section class="mb-16">
+      <section class="mb-16" v-if="topSearches.length > 0">
         <h2 class="text-2xl font-bold text-primary mb-6">Top Searches</h2>
-
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          
           <div 
             v-for="item in topSearches" 
             :key="item.id"
@@ -42,12 +40,10 @@
             <div class="bg-white rounded-3xl h-36 mb-4 overflow-hidden flex items-center justify-center p-2 relative group-hover:scale-[0.98] transition-transform duration-300">
                <span class="text-6xl group-hover:scale-110 transition-transform duration-500">{{ item.emoji }}</span>
             </div>
-            
             <div class="flex justify-between items-center mb-2 px-1">
               <h3 class="text-white font-bold text-lg">{{ item.name }}</h3>
               <span class="text-white text-xs font-medium bg-white/20 px-2 py-0.5 rounded-full">{{ item.status }}</span>
             </div>
-            
             <div class="flex justify-between items-end mb-6 px-1">
               <div class="flex items-center gap-1.5">
                 <MapPinIcon class="w-3.5 h-3.5 text-accent-2 fill-accent-2" />
@@ -55,16 +51,14 @@
               </div>
               <span class="text-white font-bold text-lg leading-none">₹{{ item.price }}</span>
             </div>
-            
             <button class="bg-accent-1 text-primary font-bold text-sm tracking-wide rounded-full py-2.5 mx-2 hover:bg-white hover:shadow-md active:scale-95 transition-all duration-300">
               RESERVE
             </button>
           </div>
-
         </div>
       </section>
 
-      <section>
+      <section class="mb-16">
         <div class="flex items-center justify-between mb-6">
           <h2 class="text-2xl font-bold text-primary">Nearby Vendors</h2>
           <button class="text-sm font-bold text-primary hover:text-primary/80 hover:translate-x-1 transition-all duration-300">View Map &rarr;</button>
@@ -102,7 +96,6 @@
                   <MapPinIcon class="w-3.5 h-3.5" />
                   <span class="text-sm">{{ vendor.distance }} away</span>
                 </div>
-
               </div>
             </div>
 
@@ -119,41 +112,93 @@
         </div>
       </section>
 
+      <section class="mb-16">
+        <div class="flex justify-between items-end mb-6">
+          <div>
+            <h2 class="text-2xl font-bold text-primary tracking-tight">Fresh from Local Stores</h2>
+            <p class="text-gray-500 text-sm mt-1 font-medium">Discover what's in stock right now.</p>
+          </div>
+        </div>
+
+        <div v-if="allItems.length === 0" class="text-center py-12 text-gray-400">
+          <Loader2Icon class="w-8 h-8 animate-spin mx-auto mb-3 text-secondary" />
+          <p class="font-medium">Finding the freshest items...</p>
+        </div>
+
+        <div v-else class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+          <div 
+            v-for="item in allItems" 
+            :key="item._id" 
+            class="bg-white p-4 md:p-5 rounded-4xl border border-gray-100 shadow-sm hover:shadow-xl hover:border-primary/20 hover:-translate-y-1 transition-all duration-300 group cursor-pointer flex flex-col justify-between"
+          >
+            <div>
+              <div class="w-14 h-14 bg-secondary/10 rounded-2xl flex items-center justify-center text-3xl mb-4 group-hover:scale-110 transition-transform duration-300 shadow-inner">
+                {{ item.emoji || '📦' }}
+              </div>
+              
+              <h3 class="font-bold text-gray-900 leading-tight group-hover:text-primary transition-colors">{{ item.name }}</h3>
+              
+              <p class="text-xs text-gray-500 font-medium mt-1.5 flex items-center gap-1">
+                <StoreIcon class="w-3 h-3 shrink-0" />
+                <span class="truncate">{{ item.vendorId ? item.vendorId.shopName : 'Local Vendor' }}</span>
+              </p>
+            </div>
+
+            <div class="flex justify-between items-center mt-5 pt-4 border-t border-gray-50">
+              <span class="font-bold text-primary text-sm md:text-base">₹{{ item.price }} <span class="text-gray-400 text-xs font-medium">/ {{ item.unit }}</span></span>
+              
+              <button class="bg-gray-50 hover:bg-primary text-gray-400 hover:text-white p-2.5 rounded-xl transition-all duration-300 active:scale-95 shadow-sm">
+                <PlusIcon class="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
     </main>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue' // <-- Add onMounted
-import axios from 'axios' // <-- Import axios
+import { ref, onMounted } from 'vue' 
+import axios from 'axios' 
 import Navbar from '../components/Navbar.vue'
-import { SearchIcon, MapPinIcon, StarIcon, StoreIcon } from 'lucide-vue-next'
+
+// I ADDED Loader2Icon and PlusIcon HERE!
+import { SearchIcon, MapPinIcon, StarIcon, StoreIcon, Loader2Icon, PlusIcon } from 'lucide-vue-next'
 
 const searchQuery = ref('')
 const isModalOpen = ref(false)
+const allItems = ref([])
 
-// Start with empty arrays! No more fake data.
 const topSearches = ref([]) 
 const nearbyVendors = ref([])
 
 // Fetch real data when the home page loads
 onMounted(async () => {
   try {
-    const response = await axios.get('http://localhost:3000/api/public/vendors');
-    if (response.data.success) {
-      // Map the MongoDB data to match your Vue UI variables
-      nearbyVendors.value = response.data.vendors.map(vendor => ({
+    // 1. Fetch Nearby Vendors
+    const vendorResponse = await axios.get('http://localhost:3000/api/public/vendors');
+    if (vendorResponse.data.success) {
+      nearbyVendors.value = vendorResponse.data.vendors.map(vendor => ({
         id: vendor._id,
         name: vendor.shopName,
-        distance: 'Nearby', // You can calculate real GPS distance later!
+        distance: 'Nearby',
         rating: 'New',
         isOpen: true,
         emoji: '🏪',
-        mapUrl: vendor.mapUrl || 'https://maps.google.com'
+        mapUrl: vendor.mapUrl
       }));
     }
+
+    // 2. NEW: Fetch All Items
+    const itemsResponse = await axios.get('http://localhost:3000/api/public/items');
+    if (itemsResponse.data.success) {
+      allItems.value = itemsResponse.data.items;
+    }
+    
   } catch (error) {
-    console.error("Failed to load vendors:", error);
+    console.error("Failed to load home page data:", error);
   }
 })
 </script>
