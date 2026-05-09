@@ -141,23 +141,24 @@
                 <span class="text-xs font-bold text-gray-500 bg-gray-50 px-2 py-1 rounded-md">{{ order.time }}</span>
               </div>
               
-              <p class="text-sm text-gray-600 font-medium pl-2 mb-4">
-                {{ order.itemsCount }} items • <span class="text-primary font-bold">{{ order.total }}</span>
+              <p class="text-sm text-gray-600 font-medium pl-2 mb-4 flex items-center gap-1.5">
+                <span class="text-base">{{ order.emoji }}</span>
+                <span>1x <strong class="text-gray-800">{{ order.itemName }}</strong></span> 
+                <span class="mx-1">•</span>
+                <span class="text-primary font-bold">{{ order.total }}</span>
               </p>
 
               <div class="flex gap-2 pl-2">
-                <div class="flex gap-2 pl-2">
-                  <button 
-                    @click="updateOrderStatus(order.id, 'Declined')"
-                    class="grow bg-gray-50 hover:bg-red-50 hover:text-red-600 text-gray-700 font-bold py-2 rounded-xl text-sm transition-colors duration-300 active:scale-95">
-                    Decline
-                  </button>
-                  <button 
-                    @click="updateOrderStatus(order.id, 'Accepted')"
-                    class="grow bg-accent-1 text-primary hover:bg-primary hover:text-white font-bold py-2 rounded-xl text-sm transition-colors duration-300 shadow-sm active:scale-95">
-                    Accept
-                  </button>
-                </div>
+                <button 
+                  @click="updateOrderStatus(order.id, 'Declined')"
+                  class="grow bg-gray-50 hover:bg-red-50 hover:text-red-600 text-gray-700 font-bold py-2 px-3 rounded-xl text-sm transition-colors duration-300 active:scale-95">
+                  Decline
+                </button>
+                <button 
+                  @click="updateOrderStatus(order.id, 'Accepted')"
+                  class="grow bg-accent-1 text-primary hover:bg-primary hover:text-white font-bold py-2 px-3 rounded-xl text-sm transition-colors duration-300 shadow-sm active:scale-95">
+                  Accept
+                </button>
               </div>
             </div>
           </div>
@@ -375,21 +376,23 @@ onMounted(async () => {
         headers: { Authorization: `Bearer ${token}` }
       });
       if(orderResponse.data.success) {
+        // FIXED MAPPING HERE
         activeOrders.value = orderResponse.data.orders.map(order => ({
           id: order._id,
           customerName: order.customerName,
-          itemsCount: order.itemsCount,
-          total: order.total, // e.g. "₹240"
+          itemName: order.item ? order.item.name : 'Unknown Item',
+          emoji: order.item ? order.item.emoji : '📦',
+          total: order.item ? order.item.price : '0', 
           time: 'Just now'
         }));
 
-        stats.value.orders = activeOrders.value.length; // Calculate Total Orders
+        stats.value.orders = activeOrders.value.length; 
         
-        // Calculate Revenue by extracting the numbers from the "total" strings
         stats.value.revenue = activeOrders.value.reduce((sum, order) => {
-          const amount = parseInt(order.total.replace(/[^0-9]/g, '')) || 0;
+          const safeTotalString = (order.total || '0').toString();
+          const amount = parseInt(safeTotalString.replace(/[^0-9]/g, '')) || 0;
           return sum + amount;
-        }, 0);
+        }, 0);  
       }
 
     } catch (error) {
@@ -416,17 +419,22 @@ const updateOrderStatus = async (orderId, newStatus) => {
 }
 // Silently check for new orders every 10 seconds
 setInterval(async () => {
+  // 1. You MUST grab the token inside the interval so it has permission!
+  const token = localStorage.getItem('token');
+  if (!token) return;
+
   try {
     const orderResponse = await axios.get('http://localhost:3000/api/inventory/orders', {
       headers: { Authorization: `Bearer ${token}` }
     });
     if(orderResponse.data.success) {
-      // Update UI with any new orders that arrived
+      // 2. FIXED MAPPING HERE AS WELL
       activeOrders.value = orderResponse.data.orders.map(order => ({
         id: order._id,
         customerName: order.customerName,
-        itemsCount: 1, // Since we now reserve exactly 1 item per request
-        total: order.item.price, 
+        itemName: order.item ? order.item.name : 'Unknown Item',
+        emoji: order.item ? order.item.emoji : '📦',
+        total: order.item ? order.item.price : '0', 
         time: 'Just now'
       }));
       stats.value.orders = activeOrders.value.length;
@@ -434,5 +442,5 @@ setInterval(async () => {
   } catch (e) {
     // Fail silently in the background so it doesn't bother the user
   }
-}, 10000); // 10000ms = 10 seconds
+}, 10000);
 </script>
