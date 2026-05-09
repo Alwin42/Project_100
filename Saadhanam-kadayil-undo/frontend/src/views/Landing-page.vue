@@ -22,7 +22,7 @@
           Check live stock, reserve items, and order directly from local vendors. Stop guessing if it's in stock before you walk.
         </p>
 
-        <div>
+        <div class="flex flex-wrap gap-4">
           <button 
             v-if="!isLoggedIn"
             @click="isModalOpen = true"
@@ -30,6 +30,16 @@
           >
             <span class="absolute inset-0 bg-white/20 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></span>
             <span>Login to Start Shopping</span>
+            <ArrowRightIcon class="w-5 h-5 transition-all duration-300 group-hover:translate-x-1 group-hover:text-accent-2" />
+          </button>
+          
+          <button 
+            v-if="!isLoggedIn"
+            @click="goToVendorLogin"
+            class="group relative overflow-hidden rounded-full px-8 py-3.5 text-lg font-bold text-green-800 shadow-[0_4px_14px_0_rgba(70,132,50,0.39)] transition-all hover:shadow-[0_6px_20px_rgba(70,132,50,0.23)] hover:-translate-y-1 active:translate-y-0 active:shadow-md flex items-center gap-2"
+          >
+            <span class="absolute inset-0  opacity-0 transition-opacity duration-300 group-hover:opacity-100"></span>
+            <span>Login as Vendor</span>
             <ArrowRightIcon class="w-5 h-5 transition-all duration-300 group-hover:translate-x-1 group-hover:text-accent-2" />
           </button>
 
@@ -85,6 +95,12 @@ onMounted(() => {
 
 // Function to route logged-in users directly to the store
 const goToShop = () => {
-  router.push('/home') // Make sure this matches the path in your router configuration
+  router.push('/home')
+}
+
+//  Function to route users to the Vendor Login page
+const goToVendorLogin = () => {
+  
+  router.push('/vendor-login')
 }
 </script>

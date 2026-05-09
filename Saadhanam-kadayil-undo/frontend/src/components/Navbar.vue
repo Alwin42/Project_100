@@ -14,16 +14,16 @@
         
         
 
-        <!-- NEW: Stores Link (Visible ONLY to Logged-in Customers) -->
+        <!--  Stores Link (Visible ONLY to Logged-in Customers) -->
         <router-link 
           v-if="isLoggedIn && userRole === 'customer'" 
-          to="/home"
+          to="/stores"
           class="text-sm font-semibold text-gray-600 hover:text-primary bg-gray-50/50 hover:bg-secondary/20 border border-transparent hover:border-secondary/40 px-5 py-2 rounded-full transition-all duration-300"
         >
           Stores
         </router-link>
         
-        <!-- NEW: Customer Dashboard (Visible ONLY to Logged-in Customers) -->
+        <!--  Customer Dashboard (Visible ONLY to Logged-in Customers) -->
         <router-link 
           v-if="isLoggedIn && userRole === 'customer'" 
           to="/customer-dashboard"
@@ -91,17 +91,17 @@
         class="w-full max-w-sm mt-3 bg-white/95 backdrop-blur-xl border border-gray-200 shadow-2xl rounded-3xl p-5 flex flex-col gap-3 pointer-events-auto md:hidden"
       >
 
-        <!-- NEW: Stores Link (Mobile, Customer Only) -->
+        <!-- Stores Link (Mobile, Customer Only) -->
         <router-link 
           v-if="isLoggedIn && userRole === 'customer'" 
-          to="/home"
+          to="/stores"
           @click="isMobileMenuOpen = false"
           class="w-full text-center text-sm font-semibold text-gray-700 hover:text-primary bg-gray-50 hover:bg-secondary/20 py-3 rounded-2xl transition-colors"
         >
           Stores
         </router-link>
 
-        <!-- NEW: Customer Dashboard Link (Mobile, Customer Only) -->
+        <!--  Customer Dashboard Link (Mobile, Customer Only) -->
         <router-link 
           v-if="isLoggedIn && userRole === 'customer'" 
           to="/customer-dashboard"

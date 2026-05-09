@@ -5,7 +5,6 @@
 
     <main class="max-w-6xl mx-auto px-6 w-full pt-28 md:pt-32">
       
-      <!-- Header -->
       <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4 animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out">
         <div>
           <h1 class="text-3xl font-bold text-gray-900 tracking-tight">Welcome back, {{ vendorName }}!</h1>
@@ -20,7 +19,6 @@
         </button>
       </div>
 
-      <!-- Stat Cards -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
         
         <div class="bg-primary rounded-4xl p-6 text-white shadow-lg shadow-primary/20 relative overflow-hidden group hover:-translate-y-1.5 transition-all duration-300 cursor-default">
@@ -29,10 +27,10 @@
             <div class="p-2.5 bg-white/20 rounded-2xl group-hover:scale-110 transition-transform duration-300">
               <ShoppingBagIcon class="w-6 h-6 text-white" />
             </div>
-            <span class="bg-accent-1 text-primary text-xs font-bold px-3 py-1 rounded-full shadow-sm">+12% today</span>
+            <span class="bg-accent-1 text-primary text-xs font-bold px-3 py-1 rounded-full shadow-sm">Pending</span>
           </div>
           <h3 class="text-white/90 font-medium mb-1 relative z-10">Total Orders</h3>
-          <p class="text-4xl font-bold relative z-10">42</p>
+          <p class="text-4xl font-bold relative z-10">{{ stats.orders }}</p>
         </div>
 
         <div class="bg-white rounded-4xl p-6 border border-gray-100 shadow-sm hover:shadow-xl hover:shadow-gray-200/50 hover:border-gray-200 hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between group cursor-default">
@@ -42,8 +40,8 @@
             </div>
           </div>
           <div>
-            <h3 class="text-gray-500 font-medium mb-1">Today's Revenue</h3>
-            <p class="text-3xl font-bold text-gray-900 group-hover:text-primary transition-colors duration-300">₹4,850</p>
+            <h3 class="text-gray-500 font-medium mb-1">Expected Revenue</h3>
+            <p class="text-3xl font-bold text-gray-900 group-hover:text-primary transition-colors duration-300">₹{{ stats.revenue }}</p>
           </div>
         </div>
 
@@ -55,7 +53,7 @@
           </div>
           <div>
             <h3 class="text-gray-500 font-medium mb-1">Active Items in Store</h3>
-            <p class="text-3xl font-bold text-gray-900">128</p>
+            <p class="text-3xl font-bold text-gray-900">{{ stats.activeItems }}</p>
           </div>
         </div>
 
@@ -63,7 +61,6 @@
 
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
         
-        <!-- Live Inventory Panel -->
         <div class="lg:col-span-2 bg-white rounded-4xl border border-gray-100 shadow-sm p-6 md:p-8 hover:shadow-md transition-shadow duration-300">
           <div class="flex justify-between items-center mb-6">
             <h2 class="text-xl font-bold text-primary flex items-center gap-2">
@@ -78,8 +75,8 @@
 
           <div class="space-y-4">
             <div 
-              v-for="item in inventory" 
-              :key="item.id"
+              v-for="item in inventory.slice(0, 5)" 
+              :key="item._id || item.id"
               class="flex items-center justify-between p-4 bg-gray-50 rounded-3xl hover:bg-white hover:shadow-md hover:scale-[1.01] transition-all duration-300 border border-transparent hover:border-secondary/30 group"
             >
               <div class="flex items-center gap-4">
@@ -88,7 +85,7 @@
                 </div>
                 <div>
                   <h4 class="font-bold text-gray-900 group-hover:text-primary transition-colors">{{ item.name }}</h4>
-                  <p class="text-sm font-medium text-gray-500">{{ item.price }}</p>
+                  <p class="text-sm font-medium text-gray-500">₹{{ item.price }} / {{ item.unit }}</p>
                 </div>
               </div>
 
@@ -111,20 +108,27 @@
                 </button>
               </div>
             </div>
+            
+            <p v-if="inventory.length > 5" class="text-center text-xs font-bold text-gray-400 mt-4">
+              + {{ inventory.length - 5 }} more items. Click "View All" to manage.
+            </p>
           </div>
         </div>
 
-        <!-- Live Orders Panel -->
         <div class="bg-white rounded-4xl border border-gray-100 shadow-sm p-6 md:p-8 hover:shadow-md transition-shadow duration-300">
           <div class="flex justify-between items-center mb-6">
             <h2 class="text-xl font-bold text-primary">Live Orders</h2>
-            <span class="bg-red-50 border border-red-100 text-red-600 text-xs font-bold px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-sm animate-pulse">
+            <span v-if="stats.orders > 0" class="bg-red-50 border border-red-100 text-red-600 text-xs font-bold px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-sm animate-pulse">
               <span class="w-1.5 h-1.5 bg-red-500 rounded-full"></span>
-              3 Pending
+              {{ stats.orders }} Pending
             </span>
           </div>
 
           <div class="space-y-5">
+            <div v-if="activeOrders.length === 0" class="text-center text-gray-400 py-8">
+              <p class="font-medium text-sm">No new orders yet.</p>
+            </div>
+            
             <div 
               v-for="order in activeOrders" 
               :key="order.id"
@@ -158,7 +162,6 @@
 
     </main>
 
-    <!-- Add Item Modal with Smooth Transition -->
     <transition
       enter-active-class="transition duration-300 ease-out"
       enter-from-class="opacity-0 scale-95 translate-y-4"
@@ -281,12 +284,16 @@ import { PlusIcon, ShoppingBagIcon, TrendingUpIcon, PackageIcon, Edit2Icon, XIco
 const router = useRouter()
 const vendorName = ref('Partner')
 
-// 1. DECLARE YOUR DATA BUCKETS FIRST! 
-// These must be at the top so the functions below can see them.
 const inventory = ref([]) 
 const activeOrders = ref([])
 
-// 2. MODAL STATE
+// NEW: Data bucket specifically for the top Dashboard stats
+const stats = ref({
+  orders: 0,
+  revenue: 0,
+  activeItems: 0
+})
+
 const isModalOpen = ref(false)
 const categories = ['Vegetables', 'Fruits', 'Dairy & Eggs', 'Bakery', 'Pantry Essentials', 'Meat & Seafood', 'Beverages', 'Snacks']
 const units = ['kg', 'gram', 'packet', 'liter', 'ml', 'nos', 'dozen']
@@ -299,7 +306,6 @@ const formData = ref({
   inStock: true
 })
 
-// 3. MODAL FUNCTIONS
 const openAddModal = () => {
   formData.value = { name: '', category: '', price: '', unit: 'kg', inStock: true }
   isModalOpen.value = true
@@ -309,19 +315,16 @@ const closeModal = () => {
   isModalOpen.value = false
 }
 
-// 4. SAVE ITEM TO MONGODB
 const saveItem = async () => {
   try {
     const token = localStorage.getItem('token');
-    
-    // Send data to backend securely
     const response = await axios.post('http://localhost:3000/api/inventory/add', formData.value, {
       headers: { Authorization: `Bearer ${token}` }
     });
 
-    // Because 'inventory' was declared at the top, this will now work perfectly!
     if(response.data.success) {
        inventory.value.unshift(response.data.product);
+       stats.value.activeItems = inventory.value.length; // Update stats when item is added!
        closeModal();
     }
   } catch (error) {
@@ -330,7 +333,6 @@ const saveItem = async () => {
   }
 }
 
-// 5. HELPER FUNCTION TO READ JWT TOKEN
 const parseJwt = (token) => {
   try {
     const base64Url = token.split('.')[1];
@@ -344,7 +346,6 @@ const parseJwt = (token) => {
   }
 }
 
-// 6. FETCH DATA WHEN PAGE LOADS
 onMounted(async () => {
   const token = localStorage.getItem('token');
   if (token) {
@@ -354,15 +355,16 @@ onMounted(async () => {
     }
 
     try {
-      // Fetch live Inventory
+      // 1. Fetch live Inventory
       const invResponse = await axios.get('http://localhost:3000/api/inventory', {
         headers: { Authorization: `Bearer ${token}` }
       });
       if(invResponse.data.success) {
         inventory.value = invResponse.data.products;
+        stats.value.activeItems = inventory.value.length; // Calculate Active Items
       }
 
-      // Fetch live Orders
+      // 2. Fetch live Orders
       const orderResponse = await axios.get('http://localhost:3000/api/inventory/orders', {
         headers: { Authorization: `Bearer ${token}` }
       });
@@ -371,9 +373,17 @@ onMounted(async () => {
           id: order._id,
           customerName: order.customerName,
           itemsCount: order.itemsCount,
-          total: order.total,
+          total: order.total, // e.g. "₹240"
           time: 'Just now'
         }));
+
+        stats.value.orders = activeOrders.value.length; // Calculate Total Orders
+        
+        // Calculate Revenue by extracting the numbers from the "total" strings
+        stats.value.revenue = activeOrders.value.reduce((sum, order) => {
+          const amount = parseInt(order.total.replace(/[^0-9]/g, '')) || 0;
+          return sum + amount;
+        }, 0);
       }
 
     } catch (error) {

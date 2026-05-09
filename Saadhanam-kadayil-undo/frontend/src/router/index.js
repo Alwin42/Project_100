@@ -6,6 +6,7 @@ import VendorReg from '../views/Vendor-reg.vue'
 import Dashboard from '../views/Dashboard.vue'
 import Inventory from '../views/Inventory.vue'
 import Stores from '../views/Stores.vue'
+import CustomerDashboard from '../views/CustomerDashboard.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -28,7 +29,12 @@ const router = createRouter({
     {
       path: '/inventory', name: 'inventory', component: Inventory,
     },
-    { path: '/stores', name: 'stores', component: Stores }
+    { 
+      path: '/stores', name: 'stores', component: Stores 
+    },
+    { 
+    path: '/customer-dashboard', name: 'customerDashboard', component: CustomerDashboard 
+    }
   ],
 })
 
