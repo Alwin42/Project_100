@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const authRoutes = require('./routes/auth'); 
 const publicRoutes = require('./routes/public');
 const inventoryRoutes = require('./routes/inventory'); 
-
+const orderRoutes = require('./routes/orders');
 const app = express();
 
 app.use(cors()); 
@@ -15,6 +15,7 @@ app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/public', publicRoutes);
 app.use('/api/inventory', inventoryRoutes);
+app.use('/api/orders', orderRoutes);
 app.get('/', (req, res) => {
     res.status(200).json({ message: "StockUndo Backend is live!" });
 });

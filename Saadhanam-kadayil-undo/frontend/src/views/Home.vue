@@ -147,8 +147,12 @@
             <div class="flex justify-between items-center mt-5 pt-4 border-t border-gray-50">
               <span class="font-bold text-primary text-sm md:text-base">₹{{ item.price }} <span class="text-gray-400 text-xs font-medium">/ {{ item.unit }}</span></span>
               
-              <button class="bg-gray-50 hover:bg-primary text-gray-400 hover:text-white p-2.5 rounded-xl transition-all duration-300 active:scale-95 shadow-sm">
-                <PlusIcon class="w-4 h-4" />
+              
+
+              <button 
+                @click="reserveItem(item)"
+                class="bg-accent-1 text-primary font-bold text-sm tracking-wide rounded-lg py-2.5 px-3 mx-2 hover:bg-gray-200 hover:shadow-md active:scale-95 transition-all duration-300">
+                RESERVE
               </button>
             </div>
           </div>
@@ -201,4 +205,26 @@ onMounted(async () => {
     console.error("Failed to load home page data:", error);
   }
 })
+const reserveItem = async (item) => {
+  const token = localStorage.getItem('token');
+  
+  if (!token) {
+    alert("Please log in to reserve items!");
+    isModalOpen.value = true;
+    return;
+  }
+
+  try {
+    const response = await axios.post('http://localhost:3000/api/orders/reserve', 
+      { productId: item._id },
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    
+    if (response.data.success) {
+      alert("🎉 " + response.data.message);
+    }
+  } catch (error) {
+    alert(error.response?.data?.error || "Failed to reserve item.");
+  }
+}
 </script>

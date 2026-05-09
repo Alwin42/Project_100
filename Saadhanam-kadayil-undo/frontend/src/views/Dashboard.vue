@@ -146,12 +146,18 @@
               </p>
 
               <div class="flex gap-2 pl-2">
-                <button class="grow bg-gray-50 hover:bg-red-50 hover:text-red-600 text-gray-700 font-bold py-2 rounded-xl text-sm transition-colors duration-300 active:scale-95">
-                  Decline
-                </button>
-                <button class="grow bg-accent-1 text-primary hover:bg-primary hover:text-white font-bold py-2 rounded-xl text-sm transition-colors duration-300 shadow-sm active:scale-95">
-                  Accept
-                </button>
+                <div class="flex gap-2 pl-2">
+                  <button 
+                    @click="updateOrderStatus(order.id, 'Declined')"
+                    class="grow bg-gray-50 hover:bg-red-50 hover:text-red-600 text-gray-700 font-bold py-2 rounded-xl text-sm transition-colors duration-300 active:scale-95">
+                    Decline
+                  </button>
+                  <button 
+                    @click="updateOrderStatus(order.id, 'Accepted')"
+                    class="grow bg-accent-1 text-primary hover:bg-primary hover:text-white font-bold py-2 rounded-xl text-sm transition-colors duration-300 shadow-sm active:scale-95">
+                    Accept
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -391,4 +397,42 @@ onMounted(async () => {
     }
   }
 })
+const updateOrderStatus = async (orderId, newStatus) => {
+  const token = localStorage.getItem('token');
+  try {
+    const response = await axios.put(`http://localhost:3000/api/orders/status/${orderId}`, 
+      { status: newStatus },
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+
+    if (response.data.success) {
+      // Remove the order from the "Pending" list in the UI
+      activeOrders.value = activeOrders.value.filter(o => o.id !== orderId);
+      stats.value.orders = activeOrders.value.length; // Update the stat card
+    }
+  } catch (error) {
+    console.error("Failed to update status", error);
+  }
+}
+// Silently check for new orders every 10 seconds
+setInterval(async () => {
+  try {
+    const orderResponse = await axios.get('http://localhost:3000/api/inventory/orders', {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    if(orderResponse.data.success) {
+      // Update UI with any new orders that arrived
+      activeOrders.value = orderResponse.data.orders.map(order => ({
+        id: order._id,
+        customerName: order.customerName,
+        itemsCount: 1, // Since we now reserve exactly 1 item per request
+        total: order.item.price, 
+        time: 'Just now'
+      }));
+      stats.value.orders = activeOrders.value.length;
+    }
+  } catch (e) {
+    // Fail silently in the background so it doesn't bother the user
+  }
+}, 10000); // 10000ms = 10 seconds
 </script>
