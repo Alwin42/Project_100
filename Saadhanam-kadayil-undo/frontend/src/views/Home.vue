@@ -72,7 +72,7 @@
           >
             <div class="flex items-start gap-4 mb-4">
               <div class="w-16 h-16 bg-secondary/10 group-hover:bg-secondary/20 rounded-2xl flex items-center justify-center shrink-0 transition-colors duration-300">
-                <span class="text-3xl group-hover:scale-110 transition-transform duration-300">{{ vendor.emoji }}</span>
+                <span class="text-3xl group-hover:scale-110 transition-transform duration-300">{{ vendor.emoji || '🏪' }}</span>
               </div>
               
               <div class="grow">
@@ -113,10 +113,10 @@
       </section>
 
       <section class="mb-16">
-        <div class="flex justify-between items-end mb-6">
+        <div class="flex justify-between items-end mb-8">
           <div>
-            <h2 class="text-2xl font-bold text-primary tracking-tight">Fresh from Local Stores</h2>
-            <p class="text-gray-500 text-sm mt-1 font-medium">Discover what's in stock right now.</p>
+            <h2 class="text-2xl font-bold text-primary tracking-tight">Browse by Category</h2>
+            <p class="text-gray-500 text-sm mt-1 font-medium">Discover what's in stock across local stores.</p>
           </div>
         </div>
 
@@ -125,37 +125,51 @@
           <p class="font-medium">Finding the freshest items...</p>
         </div>
 
-        <div v-else class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+        <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          
           <div 
-            v-for="item in allItems" 
-            :key="item._id" 
-            class="bg-white p-4 md:p-5 rounded-4xl border border-gray-100 shadow-sm hover:shadow-xl hover:border-primary/20 hover:-translate-y-1 transition-all duration-300 group cursor-pointer flex flex-col justify-between"
+            v-for="(items, categoryName) in groupedItems" 
+            :key="categoryName" 
+            class="flex flex-col bg-white border border-gray-100 rounded-4xl p-5 shadow-sm"
           >
-            <div>
-              <div class="w-14 h-14 bg-secondary/10 rounded-2xl flex items-center justify-center text-3xl mb-4 group-hover:scale-110 transition-transform duration-300 shadow-inner">
-                {{ item.emoji || '📦' }}
+            <div class="flex justify-between items-center mb-5 pl-2 pr-1 border-b border-gray-50 pb-3">
+              <h3 class="text-xl font-bold text-gray-900">{{ categoryName }}</h3>
+              <button class="text-sm font-bold text-primary hover:text-primary/80 transition-colors">View All &rarr;</button>
+            </div>
+
+            <div class="flex flex-col gap-3">
+              <div 
+                v-for="(item, index) in items.slice(0, 4)" 
+                :key="item._id" 
+                class="items-center justify-between p-3 bg-gray-50/50 rounded-2xl hover:bg-white hover:shadow-md hover:border-primary/20 border border-transparent transition-all duration-300 group"
+                :class="index > 1 ? 'hidden md:flex' : 'flex'"
+              >
+                <div class="flex items-center gap-4 overflow-hidden">
+                  <div class="w-12 h-12 bg-white shadow-sm rounded-xl flex items-center justify-center text-2xl shrink-0 group-hover:scale-105 transition-transform duration-300">
+                    {{ item.emoji || '📦' }}
+                  </div>
+                  <div class="truncate">
+                    <h4 class="font-bold text-gray-900 text-sm truncate group-hover:text-primary transition-colors">{{ item.name }}</h4>
+                    <p class="text-xs text-gray-500 flex items-center gap-1 mt-0.5 truncate">
+                      <StoreIcon class="w-3 h-3 shrink-0" />
+                      {{ item.vendorId ? item.vendorId.shopName : 'Local Vendor' }}
+                    </p>
+                    <p class="text-sm font-bold text-primary mt-1">₹{{ item.price }} <span class="text-xs font-medium text-gray-400">/ {{ item.unit }}</span></p>
+                  </div>
+                </div>
+
+                <button 
+                  @click="reserveItem(item)"
+                  class="bg-white hover:bg-primary text-gray-400 hover:text-white p-2.5 rounded-xl shadow-sm border border-gray-100 transition-all duration-300 active:scale-95 shrink-0 ml-2"
+                  title="Reserve Item"
+                >
+                  <PlusIcon class="w-5 h-5" />
+                </button>
               </div>
-              
-              <h3 class="font-bold text-gray-900 leading-tight group-hover:text-primary transition-colors">{{ item.name }}</h3>
-              
-              <p class="text-xs text-gray-500 font-medium mt-1.5 flex items-center gap-1">
-                <StoreIcon class="w-3 h-3 shrink-0" />
-                <span class="truncate">{{ item.vendorId ? item.vendorId.shopName : 'Local Vendor' }}</span>
-              </p>
             </div>
-
-            <div class="flex justify-between items-center mt-5 pt-4 border-t border-gray-50">
-              <span class="font-bold text-primary text-sm md:text-base">₹{{ item.price }} <span class="text-gray-400 text-xs font-medium">/ {{ item.unit }}</span></span>
-              
-              
-
-              <button 
-                @click="reserveItem(item)"
-                class="bg-accent-1 text-primary font-bold text-sm tracking-wide rounded-lg py-2.5 px-3 mx-2 hover:bg-gray-200 hover:shadow-md active:scale-95 transition-all duration-300">
-                RESERVE
-              </button>
-            </div>
+            
           </div>
+
         </div>
       </section>
 
@@ -164,11 +178,10 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue' 
+import { ref, computed, onMounted } from 'vue' // Added computed!
 import axios from 'axios' 
 import Navbar from '../components/Navbar.vue'
 
-// I ADDED Loader2Icon and PlusIcon HERE!
 import { SearchIcon, MapPinIcon, StarIcon, StoreIcon, Loader2Icon, PlusIcon } from 'lucide-vue-next'
 
 const searchQuery = ref('')
@@ -177,6 +190,23 @@ const allItems = ref([])
 
 const topSearches = ref([]) 
 const nearbyVendors = ref([])
+
+// NEW: Computed property to automatically group fetched items by their Category
+const groupedItems = computed(() => {
+  const groups = {};
+  
+  allItems.value.forEach(item => {
+    // If an item somehow has no category, put it in "Other"
+    const cat = item.category || 'Other';
+    
+    if (!groups[cat]) {
+      groups[cat] = [];
+    }
+    groups[cat].push(item);
+  });
+  
+  return groups;
+})
 
 // Fetch real data when the home page loads
 onMounted(async () => {
@@ -190,12 +220,12 @@ onMounted(async () => {
         distance: 'Nearby',
         rating: 'New',
         isOpen: true,
-        emoji: '🏪',
+        emoji: '🏪', // Fixed broken emoji artifact
         mapUrl: vendor.mapUrl
       }));
     }
 
-    // 2. NEW: Fetch All Items
+    // 2. Fetch All Items
     const itemsResponse = await axios.get('http://localhost:3000/api/public/items');
     if (itemsResponse.data.success) {
       allItems.value = itemsResponse.data.items;
@@ -205,6 +235,7 @@ onMounted(async () => {
     console.error("Failed to load home page data:", error);
   }
 })
+
 const reserveItem = async (item) => {
   const token = localStorage.getItem('token');
   
@@ -221,7 +252,7 @@ const reserveItem = async (item) => {
     );
     
     if (response.data.success) {
-      alert("🎉 " + response.data.message);
+      alert("🎉 " + response.data.message); // Fixed broken emoji artifact
     }
   } catch (error) {
     alert(error.response?.data?.error || "Failed to reserve item.");
