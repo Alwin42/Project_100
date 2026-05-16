@@ -12,7 +12,13 @@
       
       <div class="hidden md:flex items-center gap-3">
         
-        
+        <router-link 
+          v-if="isLoggedIn && userRole === 'customer'" 
+          to="/home"
+          class="text-sm font-semibold text-gray-600 hover:text-primary bg-gray-50/50 hover:bg-secondary/20 border border-transparent hover:border-secondary/40 px-5 py-2 rounded-full transition-all duration-300"
+        >
+          Home
+        </router-link>
 
         <!--  Stores Link (Visible ONLY to Logged-in Customers) -->
         <router-link 

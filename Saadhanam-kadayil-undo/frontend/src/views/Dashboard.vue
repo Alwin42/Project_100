@@ -5,7 +5,7 @@
 
     <main class="max-w-6xl mx-auto px-6 w-full pt-28 md:pt-32">
       
-      <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4 animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out">
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4 animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out">
         <div>
           <h1 class="text-3xl font-bold text-gray-900 tracking-tight">Welcome back, {{ vendorName }}!</h1>
           <p class="text-gray-500 mt-1 font-medium">Here is what is happening at your shop today.</p>
@@ -19,7 +19,27 @@
         </button>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+      <nav class="flex items-center gap-6 mb-10 border-b border-gray-200">
+        <button class="pb-3 border-b-2 border-primary text-primary font-bold text-sm tracking-wide">
+          Overview
+        </button>
+        <button 
+          @click="router.push('/vendor-orders')" 
+          class="pb-3 border-b-2 border-transparent text-gray-500 hover:text-gray-900 font-bold text-sm tracking-wide transition-colors flex items-center gap-1.5"
+        >
+          <FileTextIcon class="w-4 h-4" />
+          Order Logs
+        </button>
+        <button 
+          @click="router.push('/vendor-payments')" 
+          class="pb-3 border-b-2 border-transparent text-gray-500 hover:text-gray-900 font-bold text-sm tracking-wide transition-colors flex items-center gap-1.5"
+        >
+          <CreditCardIcon class="w-4 h-4" />
+          Payments
+        </button>
+      </nav>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         
         <div class="bg-primary rounded-4xl p-6 text-white shadow-lg shadow-primary/20 relative overflow-hidden group hover:-translate-y-1.5 transition-all duration-300 cursor-default">
           <div class="absolute top-0 right-0 -mr-6 -mt-6 w-32 h-32 bg-white/10 rounded-full blur-2xl pointer-events-none group-hover:scale-150 transition-transform duration-700"></div>
@@ -57,6 +77,74 @@
           </div>
         </div>
 
+      </div>
+
+      <div class="bg-white rounded-4xl border border-gray-100 shadow-sm p-6 md:p-8 mb-8 hover:shadow-md transition-shadow duration-300">
+        <div class="flex items-center justify-between mb-6">
+          <h2 class="text-xl font-bold text-gray-900 flex items-center gap-2">
+            <StoreIcon class="w-5 h-5 text-primary" /> Shop Operations
+          </h2>
+          <button @click="saveShopSettings" class="text-sm font-bold bg-gray-50 hover:bg-gray-100 text-gray-700 px-4 py-2 rounded-xl transition-colors active:scale-95">
+            Save Changes
+          </button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          
+          <div class="flex flex-col justify-center items-start bg-gray-50 p-4 rounded-3xl border border-gray-100">
+            <p class="text-sm font-bold text-gray-500 mb-3">Master Switch</p>
+            <div class="flex items-center gap-4">
+              <button 
+                @click="shopSettings.isOpen = !shopSettings.isOpen"
+                class="relative w-16 h-9 rounded-full transition-colors duration-300 focus:outline-none shadow-inner"
+                :class="shopSettings.isOpen ? 'bg-primary' : 'bg-gray-300'"
+              >
+                <div 
+                  class="absolute top-1 left-1 bg-white w-7 h-7 rounded-full transition-transform duration-300 shadow-sm flex items-center justify-center"
+                  :class="shopSettings.isOpen ? 'translate-x-7' : 'translate-x-0'"
+                ></div>
+              </button>
+              <span class="font-bold text-lg transition-colors duration-300" :class="shopSettings.isOpen ? 'text-primary' : 'text-gray-400'">
+                {{ shopSettings.isOpen ? "We're Open!" : "Closed" }}
+              </span>
+            </div>
+          </div>
+
+          <div class="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6 bg-gray-50 p-4 rounded-3xl border border-gray-100">
+            <div>
+              <p class="text-sm font-bold text-gray-500 mb-2 flex items-center gap-1.5"><ClockIcon class="w-4 h-4"/> Opening Time</p>
+              <input 
+                type="time" 
+                v-model="shopSettings.openTime"
+                class="w-full bg-white border border-gray-200 rounded-xl px-4 py-2.5 font-bold text-gray-800 focus:ring-2 focus:ring-primary/20 outline-none"
+              >
+            </div>
+            <div>
+              <p class="text-sm font-bold text-gray-500 mb-2 flex items-center gap-1.5"><ClockIcon class="w-4 h-4"/> Closing Time</p>
+              <input 
+                type="time" 
+                v-model="shopSettings.closeTime"
+                class="w-full bg-white border border-gray-200 rounded-xl px-4 py-2.5 font-bold text-gray-800 focus:ring-2 focus:ring-primary/20 outline-none"
+              >
+            </div>
+            
+            <div class="md:col-span-2 pt-2 border-t border-gray-200">
+              <p class="text-sm font-bold text-gray-500 mb-3 flex items-center gap-1.5"><CalendarDaysIcon class="w-4 h-4"/> Working Days</p>
+              <div class="flex flex-wrap gap-2">
+                <button 
+                  v-for="day in ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']" 
+                  :key="day"
+                  @click="toggleDay(day)"
+                  class="px-4 py-1.5 rounded-full text-sm font-bold transition-all duration-200 active:scale-95"
+                  :class="shopSettings.days.includes(day) ? 'bg-primary text-white shadow-sm' : 'bg-white border border-gray-200 text-gray-400 hover:border-primary/50 hover:text-primary'"
+                >
+                  {{ day }}
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -145,7 +233,7 @@
                 <span class="text-base">{{ order.emoji }}</span>
                 <span>1x <strong class="text-gray-800">{{ order.itemName }}</strong></span> 
                 <span class="mx-1">•</span>
-                <span class="text-primary font-bold">{{ order.total }}</span>
+                <span class="text-primary font-bold">₹{{ order.total }}</span>
               </p>
 
               <div class="flex gap-2 pl-2">
@@ -286,7 +374,13 @@ import Navbar from '../components/Navbar.vue'
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
-import { PlusIcon, ShoppingBagIcon, TrendingUpIcon, PackageIcon, Edit2Icon, XIcon } from 'lucide-vue-next'
+
+// NEW ICONS ADDED HERE for the Shop Operations card and Nav
+import { 
+  PlusIcon, ShoppingBagIcon, TrendingUpIcon, PackageIcon, 
+  Edit2Icon, XIcon, StoreIcon, ClockIcon, CalendarDaysIcon, 
+  FileTextIcon, CreditCardIcon 
+} from 'lucide-vue-next'
 
 const router = useRouter()
 const vendorName = ref('Partner')
@@ -294,12 +388,35 @@ const vendorName = ref('Partner')
 const inventory = ref([]) 
 const activeOrders = ref([])
 
-// NEW: Data bucket specifically for the top Dashboard stats
 const stats = ref({
   orders: 0,
   revenue: 0,
   activeItems: 0
 })
+
+// NEW: Shop Operations Settings State
+const shopSettings = ref({
+  isOpen: true,
+  openTime: '08:00',
+  closeTime: '21:00',
+  days: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+})
+
+// Function to toggle working days on and off
+const toggleDay = (day) => {
+  if (shopSettings.value.days.includes(day)) {
+    shopSettings.value.days = shopSettings.value.days.filter(d => d !== day)
+  } else {
+    shopSettings.value.days.push(day)
+  }
+}
+
+// Function to simulate saving the shop settings
+const saveShopSettings = () => {
+  // In the future, this will send an axios.put() to your Node.js backend
+  alert("Shop settings saved successfully! Your store hours have been updated.")
+}
+
 
 const isModalOpen = ref(false)
 const categories = ['Vegetables', 'Fruits', 'Dairy & Eggs', 'Bakery', 'Pantry Essentials', 'Meat & Seafood', 'Beverages', 'Snacks']
@@ -331,7 +448,7 @@ const saveItem = async () => {
 
     if(response.data.success) {
        inventory.value.unshift(response.data.product);
-       stats.value.activeItems = inventory.value.length; // Update stats when item is added!
+       stats.value.activeItems = inventory.value.length; 
        closeModal();
     }
   } catch (error) {
@@ -362,21 +479,18 @@ onMounted(async () => {
     }
 
     try {
-      // 1. Fetch live Inventory
       const invResponse = await axios.get('http://localhost:3000/api/inventory', {
         headers: { Authorization: `Bearer ${token}` }
       });
       if(invResponse.data.success) {
         inventory.value = invResponse.data.products;
-        stats.value.activeItems = inventory.value.length; // Calculate Active Items
+        stats.value.activeItems = inventory.value.length; 
       }
 
-      // 2. Fetch live Orders
       const orderResponse = await axios.get('http://localhost:3000/api/inventory/orders', {
         headers: { Authorization: `Bearer ${token}` }
       });
       if(orderResponse.data.success) {
-        // FIXED MAPPING HERE
         activeOrders.value = orderResponse.data.orders.map(order => ({
           id: order._id,
           customerName: order.customerName,
@@ -400,6 +514,7 @@ onMounted(async () => {
     }
   }
 })
+
 const updateOrderStatus = async (orderId, newStatus) => {
   const token = localStorage.getItem('token');
   try {
@@ -409,17 +524,15 @@ const updateOrderStatus = async (orderId, newStatus) => {
     );
 
     if (response.data.success) {
-      // Remove the order from the "Pending" list in the UI
       activeOrders.value = activeOrders.value.filter(o => o.id !== orderId);
-      stats.value.orders = activeOrders.value.length; // Update the stat card
+      stats.value.orders = activeOrders.value.length; 
     }
   } catch (error) {
     console.error("Failed to update status", error);
   }
 }
-// Silently check for new orders every 10 seconds
+
 setInterval(async () => {
-  // 1. You MUST grab the token inside the interval so it has permission!
   const token = localStorage.getItem('token');
   if (!token) return;
 
@@ -428,7 +541,6 @@ setInterval(async () => {
       headers: { Authorization: `Bearer ${token}` }
     });
     if(orderResponse.data.success) {
-      // 2. FIXED MAPPING HERE AS WELL
       activeOrders.value = orderResponse.data.orders.map(order => ({
         id: order._id,
         customerName: order.customerName,
@@ -440,7 +552,6 @@ setInterval(async () => {
       stats.value.orders = activeOrders.value.length;
     }
   } catch (e) {
-    // Fail silently in the background so it doesn't bother the user
   }
 }, 10000);
 </script>
