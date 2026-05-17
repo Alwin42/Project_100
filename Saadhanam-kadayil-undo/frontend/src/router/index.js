@@ -9,6 +9,8 @@ import Stores from '../views/Stores.vue'
 import CustomerDashboard from '../views/CustomerDashboard.vue'
 import VendorOrders from '../views/VendorOrders.vue'
 import VendorPayments from '../views/VendorPayments.vue'
+import CustomerHistory from '../views/CustomerHistory.vue'
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -22,7 +24,8 @@ const router = createRouter({
     { path: '/stores', name: 'stores', component: Stores },
     { path: '/customer-dashboard', name: 'customerDashboard', component: CustomerDashboard },
     { path: '/vendor-orders', name: 'vendorOrders', component: VendorOrders },
-    { path: '/vendor-payments', name: 'vendorPayments', component: VendorPayments }
+    { path: '/vendor-payments', name: 'vendorPayments', component: VendorPayments },
+    { path: '/history', name: 'customerHistory', component: CustomerHistory }
   ],
 })
 

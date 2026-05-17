@@ -72,5 +72,21 @@ router.put('/status/:orderId', authenticateToken, async (req, res) => {
         res.status(500).json({ error: "Failed to update order." });
     }
 });
+// 3. CUSTOMER: Fetch Order History
+router.get('/history', authenticateToken, async (req, res) => {
+    try {
+        // Find all orders belonging to this specific customer
+        // .populate() pulls in the vendor's shopName so we can display it!
+        // .sort({ createdAt: -1 }) ensures the newest orders appear at the top
+        const history = await Order.find({ customerId: req.user.userId })
+            .populate('vendorId', 'shopName')
+            .sort({ createdAt: -1 });
 
+        res.status(200).json({ success: true, history });
+
+    } catch (error) {
+        console.error("Fetch History Error:", error);
+        res.status(500).json({ error: "Failed to fetch order history." });
+    }
+});
 module.exports = router;

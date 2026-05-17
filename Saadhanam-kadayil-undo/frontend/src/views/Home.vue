@@ -5,9 +5,9 @@
 
     <nav class="flex justify-center gap-8 pt-8 mt-17 mb-16 text-lg font-medium text-gray-600">
       <a href="#" class="pb-2 border-b-[3px] border-black text-black font-semibold hover:-translate-y-0.5 transition-transform">Orders</a>
-      <a href="#" class="pb-2 hover:text-black hover:-translate-y-0.5 transition-all duration-300">History</a>
+      <router-link to="/history"class="pb-2 hover:text-black hover:-translate-y-0.5 transition-all duration-300">History</router-link>
       <a href="#" class="pb-2 hover:text-black hover:-translate-y-0.5 transition-all duration-300">Payments</a>
-    </nav>
+    </nav> 
 
     <main class="max-w-6xl mx-auto px-6 w-full">
       
