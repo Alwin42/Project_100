@@ -6,7 +6,7 @@ const router = express.Router();
 // GET: Fetch all registered vendors
 router.get('/vendors', async (req, res) => {
     try {
-        const vendors = await User.find({ role: 'vendor' }).select('shopName mapUrl address');
+        const vendors = await User.find({ role: 'vendor' }).select('shopName mapUrl address isOpen');
         res.status(200).json({ success: true, vendors });
     } catch (error) {
         console.error("Fetch Vendors Error:", error);
@@ -19,7 +19,7 @@ router.get('/items', async (req, res) => {
     try {
         // Find all items in stock
         // .populate() reaches into the User collection and grabs the shopName!
-        const items = await Product.find({ inStock: true })
+        const items = await Product.find()
             .populate('vendorId', 'shopName') 
             .sort({ createdAt: -1 })
             .limit(20); // Optional: Limit to newest 20 items so the page doesn't lag

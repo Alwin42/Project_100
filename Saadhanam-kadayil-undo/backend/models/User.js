@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const userSchema = new mongoose.Schema({
     email: { type: String, required: true, unique: true, lowercase: true, trim: true },
     role: { type: String, enum: ['customer', 'vendor'], default: 'customer' },
-    
+    isOpen: { type: Boolean, default: true },
     // Vendor-specific fields (These align perfectly with your frontend form)
     shopName: { type: String },
     ownerName: { type: String },

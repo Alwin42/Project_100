@@ -179,7 +179,7 @@
 
               <div class="flex items-center gap-4">
                 <button 
-                  @click="item.inStock = !item.inStock"
+                  @click="toggleStock(item)"
                   class="relative w-14 h-8 rounded-full transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2"
                   :class="item.inStock ? 'bg-primary' : 'bg-gray-300'"
                 >
@@ -375,7 +375,6 @@ import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
 
-// NEW ICONS ADDED HERE for the Shop Operations card and Nav
 import { 
   PlusIcon, ShoppingBagIcon, TrendingUpIcon, PackageIcon, 
   Edit2Icon, XIcon, StoreIcon, ClockIcon, CalendarDaysIcon, 
@@ -394,15 +393,14 @@ const stats = ref({
   activeItems: 0
 })
 
-// NEW: Shop Operations Settings State
+// Shop Operations Settings State
 const shopSettings = ref({
-  isOpen: true,
+  isOpen: true, // Default state, but will now update the DB when saved
   openTime: '08:00',
   closeTime: '21:00',
   days: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 })
 
-// Function to toggle working days on and off
 const toggleDay = (day) => {
   if (shopSettings.value.days.includes(day)) {
     shopSettings.value.days = shopSettings.value.days.filter(d => d !== day)
@@ -411,12 +409,23 @@ const toggleDay = (day) => {
   }
 }
 
-// Function to simulate saving the shop settings
-const saveShopSettings = () => {
-  // In the future, this will send an axios.put() to your Node.js backend
-  alert("Shop settings saved successfully! Your store hours have been updated.")
+// FIXED: Now sends real data to the MongoDB backend!
+const saveShopSettings = async () => {
+  const token = localStorage.getItem('token');
+  try {
+    const response = await axios.put('http://localhost:3000/api/auth/vendor/settings', 
+      { isOpen: shopSettings.value.isOpen },
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    
+    if (response.data.success) {
+      alert("Shop settings saved successfully! Customers will now see your updated status.");
+    }
+  } catch (error) {
+    console.error("Settings Error:", error);
+    alert("Failed to save shop settings. Please try again.");
+  }
 }
-
 
 const isModalOpen = ref(false)
 const categories = ['Vegetables', 'Fruits', 'Dairy & Eggs', 'Bakery', 'Pantry Essentials', 'Meat & Seafood', 'Beverages', 'Snacks']
@@ -478,6 +487,19 @@ onMounted(async () => {
       vendorName.value = decoded.shopName;
     }
 
+    // 1. SAFELY FETCH SETTINGS (Won't crash the page if it fails)
+    try {
+      const settingsResponse = await axios.get('http://localhost:3000/api/auth/vendor/settings', {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      if(settingsResponse.data.success) {
+        shopSettings.value.isOpen = settingsResponse.data.isOpen;
+      }
+    } catch (settingsError) {
+      console.warn("Could not fetch initial shop settings, defaulting to open.", settingsError);
+    }
+
+    // 2. FETCH INVENTORY & ORDERS (These will run even if settings fail!)
     try {
       const invResponse = await axios.get('http://localhost:3000/api/inventory', {
         headers: { Authorization: `Bearer ${token}` }
@@ -508,12 +530,26 @@ onMounted(async () => {
           return sum + amount;
         }, 0);  
       }
-
     } catch (error) {
       console.error("Failed to load dashboard data:", error);
     }
   }
 })
+
+// FIXED: Toggles stock in UI and sends update to the database!
+const toggleStock = async (item) => {
+  const token = localStorage.getItem('token');
+  item.inStock = !item.inStock; 
+  try {
+    await axios.put(`http://localhost:3000/api/inventory/update/${item._id}`, 
+      { inStock: item.inStock }, 
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+  } catch (error) {
+    item.inStock = !item.inStock;
+    console.error("Failed to update stock status", error);
+  }
+}
 
 const updateOrderStatus = async (orderId, newStatus) => {
   const token = localStorage.getItem('token');

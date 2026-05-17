@@ -86,8 +86,11 @@
             </div>
 
             <div class="mt-auto flex items-center justify-between pt-4 border-t border-gray-100">
-              <span class="text-xs font-bold px-3 py-1.5 rounded-full bg-secondary/20 text-primary">
-                Open Now
+              <span 
+                class="text-xs font-bold px-3 py-1.5 rounded-full transition-colors duration-300" 
+                :class="(vendor.isOpen ?? true) ? 'bg-secondary/20 text-primary' : 'bg-gray-100 text-gray-500'"
+              >
+                {{ (vendor.isOpen ?? true) ? 'Open Now' : 'Closed' }}
               </span>
               <a 
                 v-if="vendor.mapUrl"

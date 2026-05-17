@@ -141,27 +141,39 @@
               <div 
                 v-for="(item, index) in items.slice(0, 4)" 
                 :key="item._id" 
-                class="items-center justify-between p-3 bg-gray-50/50 rounded-2xl hover:bg-white hover:shadow-md hover:border-primary/20 border border-transparent transition-all duration-300 group"
-                :class="index > 1 ? 'hidden md:flex' : 'flex'"
+                class="items-center justify-between p-3 rounded-2xl border transition-all duration-300 group"
+                :class="[
+                  index > 1 ? 'hidden md:flex' : 'flex',
+                  item.inStock ? 'bg-gray-50/50 hover:bg-white hover:shadow-md hover:border-primary/20 border-transparent' : 'bg-gray-50/30 border-gray-100 opacity-75 grayscale-[0.2]'
+                ]"
               >
                 <div class="flex items-center gap-4 overflow-hidden">
                   <div class="w-12 h-12 bg-white shadow-sm rounded-xl flex items-center justify-center text-2xl shrink-0 group-hover:scale-105 transition-transform duration-300">
                     {{ item.emoji || '📦' }}
                   </div>
                   <div class="truncate">
-                    <h4 class="font-bold text-gray-900 text-sm truncate group-hover:text-primary transition-colors">{{ item.name }}</h4>
+                    <h4 class="font-bold text-sm truncate flex items-center gap-2" :class="item.inStock ? 'text-gray-900 group-hover:text-primary transition-colors' : 'text-gray-500'">
+                      {{ item.name }}
+                      <span v-if="!item.inStock" class="text-[9px] uppercase tracking-wider font-extrabold bg-red-50 text-red-500 px-2 py-0.5 rounded-md border border-red-100 shrink-0">
+                        Out of Stock
+                      </span>
+                    </h4>
                     <p class="text-xs text-gray-500 flex items-center gap-1 mt-0.5 truncate">
                       <StoreIcon class="w-3 h-3 shrink-0" />
                       {{ item.vendorId ? item.vendorId.shopName : 'Local Vendor' }}
                     </p>
-                    <p class="text-sm font-bold text-primary mt-1">₹{{ item.price }} <span class="text-xs font-medium text-gray-400">/ {{ item.unit }}</span></p>
+                    <p class="text-sm font-bold mt-1" :class="item.inStock ? 'text-primary' : 'text-gray-400'">
+                      ₹{{ item.price }} <span class="text-xs font-medium text-gray-400">/ {{ item.unit }}</span>
+                    </p>
                   </div>
                 </div>
 
                 <button 
-                  @click="reserveItem(item)"
-                  class="bg-white hover:bg-primary text-gray-400 hover:text-white p-2.5 rounded-xl shadow-sm border border-gray-100 transition-all duration-300 active:scale-95 shrink-0 ml-2"
-                  title="Reserve Item"
+                  @click="item.inStock ? reserveItem(item) : null"
+                  :disabled="!item.inStock"
+                  class="p-2.5 rounded-xl shadow-sm border transition-all duration-300 shrink-0 ml-2 flex items-center justify-center"
+                  :class="item.inStock ? 'bg-white hover:bg-primary text-gray-400 hover:text-white border-gray-100 active:scale-95' : 'bg-gray-100 text-gray-300 border-gray-100 cursor-not-allowed'"
+                  :title="item.inStock ? 'Reserve Item' : 'Currently Unavailable'"
                 >
                   <PlusIcon class="w-5 h-5" />
                 </button>
@@ -219,8 +231,8 @@ onMounted(async () => {
         name: vendor.shopName,
         distance: 'Nearby',
         rating: 'New',
-        isOpen: true,
-        emoji: '🏪', // Fixed broken emoji artifact
+        isOpen: vendor.isOpen ?? true,
+        emoji: '🏪', 
         mapUrl: vendor.mapUrl
       }));
     }
