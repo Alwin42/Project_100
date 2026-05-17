@@ -3,34 +3,58 @@
     
     <Navbar @open-login="isModalOpen = true" />
 
-    <nav class="flex justify-center gap-8 pt-8 mt-17 mb-16 text-lg font-medium text-gray-600">
+    <nav class="flex justify-center gap-8 pt-8 mt-17 mb-12 text-lg font-medium text-gray-600">
       <a href="#" class="pb-2 border-b-[3px] border-black text-black font-semibold hover:-translate-y-0.5 transition-transform">Orders</a>
-      <router-link to="/history"class="pb-2 hover:text-black hover:-translate-y-0.5 transition-all duration-300">History</router-link>
+      <router-link to="/history" class="pb-2 hover:text-black hover:-translate-y-0.5 transition-all duration-300">History</router-link>
       <a href="#" class="pb-2 hover:text-black hover:-translate-y-0.5 transition-all duration-300">Payments</a>
     </nav> 
 
     <main class="max-w-6xl mx-auto px-6 w-full">
       
-      <div class="flex flex-col md:flex-row justify-between items-center mb-12 gap-6">
-        <h1 class="text-3xl md:text-4xl font-bold text-primary">
-          Find what you need now!
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 gap-6">
+        <h1 class="text-3xl md:text-5xl font-extrabold text-gray-900 tracking-tight leading-tight">
+          Find what you <br class="hidden md:block"/>need right now!
         </h1>
 
-        <div class="flex items-center bg-secondary rounded-full w-full md:w-112.5 h-12 shadow-sm relative overflow-hidden focus-within:ring-4 focus-within:ring-secondary/40 focus-within:shadow-lg transition-all duration-300 group">
-          <input 
-            v-model="searchQuery"
-            type="text" 
-            placeholder="Search your grocery item" 
-            class="bg-transparent grow px-6 text-gray-800 placeholder-gray-600/70 focus:outline-none font-medium w-full"
-          >
-          <button class="bg-accent-1 h-full px-5 flex items-center justify-center hover:bg-accent-1/90 transition-colors duration-300">
-            <SearchIcon class="w-5 h-5 text-accent-2 group-focus-within:scale-110 transition-transform duration-300" />
-          </button>
+        <div class="w-full md:w-112.5">
+          <div class="flex items-center bg-white rounded-full h-14 shadow-sm border border-gray-200 focus-within:border-primary focus-within:ring-4 focus-within:ring-primary/10 transition-all duration-300 group relative overflow-hidden">
+            
+            <input 
+              v-model="searchQuery"
+              type="text" 
+              placeholder="Search for 'Milk', 'Bread'..." 
+              class="bg-transparent grow pl-6 pr-2 text-gray-800 placeholder-gray-400 focus:outline-none font-medium w-full text-lg"
+            >
+            
+            <button 
+              v-if="searchQuery" 
+              @click="searchQuery = ''"
+              class="p-2 text-gray-400 hover:text-gray-600 transition-colors active:scale-95"
+            >
+              <XIcon class="w-5 h-5" />
+            </button>
+
+            <button class="bg-primary h-full px-6 flex items-center justify-center hover:bg-primary/90 transition-colors duration-300 ml-2">
+              <SearchIcon class="w-5 h-5 text-white group-focus-within:scale-110 transition-transform duration-300" />
+            </button>
+          </div>
+
+          <div class="flex gap-2 mt-3 overflow-x-auto pb-2 scrollbar-hide">
+            <span class="text-xs font-bold text-gray-400 py-1.5 pr-1">Popular:</span>
+            <button 
+              v-for="chip in ['Vegetables', 'Dairy & Eggs', 'Snacks', 'Beverages']" 
+              :key="chip" 
+              @click="searchQuery = chip" 
+              class="text-xs font-bold px-3 py-1.5 rounded-full border border-gray-200 text-gray-500 hover:text-primary hover:border-primary/50 transition-colors whitespace-nowrap active:scale-95"
+            >
+              {{ chip }}
+            </button>
+          </div>
         </div>
       </div>
 
       <section class="mb-16" v-if="topSearches.length > 0">
-        <h2 class="text-2xl font-bold text-primary mb-6">Top Searches</h2>
+        <h2 class="text-2xl font-bold text-gray-900 mb-6">Top Searches</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           <div 
             v-for="item in topSearches" 
@@ -60,7 +84,7 @@
 
       <section class="mb-16">
         <div class="flex items-center justify-between mb-6">
-          <h2 class="text-2xl font-bold text-primary">Nearby Vendors</h2>
+          <h2 class="text-2xl font-bold text-gray-900">Nearby Vendors</h2>
           <button class="text-sm font-bold text-primary hover:text-primary/80 hover:translate-x-1 transition-all duration-300">View Map &rarr;</button>
         </div>
 
@@ -115,7 +139,7 @@
       <section class="mb-16">
         <div class="flex justify-between items-end mb-8">
           <div>
-            <h2 class="text-2xl font-bold text-primary tracking-tight">Browse by Category</h2>
+            <h2 class="text-2xl font-bold text-gray-900 tracking-tight">Browse by Category</h2>
             <p class="text-gray-500 text-sm mt-1 font-medium">Discover what's in stock across local stores.</p>
           </div>
         </div>
@@ -125,8 +149,16 @@
           <p class="font-medium">Finding the freshest items...</p>
         </div>
 
+        <div v-else-if="Object.keys(groupedItems).length === 0 && searchQuery" class="text-center py-16 bg-gray-50 rounded-4xl border border-gray-100 shadow-inner">
+          <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-sm border border-gray-100">
+            <SearchIcon class="w-6 h-6 text-gray-300" />
+          </div>
+          <h3 class="text-xl font-bold text-gray-900 mb-2">No items found</h3>
+          <p class="text-gray-500 font-medium">We couldn't find any items matching "<span class="text-gray-900 font-bold">{{ searchQuery }}</span>".</p>
+          <button @click="searchQuery = ''" class="mt-4 text-primary font-bold hover:underline">Clear Search</button>
+        </div>
+
         <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          
           <div 
             v-for="(items, categoryName) in groupedItems" 
             :key="categoryName" 
@@ -143,7 +175,7 @@
                 :key="item._id" 
                 class="items-center justify-between p-3 rounded-2xl border transition-all duration-300 group"
                 :class="[
-                  index > 1 ? 'hidden md:flex' : 'flex',
+                  index > 1 && !searchQuery ? 'hidden md:flex' : 'flex',
                   item.inStock ? 'bg-gray-50/50 hover:bg-white hover:shadow-md hover:border-primary/20 border-transparent' : 'bg-gray-50/30 border-gray-100 opacity-75 grayscale-[0.2]'
                 ]"
               >
@@ -190,11 +222,11 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue' // Added computed!
+import { ref, computed, onMounted } from 'vue' 
 import axios from 'axios' 
 import Navbar from '../components/Navbar.vue'
-
-import { SearchIcon, MapPinIcon, StarIcon, StoreIcon, Loader2Icon, PlusIcon } from 'lucide-vue-next'
+// ADDED XIcon here!
+import { SearchIcon, MapPinIcon, StarIcon, StoreIcon, Loader2Icon, PlusIcon, XIcon } from 'lucide-vue-next'
 
 const searchQuery = ref('')
 const isModalOpen = ref(false)
@@ -203,14 +235,22 @@ const allItems = ref([])
 const topSearches = ref([]) 
 const nearbyVendors = ref([])
 
-// NEW: Computed property to automatically group fetched items by their Category
+// FIXED: Only ONE groupedItems declaration now! Includes the search filter logic.
 const groupedItems = computed(() => {
   const groups = {};
+  const query = searchQuery.value.toLowerCase().trim();
   
-  allItems.value.forEach(item => {
-    // If an item somehow has no category, put it in "Other"
-    const cat = item.category || 'Other';
+  const filteredItems = allItems.value.filter(item => {
+    if (!query) return true; 
     
+    const itemName = item.name ? item.name.toLowerCase() : '';
+    const categoryName = item.category ? item.category.toLowerCase() : '';
+    
+    return itemName.includes(query) || categoryName.includes(query);
+  });
+
+  filteredItems.forEach(item => {
+    const cat = item.category || 'Other';
     if (!groups[cat]) {
       groups[cat] = [];
     }
@@ -220,10 +260,8 @@ const groupedItems = computed(() => {
   return groups;
 })
 
-// Fetch real data when the home page loads
 onMounted(async () => {
   try {
-    // 1. Fetch Nearby Vendors
     const vendorResponse = await axios.get('http://localhost:3000/api/public/vendors');
     if (vendorResponse.data.success) {
       nearbyVendors.value = vendorResponse.data.vendors.map(vendor => ({
@@ -237,7 +275,6 @@ onMounted(async () => {
       }));
     }
 
-    // 2. Fetch All Items
     const itemsResponse = await axios.get('http://localhost:3000/api/public/items');
     if (itemsResponse.data.success) {
       allItems.value = itemsResponse.data.items;
@@ -264,7 +301,7 @@ const reserveItem = async (item) => {
     );
     
     if (response.data.success) {
-      alert("🎉 " + response.data.message); // Fixed broken emoji artifact
+      alert("🎉 " + response.data.message);
     }
   } catch (error) {
     alert(error.response?.data?.error || "Failed to reserve item.");
