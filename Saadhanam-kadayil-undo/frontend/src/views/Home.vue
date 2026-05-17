@@ -53,7 +53,7 @@
         </div>
       </div>
 
-      <section class="mb-16" v-if="topSearches.length > 0">
+      <section class="mb-16 animate-in fade-in duration-500" v-if="!searchQuery && topSearches.length > 0">
         <h2 class="text-2xl font-bold text-gray-900 mb-6">Top Searches</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           <div 
@@ -82,7 +82,7 @@
         </div>
       </section>
 
-      <section class="mb-16">
+      <section class="mb-16 animate-in fade-in duration-500" v-if="!searchQuery">
         <div class="flex items-center justify-between mb-6">
           <h2 class="text-2xl font-bold text-gray-900">Nearby Vendors</h2>
           <button class="text-sm font-bold text-primary hover:text-primary/80 hover:translate-x-1 transition-all duration-300">View Map &rarr;</button>
@@ -139,8 +139,12 @@
       <section class="mb-16">
         <div class="flex justify-between items-end mb-8">
           <div>
-            <h2 class="text-2xl font-bold text-gray-900 tracking-tight">Browse by Category</h2>
-            <p class="text-gray-500 text-sm mt-1 font-medium">Discover what's in stock across local stores.</p>
+            <h2 class="text-2xl font-bold text-gray-900 tracking-tight">
+              {{ searchQuery ? 'Search Results' : 'Browse by Category' }}
+            </h2>
+            <p class="text-gray-500 text-sm mt-1 font-medium">
+              {{ searchQuery ? `Showing results for "${searchQuery}"` : "Discover what's in stock across local stores." }}
+            </p>
           </div>
         </div>
 
@@ -225,7 +229,6 @@
 import { ref, computed, onMounted } from 'vue' 
 import axios from 'axios' 
 import Navbar from '../components/Navbar.vue'
-// ADDED XIcon here!
 import { SearchIcon, MapPinIcon, StarIcon, StoreIcon, Loader2Icon, PlusIcon, XIcon } from 'lucide-vue-next'
 
 const searchQuery = ref('')
@@ -235,7 +238,6 @@ const allItems = ref([])
 const topSearches = ref([]) 
 const nearbyVendors = ref([])
 
-// FIXED: Only ONE groupedItems declaration now! Includes the search filter logic.
 const groupedItems = computed(() => {
   const groups = {};
   const query = searchQuery.value.toLowerCase().trim();
