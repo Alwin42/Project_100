@@ -137,33 +137,40 @@ router.post('/vendor/login', async (req, res) => {
         res.status(500).json({ error: "Server error during login." });
     }
 });
-
-// --- 4. GET VENDOR SETTINGS (OPEN/CLOSE STATUS) ---
+// GET VENDOR SETTINGS
 router.get('/vendor/settings', authenticateToken, async (req, res) => {
     try {
         const user = await User.findById(req.user.userId);
         if (!user) return res.status(404).json({ error: "User not found." });
-        res.status(200).json({ success: true, isOpen: user.isOpen ?? true });
+        
+        // Send back all three settings
+        res.status(200).json({ 
+            success: true, 
+            isOpen: user.isOpen ?? true,
+            openTime: user.openTime || '08:00',
+            closeTime: user.closeTime || '21:00'
+        });
     } catch (error) {
         res.status(500).json({ error: "Failed to fetch shop settings." });
     }
 });
 
-// --- 5. PUT VENDOR SETTINGS (OPEN/CLOSE STATUS) ---
+// PUT VENDOR SETTINGS
 router.put('/vendor/settings', authenticateToken, async (req, res) => {
     try {
-        const { isOpen } = req.body;
-       const updatedUser = await User.findByIdAndUpdate(
-       req.user.userId, 
-       { isOpen: isOpen }, 
-       { returnDocument: 'after' } 
+        // Accept all three settings from the frontend request
+        const { isOpen, openTime, closeTime } = req.body;
+        
+        const updatedUser = await User.findByIdAndUpdate(
+            req.user.userId, 
+            { isOpen, openTime, closeTime }, 
+            { returnDocument: 'after' }
         );
         if (!updatedUser) return res.status(404).json({ error: "User not found." });
-        res.status(200).json({ success: true, isOpen: updatedUser.isOpen });
+        res.status(200).json({ success: true });
     } catch (error) {
         res.status(500).json({ error: "Failed to update shop settings." });
     }
 });
-
 
 module.exports = router;

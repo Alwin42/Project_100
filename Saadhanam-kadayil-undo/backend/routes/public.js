@@ -6,7 +6,8 @@ const router = express.Router();
 // GET: Fetch all registered vendors
 router.get('/vendors', async (req, res) => {
     try {
-        const vendors = await User.find({ role: 'vendor' }).select('shopName mapUrl address isOpen');
+        const vendors = await User.find({ role: 'vendor' })
+    .select('shopName mapUrl address isOpen openTime closeTime');
         res.status(200).json({ success: true, vendors });
     } catch (error) {
         console.error("Fetch Vendors Error:", error);

@@ -395,7 +395,7 @@ const stats = ref({
 
 // Shop Operations Settings State
 const shopSettings = ref({
-  isOpen: true, // Default state, but will now update the DB when saved
+  isOpen: true, 
   openTime: '08:00',
   closeTime: '21:00',
   days: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
@@ -409,21 +409,23 @@ const toggleDay = (day) => {
   }
 }
 
-// FIXED: Now sends real data to the MongoDB backend!
+// Update the save function to include the times
 const saveShopSettings = async () => {
   const token = localStorage.getItem('token');
   try {
     const response = await axios.put('http://localhost:3000/api/auth/vendor/settings', 
-      { isOpen: shopSettings.value.isOpen },
+      { 
+        isOpen: shopSettings.value.isOpen,
+        openTime: shopSettings.value.openTime,
+        closeTime: shopSettings.value.closeTime
+      },
       { headers: { Authorization: `Bearer ${token}` } }
     );
-    
     if (response.data.success) {
-      alert("Shop settings saved successfully! Customers will now see your updated status.");
+      alert("Shop settings saved successfully!");
     }
   } catch (error) {
-    console.error("Settings Error:", error);
-    alert("Failed to save shop settings. Please try again.");
+    alert("Failed to save shop settings.");
   }
 }
 
@@ -494,9 +496,11 @@ onMounted(async () => {
       });
       if(settingsResponse.data.success) {
         shopSettings.value.isOpen = settingsResponse.data.isOpen;
+        shopSettings.value.openTime = settingsResponse.data.openTime;
+        shopSettings.value.closeTime = settingsResponse.data.closeTime;
       }
     } catch (settingsError) {
-      console.warn("Could not fetch initial shop settings, defaulting to open.", settingsError);
+      console.warn("Could not fetch initial shop settings.", settingsError);
     }
 
     // 2. FETCH INVENTORY & ORDERS (These will run even if settings fail!)

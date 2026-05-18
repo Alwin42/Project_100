@@ -4,14 +4,14 @@ const userSchema = new mongoose.Schema({
     email: { type: String, required: true, unique: true, lowercase: true, trim: true },
     role: { type: String, enum: ['customer', 'vendor'], default: 'customer' },
     isOpen: { type: Boolean, default: true },
-    // Vendor-specific fields (These align perfectly with your frontend form)
+    openTime: { type: String, default: '08:00' },  
+    closeTime: { type: String, default: '21:00' }, 
     shopName: { type: String },
     ownerName: { type: String },
     phone: { type: String },
     address: { type: String },
     mapUrl: { type: String },
-    password: { type: String }, // Only vendors will have this
-    
+    password: { type: String }, 
     lastLogin: { type: Date, default: Date.now }
 }, { timestamps: true });
 

@@ -82,6 +82,11 @@
                   <MapPinIcon class="w-4 h-4 shrink-0 mt-0.5 text-gray-400" />
                   {{ vendor.address || 'Address not provided' }}
                 </p>
+                
+                <p v-if="vendor.openTime && vendor.closeTime" class="text-sm text-gray-500 font-medium mt-1.5 flex items-center gap-1.5">
+                  <ClockIcon class="w-4 h-4 shrink-0 text-secondary" />
+                  {{ formatTime(vendor.openTime) }} - {{ formatTime(vendor.closeTime) }}
+                </p>
               </div>
             </div>
 
@@ -116,10 +121,20 @@ import { ref, computed, onMounted } from 'vue'
 import axios from 'axios'
 import Navbar from '../components/Navbar.vue'
 import { MapPinIcon, XIcon, Loader2Icon, StarIcon, StoreIcon, MapPinOffIcon } from 'lucide-vue-next'
-
+import { ClockIcon } from 'lucide-vue-next' 
 const vendors = ref([])
 const userLocation = ref('')
 const isLoading = ref(true)
+
+
+const formatTime = (time24) => {
+  if (!time24) return '';
+  const [hour, minute] = time24.split(':');
+  const h = parseInt(hour, 10);
+  const ampm = h >= 12 ? 'PM' : 'AM';
+  const h12 = h % 12 || 12;
+  return `${h12}:${minute} ${ampm}`;
+}
 
 // Fetch all vendors from the database on page load
 onMounted(async () => {
