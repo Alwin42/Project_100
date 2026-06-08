@@ -8,7 +8,7 @@
       <div class="flex flex-col items-start text-left">
         
         <div class=" bg-accent-1 text-primary text-xs md:text-sm font-bold px-4 py-1.5 rounded-full mb-8 shadow-sm border border-accent-1/50">
-          ✨ Find what you need, right now.
+          ✨ Fresh catch & premium cuts, without the wait.
         </div>
 
         <h2 class="text-4xl md:text-6xl font-extrabold text-gray-900 mb-6 leading-tight tracking-tight">
@@ -19,7 +19,7 @@
         </h2>
         
         <p class="text-lg md:text-xl text-gray-600 mb-10 max-w-xl leading-relaxed">
-          Check live stock, reserve items, and order directly from local vendors. Stop guessing if it's in stock before you walk.
+          Skip the messy waiting areas. Check live stock, request your exact cut (curry, fillet, skinless), and reserve premium meat, fish, and farm-fresh eggs from your trusted local butchers before they sell out.
         </p>
 
         <div class="flex flex-wrap gap-4">
@@ -29,7 +29,7 @@
             class="group relative overflow-hidden rounded-full bg-primary px-8 py-3.5 text-lg font-bold text-white shadow-[0_4px_14px_0_rgba(70,132,50,0.39)] transition-all hover:shadow-[0_6px_20px_rgba(70,132,50,0.23)] hover:-translate-y-1 active:translate-y-0 active:shadow-md flex items-center gap-2"
           >
             <span class="absolute inset-0 bg-white/20 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></span>
-            <span>Login to Start Shopping</span>
+            <span>Login to Reserve</span>
             <ArrowRightIcon class="w-5 h-5 transition-all duration-300 group-hover:translate-x-1 group-hover:text-accent-2" />
           </button>
           
@@ -49,7 +49,7 @@
             class="group relative overflow-hidden rounded-full bg-primary px-8 py-3.5 text-lg font-bold text-white shadow-[0_4px_14px_0_rgba(70,132,50,0.39)] transition-all hover:shadow-[0_6px_20px_rgba(70,132,50,0.23)] hover:-translate-y-1 active:translate-y-0 active:shadow-md flex items-center gap-2"
           >
             <span class="absolute inset-0 bg-white/20 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></span>
-            <span>Start Shopping</span>
+            <span>Browse Fresh Cuts</span>
             <ArrowRightIcon class="w-5 h-5 transition-all duration-300 group-hover:translate-x-1 group-hover:text-accent-2" />
           </button>
         </div>
@@ -59,8 +59,8 @@
       <div class="w-full relative group">
          <div class="w-full h-64 md:h-96 bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden relative">
             <img 
-               src="/images/grocery-img.jpg" 
-               alt="Saadhanam Kadayil undo - App Preview" 
+               src="/images/fresh-meat-fish.jpg" 
+               alt="Saadhanam Kadayil undo - Fresh Meat and Fish" 
                class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
             />
             <div class="absolute inset-0 bg-linear-to-t from-black/20 to-transparent pointer-events-none"></div>
@@ -85,7 +85,6 @@ const isModalOpen = ref(false)
 const isLoggedIn = ref(false)
 const router = useRouter()
 
-// Check if the user is logged in when the landing page loads
 onMounted(() => {
   const token = localStorage.getItem('token')
   if (token) {
@@ -93,14 +92,11 @@ onMounted(() => {
   }
 })
 
-// Function to route logged-in users directly to the store
 const goToShop = () => {
   router.push('/home')
 }
 
-//  Function to route users to the Vendor Login page
 const goToVendorLogin = () => {
-  
   router.push('/vendor-login')
 }
 </script>
