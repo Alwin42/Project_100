@@ -4,7 +4,7 @@
     <Navbar @open-login="isModalOpen = true" />
 
     <nav class="flex justify-center gap-8 pt-8 mt-17 mb-12 text-lg font-medium text-gray-600">
-      <a href="#" class="pb-2 border-b-[3px] border-black text-black font-semibold hover:-translate-y-0.5 transition-transform">Orders</a>
+      <a href="#" class="pb-2 border-b-[3px] border-black text-black font-semibold hover:-translate-y-0.5 transition-transform">Reservations</a>
       <router-link to="/history" class="pb-2 hover:text-black hover:-translate-y-0.5 transition-all duration-300">History</router-link>
       <a href="#" class="pb-2 hover:text-black hover:-translate-y-0.5 transition-all duration-300">Payments</a>
     </nav> 
@@ -13,7 +13,7 @@
       
       <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 gap-6">
         <h1 class="text-3xl md:text-5xl font-extrabold text-gray-900 tracking-tight leading-tight">
-          Find what you <br class="hidden md:block"/>need right now!
+          Fresh catch & <br class="hidden md:block"/>premium cuts
         </h1>
 
         <div class="w-full md:w-112.5">
@@ -22,7 +22,7 @@
             <input 
               v-model="searchQuery"
               type="text" 
-              placeholder="Search for 'Milk', 'Bread'..." 
+              placeholder="Search 'Seer Fish', 'Curry Cut'..." 
               class="bg-transparent grow pl-6 pr-2 text-gray-800 placeholder-gray-400 focus:outline-none font-medium w-full text-lg"
             >
             
@@ -40,9 +40,9 @@
           </div>
 
           <div class="flex gap-2 mt-3 overflow-x-auto pb-2 scrollbar-hide">
-            <span class="text-xs font-bold text-gray-400 py-1.5 pr-1">Popular:</span>
+            <span class="text-xs font-bold text-gray-400 py-1.5 pr-1">Categories:</span>
             <button 
-              v-for="chip in ['Vegetables', 'Dairy & Eggs', 'Snacks', 'Beverages']" 
+              v-for="chip in ['Fish & Seafood', 'Chicken', 'Mutton & Beef', 'Duck & Poultry', 'Farm Eggs']" 
               :key="chip" 
               @click="searchQuery = chip" 
               class="text-xs font-bold px-3 py-1.5 rounded-full border border-gray-200 text-gray-500 hover:text-primary hover:border-primary/50 transition-colors whitespace-nowrap active:scale-95"
@@ -54,7 +54,7 @@
       </div>
 
       <section class="mb-16 animate-in fade-in duration-500" v-if="!searchQuery && topSearches.length > 0">
-        <h2 class="text-2xl font-bold text-gray-900 mb-6">Top Searches</h2>
+        <h2 class="text-2xl font-bold text-gray-900 mb-6">Trending Today</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           <div 
             v-for="item in topSearches" 
@@ -73,10 +73,10 @@
                 <MapPinIcon class="w-3.5 h-3.5 text-accent-2 fill-accent-2" />
                 <span class="text-white/90 text-xs font-medium">{{ item.location }}</span>
               </div>
-              <span class="text-white font-bold text-lg leading-none">₹{{ item.price }}</span>
+              <span class="text-white font-bold text-lg leading-none">Est. ₹{{ item.price }}</span>
             </div>
             <button class="bg-accent-1 text-primary font-bold text-sm tracking-wide rounded-full py-2.5 mx-2 hover:bg-white hover:shadow-md active:scale-95 transition-all duration-300">
-              RESERVE
+              RESERVE CUT
             </button>
           </div>
         </div>
@@ -84,7 +84,7 @@
 
       <section class="mb-16 animate-in fade-in duration-500" v-if="!searchQuery">
         <div class="flex items-center justify-between mb-6">
-          <h2 class="text-2xl font-bold text-gray-900">Nearby Vendors</h2>
+          <h2 class="text-2xl font-bold text-gray-900">Local Butchers & Fishmongers</h2>
           <button class="text-sm font-bold text-primary hover:text-primary/80 hover:translate-x-1 transition-all duration-300">View Map &rarr;</button>
         </div>
 
@@ -96,7 +96,7 @@
           >
             <div class="flex items-start gap-4 mb-4">
               <div class="w-16 h-16 bg-secondary/10 group-hover:bg-secondary/20 rounded-2xl flex items-center justify-center shrink-0 transition-colors duration-300">
-                <span class="text-3xl group-hover:scale-110 transition-transform duration-300">{{ vendor.emoji || '🏪' }}</span>
+                <span class="text-3xl group-hover:scale-110 transition-transform duration-300">{{ vendor.emoji || '🔪' }}</span>
               </div>
               
               <div class="grow">
@@ -140,17 +140,17 @@
         <div class="flex justify-between items-end mb-8">
           <div>
             <h2 class="text-2xl font-bold text-gray-900 tracking-tight">
-              {{ searchQuery ? 'Search Results' : 'Browse by Category' }}
+              {{ searchQuery ? 'Search Results' : 'Browse Fresh Stock' }}
             </h2>
             <p class="text-gray-500 text-sm mt-1 font-medium">
-              {{ searchQuery ? `Showing results for "${searchQuery}"` : "Discover what's in stock across local stores." }}
+              {{ searchQuery ? `Showing results for "${searchQuery}"` : "Discover what your local vendors have in stock today." }}
             </p>
           </div>
         </div>
 
         <div v-if="allItems.length === 0" class="text-center py-12 text-gray-400">
           <Loader2Icon class="w-8 h-8 animate-spin mx-auto mb-3 text-secondary" />
-          <p class="font-medium">Finding the freshest items...</p>
+          <p class="font-medium">Finding the freshest cuts...</p>
         </div>
 
         <div v-else-if="Object.keys(groupedItems).length === 0 && searchQuery" class="text-center py-16 bg-gray-50 rounded-4xl border border-gray-100 shadow-inner">
@@ -158,7 +158,7 @@
             <SearchIcon class="w-6 h-6 text-gray-300" />
           </div>
           <h3 class="text-xl font-bold text-gray-900 mb-2">No items found</h3>
-          <p class="text-gray-500 font-medium">We couldn't find any items matching "<span class="text-gray-900 font-bold">{{ searchQuery }}</span>".</p>
+          <p class="text-gray-500 font-medium">We couldn't find any fresh stock matching "<span class="text-gray-900 font-bold">{{ searchQuery }}</span>".</p>
           <button @click="searchQuery = ''" class="mt-4 text-primary font-bold hover:underline">Clear Search</button>
         </div>
 
@@ -185,21 +185,21 @@
               >
                 <div class="flex items-center gap-4 overflow-hidden">
                   <div class="w-12 h-12 bg-white shadow-sm rounded-xl flex items-center justify-center text-2xl shrink-0 group-hover:scale-105 transition-transform duration-300">
-                    {{ item.emoji || '📦' }}
+                    {{ item.emoji || '🥩' }}
                   </div>
                   <div class="truncate">
                     <h4 class="font-bold text-sm truncate flex items-center gap-2" :class="item.inStock ? 'text-gray-900 group-hover:text-primary transition-colors' : 'text-gray-500'">
                       {{ item.name }}
                       <span v-if="!item.inStock" class="text-[9px] uppercase tracking-wider font-extrabold bg-red-50 text-red-500 px-2 py-0.5 rounded-md border border-red-100 shrink-0">
-                        Out of Stock
+                        Sold Out
                       </span>
                     </h4>
                     <p class="text-xs text-gray-500 flex items-center gap-1 mt-0.5 truncate">
                       <StoreIcon class="w-3 h-3 shrink-0" />
-                      {{ item.vendorId ? item.vendorId.shopName : 'Local Vendor' }}
+                      {{ item.vendorId ? item.vendorId.shopName : 'Local Butcher' }}
                     </p>
                     <p class="text-sm font-bold mt-1" :class="item.inStock ? 'text-primary' : 'text-gray-400'">
-                      ₹{{ item.price }} <span class="text-xs font-medium text-gray-400">/ {{ item.unit }}</span>
+                      Est. ₹{{ item.price }} <span class="text-xs font-medium text-gray-400">/ {{ item.unit }}</span>
                     </p>
                   </div>
                 </div>
@@ -209,7 +209,7 @@
                   :disabled="!item.inStock"
                   class="p-2.5 rounded-xl shadow-sm border transition-all duration-300 shrink-0 ml-2 flex items-center justify-center"
                   :class="item.inStock ? 'bg-white hover:bg-primary text-gray-400 hover:text-white border-gray-100 active:scale-95' : 'bg-gray-100 text-gray-300 border-gray-100 cursor-not-allowed'"
-                  :title="item.inStock ? 'Reserve Item' : 'Currently Unavailable'"
+                  :title="item.inStock ? 'Reserve Cut' : 'Currently Unavailable'"
                 >
                   <PlusIcon class="w-5 h-5" />
                 </button>
@@ -272,7 +272,7 @@ onMounted(async () => {
         distance: 'Nearby',
         rating: 'New',
         isOpen: vendor.isOpen ?? true,
-        emoji: '🏪', 
+        emoji: '🔪', 
         mapUrl: vendor.mapUrl
       }));
     }
