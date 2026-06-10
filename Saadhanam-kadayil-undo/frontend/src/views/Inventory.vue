@@ -19,7 +19,6 @@
         </button>
       </div>
 
-      <!-- Search Bar -->
       <div class="bg-white p-4 rounded-3xl border border-gray-100 shadow-sm flex items-center gap-4 mb-8 group hover:shadow-md transition-shadow duration-300">
         <div class="flex items-center bg-gray-50 rounded-2xl grow h-12 px-4 border border-gray-200 focus-within:border-primary focus-within:ring-4 focus-within:ring-primary/10 transition-all duration-300">
           <SearchIcon class="w-5 h-5 text-gray-400 group-focus-within:text-primary transition-colors duration-300" />
@@ -34,26 +33,21 @@
 
       <div class="bg-white rounded-4xl border border-gray-100 shadow-sm p-4 md:p-6 transition-all duration-300">
         
-        <!-- Empty State -->
         <div v-if="Object.keys(groupedInventory).length === 0" class="p-16 text-center text-gray-500 flex flex-col items-center">
           <PackageOpenIcon class="w-16 h-16 mb-4 text-gray-300 animate-bounce" />
           <p class="font-bold text-xl text-gray-700">No items found.</p>
           <p class="text-sm mt-1">Click "Add New Item" to stock your shop.</p>
         </div>
 
-        <!-- Grouped Inventory List -->
         <div v-else class="space-y-8">
           
-          <!-- Loop through Categories -->
           <div v-for="(items, category) in groupedInventory" :key="category" class="animate-in fade-in duration-500">
             
-            <!-- Category Header -->
             <div class="flex items-center gap-3 mb-4 pl-2">
               <h3 class="text-xl font-bold text-gray-900">{{ category }}</h3>
               <span class="bg-gray-100 text-gray-500 text-xs font-bold px-2.5 py-1 rounded-full">{{ items.length }}</span>
             </div>
 
-            <!-- Items in Category -->
             <div class="space-y-3">
               <div 
                 v-for="item in items" 
@@ -62,12 +56,12 @@
               >
                 <div class="flex items-center gap-4">
                   <div class="w-14 h-14 bg-secondary/10 rounded-2xl flex items-center justify-center text-primary shadow-sm shrink-0 group-hover:bg-primary group-hover:text-white transition-colors duration-300">
-                    <span class="text-2xl">{{ item.emoji || '📦' }}</span>
+                    <span class="text-2xl">{{ item.emoji || '🥩' }}</span>
                   </div>
                   <div>
                     <h4 class="font-bold text-gray-900 text-lg leading-tight group-hover:text-primary transition-colors duration-300">{{ item.name }}</h4>
                     <div class="flex items-center gap-2 mt-1">
-                      <span class="text-sm font-bold text-primary">₹{{ item.price }} / {{ item.unit }}</span>
+                      <span class="text-sm font-bold text-primary">Est. ₹{{ item.price }} / {{ item.unit }}</span>
                     </div>
                   </div>
                 </div>
@@ -108,7 +102,6 @@
 
     </main>
 
-    <!-- Modal -->
     <transition
       enter-active-class="transition duration-300 ease-out"
       enter-from-class="opacity-0 scale-95 translate-y-4"
@@ -136,7 +129,7 @@
               <input 
                 v-model="formData.name" 
                 type="text" 
-                placeholder="e.g. Fresh Tomatoes"
+                placeholder="e.g. Seer Fish, Mutton Curry Cut"
                 class="w-full px-5 py-3.5 bg-gray-50 border border-gray-200 rounded-2xl focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all font-medium text-gray-800 hover:border-gray-300"
                 required
               />
@@ -156,7 +149,7 @@
 
             <div class="grid grid-cols-2 gap-4">
               <div>
-                <label class="block text-sm font-bold text-gray-700 mb-2">Price (₹)</label>
+                <label class="block text-sm font-bold text-gray-700 mb-2">Estimated Price (₹)</label>
                 <input 
                   v-model="formData.price" 
                   type="number" 
@@ -222,15 +215,15 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue' // Added onMounted
-import axios from 'axios' // Added axios
+import { ref, computed, onMounted } from 'vue' 
+import axios from 'axios' 
 import Navbar from '../components/Navbar.vue'
 import { PlusIcon, SearchIcon, Edit2Icon, Trash2Icon, PackageOpenIcon, XIcon } from 'lucide-vue-next'
 
-const categories = ['Vegetables', 'Fruits', 'Dairy & Eggs', 'Bakery', 'Pantry Essentials', 'Meat & Seafood', 'Beverages', 'Snacks']
-const units = ['kg', 'gram', 'packet', 'liter', 'ml', 'nos', 'dozen']
+const categories = ['Fish & Seafood', 'Chicken', 'Mutton & Beef', 'Duck & Poultry', 'Farm Eggs', 'Marinades & Spices']
+const units = ['kg', 'gram', 'nos', 'dozen']
 
-const inventory = ref([]) // BUCKET FOR MONGODB DATA
+const inventory = ref([]) 
 
 const searchQuery = ref('')
 const isModalOpen = ref(false)
@@ -245,7 +238,6 @@ const formData = ref({
   inStock: true
 })
 
-// FETCH INVENTORY ON LOAD
 const fetchInventory = async () => {
   const token = localStorage.getItem('token');
   try {
@@ -264,11 +256,9 @@ onMounted(() => {
   fetchInventory();
 })
 
-// COMPUTED PROPERTY: Groups items by category and handles search!
 const groupedInventory = computed(() => {
   let items = inventory.value;
   
-  // 1. Filter by search query first
   if (searchQuery.value) {
     const query = searchQuery.value.toLowerCase()
     items = items.filter(item => 
@@ -277,7 +267,6 @@ const groupedInventory = computed(() => {
     )
   }
 
-  // 2. Group the filtered items by category
   const groups = {};
   items.forEach(item => {
     if (!groups[item.category]) {
@@ -286,10 +275,9 @@ const groupedInventory = computed(() => {
     groups[item.category].push(item);
   });
 
-  return groups; // Returns an object like: { 'Vegetables': [item1, item2], 'Fruits': [item3] }
+  return groups; 
 })
 
-// MODAL LOGIC
 const openAddModal = () => {
   isEditing.value = false
   currentItemId.value = null
@@ -299,7 +287,7 @@ const openAddModal = () => {
 
 const openEditModal = (item) => {
   isEditing.value = true
-  currentItemId.value = item._id // Changed from id to _id
+  currentItemId.value = item._id 
   formData.value = { ...item } 
   isModalOpen.value = true
 }
@@ -308,12 +296,10 @@ const closeModal = () => {
   isModalOpen.value = false
 }
 
-// REAL DATABASE CRUD OPERATIONS
 const saveItem = async () => {
   const token = localStorage.getItem('token');
   try {
     if (isEditing.value) {
-      // UPDATE EXISTING ITEM
       const response = await axios.put(`http://localhost:3000/api/inventory/update/${currentItemId.value}`, formData.value, {
         headers: { Authorization: `Bearer ${token}` }
       });
@@ -322,7 +308,6 @@ const saveItem = async () => {
         if (index !== -1) inventory.value[index] = response.data.product;
       }
     } else {
-      // ADD NEW ITEM
       const response = await axios.post('http://localhost:3000/api/inventory/add', formData.value, {
         headers: { Authorization: `Bearer ${token}` }
       });
@@ -338,15 +323,12 @@ const saveItem = async () => {
 
 const toggleStock = async (item) => {
   const token = localStorage.getItem('token');
-  // Instantly toggle in UI for snappiness
   item.inStock = !item.inStock; 
   try {
-    // Send update to DB behind the scenes
     await axios.put(`http://localhost:3000/api/inventory/update/${item._id}`, { inStock: item.inStock }, {
       headers: { Authorization: `Bearer ${token}` }
     });
   } catch (error) {
-    // If it fails, revert the UI toggle
     item.inStock = !item.inStock;
     console.error("Failed to update stock status", error);
   }
@@ -359,7 +341,6 @@ const deleteItem = async (id) => {
       await axios.delete(`http://localhost:3000/api/inventory/delete/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      // Remove from UI array
       inventory.value = inventory.value.filter(item => item._id !== id);
     } catch (error) {
       console.error("Failed to delete item", error);

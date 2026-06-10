@@ -39,7 +39,7 @@
         </button>
       </nav>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
         
         <div class="bg-primary rounded-4xl p-6 text-white shadow-lg shadow-primary/20 relative overflow-hidden group hover:-translate-y-1.5 transition-all duration-300 cursor-default">
           <div class="absolute top-0 right-0 -mr-6 -mt-6 w-32 h-32 bg-white/10 rounded-full blur-2xl pointer-events-none group-hover:scale-150 transition-transform duration-700"></div>
@@ -65,6 +65,19 @@
           </div>
         </div>
 
+        <div class="bg-white rounded-4xl p-6 border border-gray-100 shadow-sm hover:shadow-xl hover:shadow-yellow-200/50 hover:border-yellow-200 hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between group cursor-default">
+          <div class="flex justify-between items-start mb-4">
+            <div class="p-2.5 bg-red-50 rounded-2xl group-hover:bg-yellow-100 transition-colors duration-300">
+              <ReceiptIcon class="w-6 h-6 text-yellow-500" />
+            </div>
+             <span class="text-gray-400 text-xs font-bold px-2 py-1 bg-gray-50 rounded-full border border-gray-100">3%</span>
+          </div>
+          <div>
+            <h3 class="text-gray-500 font-medium mb-1 flex items-center gap-1.5">Platform Fee</h3>
+            <p class="text-3xl font-bold text-yellow-600">₹{{ calculatedFee }}</p>
+          </div>
+        </div>
+
         <div class="bg-white rounded-4xl p-6 border border-gray-100 shadow-sm hover:shadow-xl hover:shadow-gray-200/50 hover:border-gray-200 hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between group cursor-default">
           <div class="flex justify-between items-start mb-4">
             <div class="p-2.5 bg-accent-1/40 rounded-2xl group-hover:bg-accent-1/60 transition-colors duration-300">
@@ -72,7 +85,7 @@
             </div>
           </div>
           <div>
-            <h3 class="text-gray-500 font-medium mb-1">Active Items in Store</h3>
+            <h3 class="text-gray-500 font-medium mb-1">Active Items</h3>
             <p class="text-3xl font-bold text-gray-900">{{ stats.activeItems }}</p>
           </div>
         </div>
@@ -89,10 +102,10 @@
           </button>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
           
-          <div class="flex flex-col justify-center items-start bg-gray-50 p-4 rounded-3xl border border-gray-100">
-            <p class="text-sm font-bold text-gray-500 mb-3">Master Switch</p>
+          <div class="flex flex-col justify-center items-start bg-gray-50 p-5 rounded-3xl border border-gray-100 h-full">
+            <p class="text-sm font-bold text-gray-500 mb-4">Master Switch</p>
             <div class="flex items-center gap-4">
               <button 
                 @click="shopSettings.isOpen = !shopSettings.isOpen"
@@ -110,7 +123,26 @@
             </div>
           </div>
 
-          <div class="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6 bg-gray-50 p-4 rounded-3xl border border-gray-100">
+          <div class="flex flex-col justify-center items-start bg-gray-50 p-5 rounded-3xl border border-gray-100 h-full">
+            <p class="text-sm font-bold text-gray-500 mb-4 flex items-center gap-1.5"><TruckIcon class="w-4 h-4"/> Home Delivery</p>
+            <div class="flex items-center gap-4">
+              <button 
+                @click="shopSettings.deliveryAvailable = !shopSettings.deliveryAvailable"
+                class="relative w-16 h-9 rounded-full transition-colors duration-300 focus:outline-none shadow-inner"
+                :class="shopSettings.deliveryAvailable ? 'bg-secondary' : 'bg-gray-300'"
+              >
+                <div 
+                  class="absolute top-1 left-1 bg-white w-7 h-7 rounded-full transition-transform duration-300 shadow-sm flex items-center justify-center"
+                  :class="shopSettings.deliveryAvailable ? 'translate-x-7' : 'translate-x-0'"
+                ></div>
+              </button>
+              <span class="font-bold text-sm transition-colors duration-300 leading-tight" :class="shopSettings.deliveryAvailable ? 'text-gray-900' : 'text-gray-400'">
+                {{ shopSettings.deliveryAvailable ? "Delivery Enabled" : "Pickup Only" }}
+              </span>
+            </div>
+          </div>
+
+          <div class="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6 bg-gray-50 p-5 rounded-3xl border border-gray-100">
             <div>
               <p class="text-sm font-bold text-gray-500 mb-2 flex items-center gap-1.5"><ClockIcon class="w-4 h-4"/> Opening Time</p>
               <input 
@@ -128,7 +160,7 @@
               >
             </div>
             
-            <div class="md:col-span-2 pt-2 border-t border-gray-200">
+            <div class="md:col-span-2 pt-3 border-t border-gray-200">
               <p class="text-sm font-bold text-gray-500 mb-3 flex items-center gap-1.5"><CalendarDaysIcon class="w-4 h-4"/> Working Days</p>
               <div class="flex flex-wrap gap-2">
                 <button 
@@ -371,14 +403,14 @@
 
 <script setup>
 import Navbar from '../components/Navbar.vue'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue' // ADDED computed
 import { useRouter } from 'vue-router'
 import axios from 'axios'
 
 import { 
   PlusIcon, ShoppingBagIcon, TrendingUpIcon, PackageIcon, 
   Edit2Icon, XIcon, StoreIcon, ClockIcon, CalendarDaysIcon, 
-  FileTextIcon, CreditCardIcon 
+  FileTextIcon, CreditCardIcon, ReceiptIcon, TruckIcon // ADDED NEW ICONS
 } from 'lucide-vue-next'
 
 const router = useRouter()
@@ -393,9 +425,15 @@ const stats = ref({
   activeItems: 0
 })
 
-// Shop Operations Settings State
+// NEW: Compute the 3% platform fee based on expected revenue
+const calculatedFee = computed(() => {
+  return (stats.value.revenue * 0.03).toFixed(2);
+})
+
+// UPDATED: Added deliveryAvailable state
 const shopSettings = ref({
   isOpen: true, 
+  deliveryAvailable: false, // NEW
   openTime: '08:00',
   closeTime: '21:00',
   days: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
@@ -409,13 +447,14 @@ const toggleDay = (day) => {
   }
 }
 
-// Update the save function to include the times
+// UPDATED: Include deliveryAvailable in the payload
 const saveShopSettings = async () => {
   const token = localStorage.getItem('token');
   try {
     const response = await axios.put('http://localhost:3000/api/auth/vendor/settings', 
       { 
         isOpen: shopSettings.value.isOpen,
+        deliveryAvailable: shopSettings.value.deliveryAvailable, // NEW
         openTime: shopSettings.value.openTime,
         closeTime: shopSettings.value.closeTime
       },
@@ -489,13 +528,14 @@ onMounted(async () => {
       vendorName.value = decoded.shopName;
     }
 
-    // 1. SAFELY FETCH SETTINGS (Won't crash the page if it fails)
+    // UPDATED: Fetch the new deliveryAvailable state
     try {
       const settingsResponse = await axios.get('http://localhost:3000/api/auth/vendor/settings', {
         headers: { Authorization: `Bearer ${token}` }
       });
       if(settingsResponse.data.success) {
         shopSettings.value.isOpen = settingsResponse.data.isOpen;
+        shopSettings.value.deliveryAvailable = settingsResponse.data.deliveryAvailable || false; // NEW
         shopSettings.value.openTime = settingsResponse.data.openTime;
         shopSettings.value.closeTime = settingsResponse.data.closeTime;
       }
@@ -503,7 +543,6 @@ onMounted(async () => {
       console.warn("Could not fetch initial shop settings.", settingsError);
     }
 
-    // 2. FETCH INVENTORY & ORDERS (These will run even if settings fail!)
     try {
       const invResponse = await axios.get('http://localhost:3000/api/inventory', {
         headers: { Authorization: `Bearer ${token}` }
@@ -540,7 +579,6 @@ onMounted(async () => {
   }
 })
 
-// FIXED: Toggles stock in UI and sends update to the database!
 const toggleStock = async (item) => {
   const token = localStorage.getItem('token');
   item.inStock = !item.inStock; 
