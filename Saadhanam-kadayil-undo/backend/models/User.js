@@ -9,7 +9,13 @@ const userSchema = new mongoose.Schema({
     shopName: { type: String },
     ownerName: { type: String },
     phone: { type: String },
-    address: { type: String },
+    address: {
+        state: { type: String },
+        district: { type: String },
+        area: { type: String },
+        streetOrBuilding: { type: String } 
+    },
+    
     mapUrl: { type: String },
     password: { type: String }, 
     lastLogin: { type: Date, default: Date.now }
