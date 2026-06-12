@@ -7,8 +7,8 @@
       
       <div class="flex flex-col items-start text-left">
         
-        <div class=" bg-accent-1 text-primary text-xs md:text-sm font-bold px-4 py-1.5 rounded-full mb-8 shadow-sm border border-accent-1/50">
-          ✨ Fresh catch & premium cuts, without the wait.
+        <div class="  text-primary text-xs md:text-sm font-bold px-4 py-1.5 rounded-full mb-8 shadow-sm border">
+          Fresh catch & premium cuts, without the wait.
         </div>
 
         <h2 class="text-4xl md:text-6xl font-extrabold text-gray-900 mb-6 leading-tight tracking-tight">
