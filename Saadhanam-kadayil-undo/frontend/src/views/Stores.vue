@@ -80,7 +80,7 @@
                 
                 <p class="text-sm text-gray-500 font-medium mt-2 flex items-start gap-1.5 line-clamp-2">
                   <MapPinIcon class="w-4 h-4 shrink-0 mt-0.5 text-gray-400" />
-                  {{ vendor.address || 'Address not provided' }}
+                  {{  vendor.address.state + ', ' + vendor.address.district + ', ' + vendor.address.area + ', ' + vendor.address.streetOrBuilding  || 'Address not provided' }}
                 </p>
                 
                 <p v-if="vendor.openTime && vendor.closeTime" class="text-sm text-gray-500 font-medium mt-1.5 flex items-center gap-1.5">

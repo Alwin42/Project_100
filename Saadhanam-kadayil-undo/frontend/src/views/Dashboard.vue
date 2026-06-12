@@ -201,7 +201,7 @@
             >
               <div class="flex items-center gap-4">
                 <div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-3xl shadow-sm shrink-0 group-hover:shadow transition-shadow">
-                  {{ item.emoji || '📦' }}
+                  {{ item.emoji || '🥩' }}
                 </div>
                 <div>
                   <h4 class="font-bold text-gray-900 group-hover:text-primary transition-colors">{{ item.name }}</h4>
@@ -316,7 +316,7 @@
               <input 
                 v-model="formData.name" 
                 type="text" 
-                placeholder="e.g. Fresh Tomatoes"
+                placeholder="e.g. Seer Fish, Mutton Curry Cut"
                 class="w-full px-5 py-3.5 bg-gray-50 border border-gray-200 rounded-2xl focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all font-medium text-gray-800 hover:border-gray-300"
                 required
               />
@@ -336,7 +336,7 @@
 
             <div class="grid grid-cols-2 gap-4">
               <div>
-                <label class="block text-sm font-bold text-gray-700 mb-2">Price (₹)</label>
+                <label class="block text-sm font-bold text-gray-700 mb-2">Estimated Price (₹)</label>
                 <input 
                   v-model="formData.price" 
                   type="number" 
@@ -403,14 +403,14 @@
 
 <script setup>
 import Navbar from '../components/Navbar.vue'
-import { ref, onMounted, computed } from 'vue' // ADDED computed
+import { ref, onMounted, computed } from 'vue' 
 import { useRouter } from 'vue-router'
 import axios from 'axios'
 
 import { 
   PlusIcon, ShoppingBagIcon, TrendingUpIcon, PackageIcon, 
   Edit2Icon, XIcon, StoreIcon, ClockIcon, CalendarDaysIcon, 
-  FileTextIcon, CreditCardIcon, ReceiptIcon, TruckIcon // ADDED NEW ICONS
+  FileTextIcon, CreditCardIcon, ReceiptIcon, TruckIcon 
 } from 'lucide-vue-next'
 
 const router = useRouter()
@@ -425,15 +425,13 @@ const stats = ref({
   activeItems: 0
 })
 
-// NEW: Compute the 3% platform fee based on expected revenue
 const calculatedFee = computed(() => {
   return (stats.value.revenue * 0.03).toFixed(2);
 })
 
-// UPDATED: Added deliveryAvailable state
 const shopSettings = ref({
   isOpen: true, 
-  deliveryAvailable: false, // NEW
+  deliveryAvailable: false, 
   openTime: '08:00',
   closeTime: '21:00',
   days: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
@@ -447,14 +445,13 @@ const toggleDay = (day) => {
   }
 }
 
-// UPDATED: Include deliveryAvailable in the payload
 const saveShopSettings = async () => {
   const token = localStorage.getItem('token');
   try {
     const response = await axios.put('http://localhost:3000/api/auth/vendor/settings', 
       { 
         isOpen: shopSettings.value.isOpen,
-        deliveryAvailable: shopSettings.value.deliveryAvailable, // NEW
+        deliveryAvailable: shopSettings.value.deliveryAvailable,
         openTime: shopSettings.value.openTime,
         closeTime: shopSettings.value.closeTime
       },
@@ -469,8 +466,10 @@ const saveShopSettings = async () => {
 }
 
 const isModalOpen = ref(false)
-const categories = ['Vegetables', 'Fruits', 'Dairy & Eggs', 'Bakery', 'Pantry Essentials', 'Meat & Seafood', 'Beverages', 'Snacks']
-const units = ['kg', 'gram', 'packet', 'liter', 'ml', 'nos', 'dozen']
+
+// UPDATED: Syncing categories and units to the new meat/fish pivot
+const categories = ['Fish & Seafood', 'Chicken', 'Mutton' ,' Beef', 'Duck & Poultry', 'Farm Eggs', 'Marinades & Spices']
+const units = ['kg', 'gram', 'nos', 'dozen']
 
 const formData = ref({
   name: '',
@@ -528,14 +527,13 @@ onMounted(async () => {
       vendorName.value = decoded.shopName;
     }
 
-    // UPDATED: Fetch the new deliveryAvailable state
     try {
       const settingsResponse = await axios.get('http://localhost:3000/api/auth/vendor/settings', {
         headers: { Authorization: `Bearer ${token}` }
       });
       if(settingsResponse.data.success) {
         shopSettings.value.isOpen = settingsResponse.data.isOpen;
-        shopSettings.value.deliveryAvailable = settingsResponse.data.deliveryAvailable || false; // NEW
+        shopSettings.value.deliveryAvailable = settingsResponse.data.deliveryAvailable || false; 
         shopSettings.value.openTime = settingsResponse.data.openTime;
         shopSettings.value.closeTime = settingsResponse.data.closeTime;
       }

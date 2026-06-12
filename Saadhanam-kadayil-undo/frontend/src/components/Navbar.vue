@@ -7,7 +7,7 @@
         <div class="p-1.5 bg-secondary/20 rounded-xl group-hover:bg-secondary/40 transition-colors duration-300">
           <ShoppingBasketIcon class="w-5 h-5 text-primary" />
         </div>
-        <h1 class="text-xl font-bold text-gray-900 tracking-tight">StockUndo</h1>
+        <h1 class="text-xl font-bold text-gray-900 tracking-tight">Meat Undo</h1>
       </router-link>
       
       <div class="hidden md:flex items-center gap-3">

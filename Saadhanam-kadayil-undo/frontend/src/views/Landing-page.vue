@@ -12,9 +12,9 @@
         </div>
 
         <h2 class="text-4xl md:text-6xl font-extrabold text-gray-900 mb-6 leading-tight tracking-tight">
-          Saadhanam <br/>         
+          Meat     
           <span class="text-transparent bg-clip-text bg-linear-to-r from-primary to-secondary">
-            kadayil undo?
+          undo?
           </span>
         </h2>
         
