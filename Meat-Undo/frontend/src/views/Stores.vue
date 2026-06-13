@@ -158,8 +158,8 @@ const filteredVendors = computed(() => {
   
   return vendors.value.filter(vendor => {
     // Safely check if the address exists, then check if it includes the query
-    const address = vendor.address ? vendor.address.toLowerCase() : '';
-    const name = vendor.shopName ? vendor.shopName.toLowerCase() : '';
+    const address = vendor.address || ''; 
+    return address.toLowerCase().includes(searchQuery.value.toLowerCase())
     
     return address.includes(query) || name.includes(query);
   });
