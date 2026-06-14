@@ -37,6 +37,13 @@
           <CreditCardIcon class="w-4 h-4" />
           Payments
         </button>
+        <button 
+          @click="router.push('/vendor-help')" 
+          class="pb-3 border-b-2 border-transparent text-gray-500 hover:text-gray-900 font-bold text-sm tracking-wide transition-colors flex items-center gap-1.5"
+        >
+          <LifeBuoyIcon class="w-4 h-4" />
+          Help Center
+        </button>
       </nav>
 
       <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
@@ -410,7 +417,7 @@ import axios from 'axios'
 import { 
   PlusIcon, ShoppingBagIcon, TrendingUpIcon, PackageIcon, 
   Edit2Icon, XIcon, StoreIcon, ClockIcon, CalendarDaysIcon, 
-  FileTextIcon, CreditCardIcon, ReceiptIcon, TruckIcon 
+  FileTextIcon, CreditCardIcon, ReceiptIcon, TruckIcon , LifeBuoyIcon
 } from 'lucide-vue-next'
 
 const router = useRouter()

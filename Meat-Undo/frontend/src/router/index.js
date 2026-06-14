@@ -10,7 +10,7 @@ import CustomerDashboard from '../views/CustomerDashboard.vue'
 import VendorOrders from '../views/VendorOrders.vue'
 import VendorPayments from '../views/VendorPayments.vue'
 import CustomerHistory from '../views/CustomerHistory.vue'
-
+import VendorHelp from '../views/Vendor-help.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -25,7 +25,8 @@ const router = createRouter({
     { path: '/customer-dashboard', name: 'customerDashboard', component: CustomerDashboard },
     { path: '/vendor-orders', name: 'vendorOrders', component: VendorOrders },
     { path: '/vendor-payments', name: 'vendorPayments', component: VendorPayments },
-    { path: '/history', name: 'customerHistory', component: CustomerHistory }
+    { path: '/history', name: 'customerHistory', component: CustomerHistory },
+    { path: '/vendor-help', name: 'VendorHelp', component: VendorHelp },
   ],
 })
 
