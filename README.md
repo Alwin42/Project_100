@@ -19,7 +19,7 @@
 | 7 | **Synapse** | HTML, Tailwind CSS , Django | Completed | [Synapse](https://github.com/Alwin42/Project_100/tree/main/Synapse)|
 | 8 | **Apex-Rental** | Vue.js , Tailwind CSS, Django | Completed | [Apex-Rental](https://github.com/Alwin42/Project_100/tree/main/Apex-Rentals)|
 | 9 | **Nexus-Learn** | Vue.js , Tailwind CSS, Django | Completed | [Nexus-Learn](https://github.com/Alwin42/Project_100/tree/main/Nexus-Learn)|
-| 10 | **Saadhanam-kadayil-undo** | Vue.js , Tailwind CSS, Express js ,Node js , Mongo DB | Completed | [Saadhanam-kadayil-undo](https://github.com/Alwin42/Project_100/tree/main/Saadhanam-kadayil-undo)|
+ 
 ---
 
 ## 🎯 Goals
