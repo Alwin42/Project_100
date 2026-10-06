@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-// Import the new landing page
+import authpage from '../pages/authpage.vue'
 import LandingPage from '../pages/landing-page.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -7,10 +7,13 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      // Use the new LandingPage component
       component: LandingPage, 
     },
-    // Keep your other routes here if you have them...
+    {
+      path: '/auth',
+      name: 'auth',
+      component: authpage,
+    },
   ],
 })
 

@@ -23,13 +23,14 @@ const toggleMobileMenu = () => {
         <div class="hidden md:flex items-center gap-8">
           <a href="#categories" class="text-gray-600 hover:text-primary transition font-medium">Services</a>
           <a href="#how-it-works" class="text-gray-600 hover:text-primary transition font-medium">How it Works</a>
-          <a href="#provider-cta" class="text-gray-600 hover:text-primary transition font-medium">Become a Pro</a>
+          <a href="/dashboard" class="text-gray-600 hover:text-primary transition font-medium">Dashboard</a>
+
         </div>
 
         <!-- Desktop Auth Buttons -->
         <div class="hidden md:flex items-center gap-3">
-          <button class="px-4 py-2 text-primary font-semibold hover:bg-primary/5 rounded-lg transition">Log In</button>
-          <button class="px-5 py-2 bg-highlight text-white font-semibold rounded-lg hover:opacity-90 transition shadow-lg shadow-highlight/20">Sign Up</button>
+          <router-link to="/auth" class="px-4 py-2 text-primary font-semibold hover:bg-primary/5 rounded-lg transition">Log In</router-link>
+          <router-link to="/auth" class="px-5 py-2 bg-highlight text-white font-semibold rounded-lg hover:opacity-90 transition shadow-lg shadow-highlight/20">Sign Up</router-link>
         </div>
 
         <!-- Mobile Menu Button -->
