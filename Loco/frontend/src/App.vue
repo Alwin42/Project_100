@@ -1,11 +1,12 @@
-<script setup></script>
+<script setup>
+// No script logic needed here since we are using Vue Router
+</script>
 
 <template>
-  <h1>You did it!</h1>
-  <p>
-    Visit <a href="https://vuejs.org/" target="_blank" rel="noopener">vuejs.org</a> to read the
-    documentation
-  </p>
+  <!-- This tells Vue to render whatever component matches the current URL route -->
+  <router-view />
 </template>
 
-<style scoped></style>
+<style>
+/* Global styles are already handled in main.css via Tailwind v4 */
+</style>

@@ -1,0 +1,15 @@
+@import "tailwindcss"; 
+
+@theme {
+  /* Your Custom Loco Color Palette */
+  --color-primary: #2F39A9;    
+  --color-secondary: #2E6FA0;  
+  --color-accent: #49A4BB;     
+  --color-highlight: #15D8B3;  
+  
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
