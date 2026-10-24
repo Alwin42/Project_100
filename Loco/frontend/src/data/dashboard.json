@@ -1,0 +1,60 @@
+{
+  "stats": [
+    { "label": "Upcoming", "value": "2", "icon": "Calendar", "color": "bg-primary/10 text-primary" },
+    { "label": "Completed", "value": "14", "icon": "CheckCircle", "color": "bg-highlight/10 text-secondary" },
+    { "label": "Total Spent", "value": "$1,240", "icon": "DollarSign", "color": "bg-accent/20 text-secondary" },
+    { "label": "Saved Pros", "value": "5", "icon": "Heart", "color": "bg-red-50 text-red-500" }
+  ],
+  "upcomingBookings": [
+    { 
+      "id": 1, 
+      "service": "Deep Home Cleaning", 
+      "provider": "Sarah Lee", 
+      "initials": "SL", 
+      "date": "Today, 2:00 PM", 
+      "status": "Confirmed", 
+      "price": 120 
+    },
+    { 
+      "id": 2, 
+      "service": "Ceiling Fan Installation", 
+      "provider": "David Chen", 
+      "initials": "DC", 
+      "date": "Tomorrow, 10:00 AM", 
+      "status": "Pending", 
+      "price": 65 
+    }
+  ],
+  "recentHistory": [
+    { 
+      "id": 3, 
+      "service": "Emergency Pipe Repair", 
+      "provider": "Marcus Johnson", 
+      "initials": "MJ", 
+      "date": "Oct 24, 2023", 
+      "status": "Completed", 
+      "rating": 5, 
+      "price": 85 
+    },
+    { 
+      "id": 4, 
+      "service": "Interior Wall Painting", 
+      "provider": "Aisha Khan", 
+      "initials": "AK", 
+      "date": "Oct 10, 2023", 
+      "status": "Completed", 
+      "rating": 4, 
+      "price": 200 
+    },
+    { 
+      "id": 5, 
+      "service": "Math Tutoring", 
+      "provider": "Elena Rodriguez", 
+      "initials": "ER", 
+      "date": "Sep 28, 2023", 
+      "status": "Completed", 
+      "rating": 5, 
+      "price": 40 
+    }
+  ]
+}
