@@ -1,0 +1,90 @@
+[
+  {
+    "id": 1,
+    "providerName": "Marcus Johnson",
+    "initials": "MJ",
+    "serviceTitle": "Emergency Pipe Repair",
+    "category": "Plumbing",
+    "price": 85,
+    "rating": 4.9,
+    "location": "North Side",
+    "completedJobs": 142
+  },
+  {
+    "id": 2,
+    "providerName": "Sarah Lee",
+    "initials": "SL",
+    "serviceTitle": "Deep Home Cleaning",
+    "category": "Cleaning",
+    "price": 120,
+    "rating": 4.8,
+    "location": "Downtown",
+    "completedJobs": 89
+  },
+  {
+    "id": 3,
+    "providerName": "David Chen",
+    "initials": "DC",
+    "serviceTitle": "Ceiling Fan Installation",
+    "category": "Electrical",
+    "price": 65,
+    "rating": 4.7,
+    "location": "West End",
+    "completedJobs": 210
+  },
+  {
+    "id": 4,
+    "providerName": "Elena Rodriguez",
+    "initials": "ER",
+    "serviceTitle": "Math Tutoring (High School)",
+    "category": "Tutoring",
+    "price": 40,
+    "rating": 5.0,
+    "location": "Online / East Side",
+    "completedJobs": 305
+  },
+  {
+    "id": 5,
+    "providerName": "Tom Wilson",
+    "initials": "TW",
+    "serviceTitle": "Kitchen Cabinet Refacing",
+    "category": "Construction",
+    "price": 450,
+    "rating": 4.6,
+    "location": "Suburbs",
+    "completedJobs": 54
+  },
+  {
+    "id": 6,
+    "providerName": "Aisha Khan",
+    "initials": "AK",
+    "serviceTitle": "Interior Wall Painting",
+    "category": "Painting",
+    "price": 200,
+    "rating": 4.9,
+    "location": "South Side",
+    "completedJobs": 112
+  },
+  {
+    "id": 7,
+    "providerName": "Robert Smith",
+    "initials": "RS",
+    "serviceTitle": "Custom Deck Building",
+    "category": "Construction",
+    "price": 800,
+    "rating": 4.8,
+    "location": "North Side",
+    "completedJobs": 38
+  },
+  {
+    "id": 8,
+    "providerName": "Linda Park",
+    "initials": "LP",
+    "serviceTitle": "Drain Cleaning & Unclogging",
+    "category": "Plumbing",
+    "price": 70,
+    "rating": 4.5,
+    "location": "Downtown",
+    "completedJobs": 176
+  }
+]

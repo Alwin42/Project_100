@@ -31,31 +31,20 @@ const steps = [
     <Navbar />
 
     <!-- Hero Section -->
-    <section class="relative pt-20 pb-24 md:pt-32 md:pb-32">
+    <section class="relative pt-20 pb-24 md:mt-9 md:pb-32">
       <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h1 class="text-4xl md:text-6xl font-bold tracking-tight text-primary mb-6">
+      <h1 class="text-4xl md:text-6xl font-bold tracking-tight text-primary mb-6">
           Local services, <br class="hidden md:block" />
           <span class="text-gray-900">simplified.</span>
         </h1>
-        <p class="text-lg md:text-xl text-gray-500 max-w-2xl mx-auto mb-12 font-medium">
+        
+        <p class="text-lg md:text-xl text-gray-500 max-w-2xl mx-auto mb-8 font-medium">
           Connect with trusted professionals in your neighborhood. Quality help, right around the corner.
         </p>
-
-        <!-- Search Bar -->
-        <div class="max-w-2xl mx-auto bg-white border border-gray-200 rounded-2xl p-2 flex flex-col sm:flex-row gap-2 shadow-sm">
-          <div class="flex-1 flex items-center gap-3 px-4 py-2">
-            <Search class="w-5 h-5 text-gray-400 flex-shrink-0" />
-            <input v-model="serviceQuery" type="text" placeholder="What service do you need?" class="w-full bg-transparent outline-none text-gray-800 placeholder-gray-400" />
-          </div>
-          <div class="flex-1 flex items-center gap-3 px-4 py-2 border-t sm:border-t-0 sm:border-l border-gray-100">
-            <MapPin class="w-5 h-5 text-gray-400 flex-shrink-0" />
-            <input v-model="locationQuery" type="text" placeholder="Your location" class="w-full bg-transparent outline-none text-gray-800 placeholder-gray-400" />
-          </div>
-          <button class="px-6 py-3 bg-primary text-white font-semibold rounded-xl hover:bg-primary/90 transition flex items-center justify-center gap-2">
-            Search
-            <ArrowRight class="w-4 h-4" />
-          </button>
-        </div>
+        
+        <button class="px-8 py-3 bg-primary text-white font-semibold rounded-xl hover:bg-primary/90 transition shadow-sm">
+          Explore Now
+        </button>
       </div>
     </section>
 
