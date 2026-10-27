@@ -1,75 +1,96 @@
 # 🛠️ Loco - Local Service Provider Platform
 
-**Loco** is a modern, lightweight web application designed to connect local service providers (plumbers, electricians, tutors, cleaners, etc.) with customers in their area. Built with a high-performance, decoupled architecture, it offers a seamless experience for booking, managing, and reviewing local services.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python](https://img.shields.io/badge/Python-3.10+-3776AB?logo=python&logoColor=white)](https://www.python.org/)
+[![Node.js](https://img.shields.io/badge/Node.js-18+-339933?logo=node.js&logoColor=white)](https://nodejs.org/)
+[![Vue.js](https://img.shields.io/badge/Vue.js-3.x-4FC08D?logo=vue.js&logoColor=white)](https://vuejs.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.100+-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4-38B2AC?logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+
+**Loco** is a modern, high-performance web application designed to seamlessly connect local service providers (plumbers, electricians, tutors, cleaners, etc.) with customers in their area. Built with a decoupled, API-first architecture, it offers a robust and intuitive platform for discovering, booking, and managing local services.
 
 ---
 
-## 🚀 Tech Stack
+## 📑 Table of Contents
+- [Overview](#-overview)
+- [Tech Stack](#-tech-stack)
+- [Core Features](#-core-features)
+- [Getting Started](#-getting-started)
+- [Project Structure](#-project-structure)
+- [API Documentation](#-api-documentation)
+- [Roadmap](#-roadmap)
+- [License](#-license)
+
+---
+
+## 🌟 Overview
+Finding reliable local help shouldn't be a hassle. Loco bridges the gap between skilled local professionals and customers who need their services. Whether you need an emergency pipe repair, a deep home cleaning, or a math tutor, Loco provides a verified, transparent, and easy-to-use marketplace.
+
+---
+
+## 💻 Tech Stack
 
 ### Frontend
-- **Vue.js 3** (Composition API)
-- **Vite** (Build tool)
-- **Tailwind CSS v4** (Styling)
-- **Pinia** (State Management)
-- **Vue Router** (Routing)
-- **Axios** (HTTP Client)
+| Technology | Purpose |
+| :--- | :--- |
+| **Vue.js 3** | Progressive JavaScript framework (Composition API) |
+| **Vite** | Next-generation frontend build tool |
+| **Tailwind CSS v4** | Utility-first CSS framework for rapid UI development |
+| **Vue Router** | Official routing library for Single Page Applications |
+| **Pinia** | Intuitive, type-safe state management |
+| **Axios** | Promise-based HTTP client for API communication |
+| **Lucide** | Beautiful & consistent open-source icons |
 
 ### Backend
-- **FastAPI** (High-performance Python web framework)
-- **SQLAlchemy** (ORM)
-- **SQLite3** (Lightweight database, easily upgradable to PostgreSQL)
-- **Pydantic** (Data validation)
-- **Passlib & Python-Jose** (JWT Authentication & Password Hashing)
+| Technology | Purpose |
+| :--- | :--- |
+| **FastAPI** | Modern, high-performance Python web framework |
+| **SQLAlchemy** | Python SQL toolkit and Object Relational Mapper (ORM) |
+| **SQLite3** | Lightweight, serverless relational database |
+| **Pydantic** | Data validation and settings management using Python type annotations |
+| **Bcrypt & Python-Jose** | Secure password hashing and JWT authentication |
 
 ---
 
 ## ✨ Core Features
 
 ### 👤 For Customers
-- Browse and search service providers by category and location.
-- View detailed provider profiles, services, and ratings.
-- Book appointments and manage booking history.
-- Leave reviews and ratings for completed services.
+- **Smart Discovery:** Browse and search service providers by category, location, and ratings.
+- **Transparent Profiles:** View detailed provider profiles, portfolios, and verified customer reviews.
+- **Seamless Booking:** Book appointments instantly and manage your booking history.
+- **Feedback Loop:** Leave reviews and ratings for completed services to help the community.
 
 ### 🛠️ For Service Providers
-- Create and manage a business profile.
-- List services with custom pricing and duration.
-- Accept, manage, and track booking requests.
-- View basic analytics and earnings.
+- **Business Management:** Create and manage a comprehensive business profile.
+- **Service Catalog:** List services with custom pricing, descriptions, and durations.
+- **Booking Control:** Accept, manage, and track incoming booking requests.
+- **Performance Tracking:** View basic analytics, completed jobs, and earnings.
 
 ### 🛡️ For Admins
-- User and provider verification management.
-- Category and platform-wide settings.
-- Review moderation.
+- **Verification:** Manage user and provider verification workflows.
+- **Platform Control:** Manage service categories and platform-wide settings.
+- **Quality Assurance:** Moderate reviews and handle dispute resolutions.
 
 ---
 
-## 📁 Project Structure
+## 🚀 Getting Started
 
-```text
-Project_100/
-├── Loco/
-│   ├── backend/                 # FastAPI Backend
-│   │   ├── app/
-│   │   │   ├── main.py          # App entry point
-│   │   │   ├── database.py      # SQLite connection setup
-│   │   │   ├── models.py        # SQLAlchemy database models
-│   │   │   ├── schemas.py       # Pydantic validation schemas
-│   │   │   ├── routers/         # API route handlers (auth, users, bookings, etc.)
-│   │   │   ├── crud.py          # Database operations
-│   │   │   └── security.py      # JWT & password hashing utilities
-│   │   ├── requirements.txt     # Python dependencies
-│   │   └── .env                 # Environment variables (not committed)
-│   │
-│   └── frontend/                # Vue.js Frontend
-│       ├── src/
-│       │   ├── assets/          # Global CSS (Tailwind v4 entry)
-│       │   ├── components/      # Reusable UI components
-│       │   ├── views/           # Page-level components
-│       │   ├── router/          # Vue Router configuration
-│       │   ├── stores/          # Pinia state management
-│       │   └── main.js          # Vue app entry point
-│       ├── vite.config.js       # Vite config (includes Tailwind v4 plugin)
-│       └── package.json         # Node dependencies
-│
-└── README.md
+### Prerequisites
+Ensure you have the following installed on your machine:
+- **Python** 3.10 or higher
+- **Node.js** 18 or higher & **npm**
+
+### 1. Backend Setup
+```bash
+# Navigate to the backend directory
+cd Loco/backend
+
+# Create and activate a virtual environment
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+
+# Install Python dependencies
+pip install -r requirements.txt
+
+# Start the FastAPI development server
+uvicorn app.main:app --reload
