@@ -20,17 +20,15 @@ const closeMobileMenu = () => {
         
         <!-- Logo -->
         <router-link to="/" class="flex items-center gap-2 group">
-          <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white font-bold text-xl shadow-sm group-hover:shadow-md transition">
-            L
-          </div>
           <span class="text-2xl font-bold text-primary tracking-tight">Loco</span>
         </router-link>
         
         <!-- Desktop Navigation Links -->
         <div class="hidden md:flex items-center gap-8">
-          <a href="#categories" class="text-sm font-medium text-gray-600 hover:text-primary transition">Services</a>
-          <a href="#how-it-works" class="text-sm font-medium text-gray-600 hover:text-primary transition">How it Works</a>
-          <a href="#provider-cta" class="text-sm font-medium text-gray-600 hover:text-primary transition">Become a Pro</a>
+          <router-link to="/" class="text-sm font-medium text-gray-600 hover:text-primary transition">Home</router-link>
+          <router-link to="/home" class="text-sm font-medium text-gray-600 hover:text-primary transition">Services</router-link>
+          <router-link to="/dashboard" class="text-sm font-medium text-gray-600 hover:text-primary transition">Dashboard</router-link>
+          <router-link to="/profile" class="text-sm font-medium text-gray-600 hover:text-primary transition">Profile</router-link>
         </div>
 
         <!-- Desktop Auth Buttons -->
@@ -63,9 +61,10 @@ const closeMobileMenu = () => {
       class="md:hidden bg-white border-t border-gray-100 shadow-lg absolute w-full left-0"
     >
       <div class="px-4 py-4 space-y-2">
-        <a href="#categories" @click="closeMobileMenu" class="block px-3 py-2 text-gray-600 hover:text-primary hover:bg-gray-50 rounded-lg font-medium transition">Services</a>
-        <a href="#how-it-works" @click="closeMobileMenu" class="block px-3 py-2 text-gray-600 hover:text-primary hover:bg-gray-50 rounded-lg font-medium transition">How it Works</a>
-        <a href="#provider-cta" @click="closeMobileMenu" class="block px-3 py-2 text-gray-600 hover:text-primary hover:bg-gray-50 rounded-lg font-medium transition">Become a Pro</a>
+        <router-link to="/" @click="closeMobileMenu" class="block px-3 py-2 text-gray-600 hover:text-primary hover:bg-gray-50 rounded-lg font-medium transition">Home</router-link>
+        <router-link to="/home" @click="closeMobileMenu" class="block px-3 py-2 text-gray-600 hover:text-primary hover:bg-gray-50 rounded-lg font-medium transition">Services</router-link>
+        <router-link to="/dashboard" @click="closeMobileMenu" class="block px-3 py-2 text-gray-600 hover:text-primary hover:bg-gray-50 rounded-lg font-medium transition">Dashboard</router-link>
+        <router-link to="/profile" @click="closeMobileMenu" class="block px-3 py-2 text-gray-600 hover:text-primary hover:bg-gray-50 rounded-lg font-medium transition">Profile</router-link>
         
         <div class="pt-4 mt-4 border-t border-gray-100 flex flex-col gap-3">
           <router-link to="/auth" @click="closeMobileMenu" class="w-full text-center px-4 py-2.5 text-primary font-semibold border border-gray-200 rounded-lg hover:bg-gray-50 transition">

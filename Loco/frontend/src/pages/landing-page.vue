@@ -28,12 +28,14 @@ const steps = [
 
 <template>
   <div class="min-h-screen bg-white font-sans text-gray-900 antialiased">
+   
+    <!-- 👇 Navbar added here -->
     <Navbar />
 
     <!-- Hero Section -->
-    <section class="relative pt-20 pb-24 md:mt-9 md:pb-32">
+    <section class="relative pt-20 pb-24 md:pt-32 md:pb-32">
       <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <h1 class="text-4xl md:text-6xl font-bold tracking-tight text-primary mb-6">
+        <h1 class="text-4xl md:text-6xl font-bold tracking-tight text-primary mb-6">
           Local services, <br class="hidden md:block" />
           <span class="text-gray-900">simplified.</span>
         </h1>
@@ -78,7 +80,6 @@ const steps = [
 
         <div class="grid md:grid-cols-3 gap-12">
           <div v-for="step in steps" :key="step.num" class="text-center md:text-left">
-            <!-- Minimalist large faint numbers instead of heavy gradient circles -->
             <div class="text-5xl font-bold text-primary/10 mb-4">{{ step.num }}</div>
             <h3 class="text-xl font-bold text-gray-900 mb-2">{{ step.title }}</h3>
             <p class="text-gray-500 leading-relaxed">{{ step.desc }}</p>
@@ -90,14 +91,12 @@ const steps = [
     <!-- Become a Provider CTA -->
     <section id="provider-cta" class="py-20 border-t border-gray-100">
       <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <!-- Subtle tinted box instead of a heavy gradient -->
         <div class="bg-primary/5 border border-primary/10 rounded-3xl p-10 md:p-16 text-center">
           <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Grow your local business</h2>
           <p class="text-gray-600 text-lg mb-8 max-w-xl mx-auto">
             Join thousands of service providers on Loco. Manage bookings, reach more customers, and simplify your workflow.
           </p>
           <div class="flex flex-col sm:flex-row gap-4 justify-center">
-            <!-- Highlight color used sparingly for the main CTA -->
             <button class="px-8 py-3 bg-highlight text-white font-semibold rounded-xl hover:opacity-90 transition shadow-sm">
               Start Providing Today
             </button>
