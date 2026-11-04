@@ -25,8 +25,8 @@ const closeMobileMenu = () => {
         
         <!-- Desktop Navigation Links -->
         <div class="hidden md:flex items-center gap-8">
-          <router-link to="/" class="text-sm font-medium text-gray-600 hover:text-primary transition">Home</router-link>
-          <router-link to="/home" class="text-sm font-medium text-gray-600 hover:text-primary transition">Services</router-link>
+          <router-link to="/home" class="text-sm font-medium text-gray-600 hover:text-primary transition">Home</router-link>
+          <router-link to="/services" class="text-sm font-medium text-gray-600 hover:text-primary transition">Services</router-link>
           <router-link to="/dashboard" class="text-sm font-medium text-gray-600 hover:text-primary transition">Dashboard</router-link>
           <router-link to="/profile" class="text-sm font-medium text-gray-600 hover:text-primary transition">Profile</router-link>
         </div>
@@ -61,8 +61,8 @@ const closeMobileMenu = () => {
       class="md:hidden bg-white border-t border-gray-100 shadow-lg absolute w-full left-0"
     >
       <div class="px-4 py-4 space-y-2">
-        <router-link to="/" @click="closeMobileMenu" class="block px-3 py-2 text-gray-600 hover:text-primary hover:bg-gray-50 rounded-lg font-medium transition">Home</router-link>
-        <router-link to="/home" @click="closeMobileMenu" class="block px-3 py-2 text-gray-600 hover:text-primary hover:bg-gray-50 rounded-lg font-medium transition">Services</router-link>
+        <router-link to="/home" @click="closeMobileMenu" class="block px-3 py-2 text-gray-600 hover:text-primary hover:bg-gray-50 rounded-lg font-medium transition">Home</router-link>
+        <router-link to="/services" @click="closeMobileMenu" class="block px-3 py-2 text-gray-600 hover:text-primary hover:bg-gray-50 rounded-lg font-medium transition">Services</router-link>
         <router-link to="/dashboard" @click="closeMobileMenu" class="block px-3 py-2 text-gray-600 hover:text-primary hover:bg-gray-50 rounded-lg font-medium transition">Dashboard</router-link>
         <router-link to="/profile" @click="closeMobileMenu" class="block px-3 py-2 text-gray-600 hover:text-primary hover:bg-gray-50 rounded-lg font-medium transition">Profile</router-link>
         
