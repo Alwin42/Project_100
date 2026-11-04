@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from .database import engine, Base
 from .routers import auth
 
-# Create database tables
+# Create all database tables
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="Loco API")
