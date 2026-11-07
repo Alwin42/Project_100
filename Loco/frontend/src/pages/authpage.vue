@@ -1,7 +1,7 @@
 <script setup>
+import { ArrowRight, Briefcase, Home, Lock, Mail, MapPin, Phone, User } from 'lucide-vue-next'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { Mail, Lock, User, Briefcase, Home, ArrowRight } from 'lucide-vue-next'
 import { login, register } from '../api/auth'
 import Navbar from '../components/Navbar.vue'
 
@@ -13,8 +13,11 @@ const errorMessage = ref('')
 const formData = ref({
   email: '',
   password: '',
-  full_name: '',
-  role: 'user' // 'user' or 'provider'
+  name: '',
+  phone: '',
+  city_town: '',
+  country: '',
+  role: '' 
 })
 
 const toggleMode = () => {
@@ -35,9 +38,9 @@ const handleSubmit = async () => {
       const payload = JSON.parse(atob(res.data.access_token.split('.')[1]))
       
       if (payload.role === 'provider') {
-        router.push('/provider-dashboard') // You can create this later
+        router.push('/dashboard')
       } else {
-        router.push('/user-dashboard') // You can create this later
+        router.push('/home')
       }
     } else {
       await register(formData.value)
@@ -53,7 +56,7 @@ const handleSubmit = async () => {
 </script>
 
 <template>
-    <Navbar/>
+  <Navbar/>
   <div class="min-h-screen flex flex-col md:flex-row bg-white">
     <!-- Left Side: Branding / Hero -->
     <div class="hidden md:flex md:w-1/2 bg-gradient-to-br from-primary via-secondary to-accent text-white p-12 flex-col justify-between relative overflow-hidden">
@@ -62,7 +65,6 @@ const handleSubmit = async () => {
       <div class="absolute bottom-0 left-0 w-96 h-96 bg-accent/20 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
       
       <div class="relative z-10">
-        
         <h1 class="text-4xl lg:text-5xl font-extrabold leading-tight mb-4">
           Connect with <br/> Trusted Local <br/> <span class="text-highlight">Professionals</span>
         </h1>
@@ -92,17 +94,17 @@ const handleSubmit = async () => {
           {{ isLogin ? 'Enter your credentials to access your account.' : 'Join Loco today and get started.' }}
         </p>
 
-        <form @submit.prevent="handleSubmit" class="space-y-5">
+        <form @submit.prevent="handleSubmit" class="space-y-4">
           <!-- Error Message -->
           <div v-if="errorMessage" class="p-3 bg-red-50 text-red-600 text-sm rounded-lg border border-red-100">
             {{ errorMessage }}
           </div>
 
-          <!-- Full Name (Signup only) -->
-          <div v-if="!isLogin" class="relative">
+          <!-- Full Name -->
+          <div class="relative">
             <User class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
             <input 
-              v-model="formData.full_name" 
+              v-model="formData.name" 
               type="text" 
               placeholder="Full Name" 
               required 
@@ -118,6 +120,41 @@ const handleSubmit = async () => {
               type="email" 
               placeholder="Email Address" 
               required 
+              class="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition"
+            />
+          </div>
+
+          <!-- Phone (Signup only) -->
+          <div v-if="!isLogin" class="relative">
+            <Phone class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+            <input 
+              v-model="formData.phone" 
+              type="tel" 
+              placeholder="Phone Number" 
+              class="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition"
+            />
+          </div>
+
+          <!-- City/Town (Signup only) -->
+          <div v-if="!isLogin" class="relative">
+            <MapPin class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+            <input 
+              v-model="formData.city_town" 
+              type="text" 
+              placeholder="City/Town" 
+              class="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition"
+            />
+          </div>
+
+          <!-- Country (Signup only) -->
+          <div v-if="!isLogin" class="relative">
+            <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <input 
+              v-model="formData.country" 
+              type="text" 
+              placeholder="Country" 
               class="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition"
             />
           </div>
@@ -166,7 +203,7 @@ const handleSubmit = async () => {
           <button 
             type="submit" 
             :disabled="isLoading"
-            class="w-full py-3 bg-primary text-white font-semibold rounded-xl hover:opacity-90 transition shadow-lg shadow-primary/20 flex items-center justify-center gap-2 disabled:opacity-50"
+            class="w-full py-3 bg-primary text-white font-semibold rounded-xl hover:opacity-90 transition shadow-lg shadow-primary/20 flex items-center justify-center gap-2 disabled:opacity-50 mt-2"
           >
             <span v-if="isLoading">Processing...</span>
             <span v-else>{{ isLogin ? 'Sign In' : 'Create Account' }}</span>
@@ -175,7 +212,7 @@ const handleSubmit = async () => {
         </form>
 
         <!-- Toggle Login/Signup -->
-        <p class="text-center text-gray-500 mt-8">
+        <p class="text-center text-gray-500 mt-6">
           {{ isLogin ? "Don't have an account?" : "Already have an account?" }}
           <button @click="toggleMode" class="text-primary font-semibold hover:underline ml-1">
             {{ isLogin ? 'Sign up' : 'Log in' }}
