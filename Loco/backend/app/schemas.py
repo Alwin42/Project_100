@@ -1,15 +1,18 @@
 from pydantic import BaseModel, EmailStr
 
 class UserBase(BaseModel):
+    name: str
     email: EmailStr
-    full_name: str
+    phone: str = ""
+    city_town: str = ""
+    country: str = ""
 
 class UserCreate(UserBase):
     password: str
-    role: str = "user" # Defaults to customer
+    role: str = "user"  
 
 class UserResponse(UserBase):
-    id: int
+    uid: int
     role: str
     is_active: bool
 

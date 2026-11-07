@@ -8,6 +8,9 @@ class User(Base):
     
     uid = Column(Integer, primary_key=True, index=True)
     name = Column(String(100), nullable=False)
+    email = Column(String(100), unique=True, index=True, nullable=False)
+    hashed_password = Column(String(255), nullable=False)
+    role = Column(String(50), default="user")  # 'user' or 'provider'
     city_town = Column(String(100))
     country = Column(String(100))
     address = Column(Text)
@@ -16,6 +19,7 @@ class User(Base):
     date_of_join = Column(DateTime, default=datetime.utcnow)
     total_spent_on_services = Column(Float, default=0.0)
     total_services_completed = Column(Integer, default=0)
+    is_active = Column(Boolean, default=True)
     
     # Relationships
     services_requested = relationship("Service", foreign_keys="Service.uid", back_populates="user")
@@ -28,11 +32,13 @@ class Worker(Base):
     
     wid = Column(Integer, primary_key=True, index=True)
     name = Column(String(100), nullable=False)
+    email = Column(String(100), unique=True, index=True, nullable=False)
+    hashed_password = Column(String(255), nullable=False)
     profession = Column(String(100))
     years_of_experience = Column(Integer)
-    skills = Column(Text)  # Store as comma-separated or JSON
+    skills = Column(Text)
     city_town = Column(String(100))
-    organisation_individual = Column(String(50))  # 'Organisation' or 'Individual'
+    organisation_individual = Column(String(50))
     total_services_done = Column(Integer, default=0)
     total_money_gained = Column(Float, default=0.0)
     verified_status = Column(Boolean, default=False)
@@ -56,8 +62,8 @@ class Service(Base):
     publish_date = Column(DateTime, default=datetime.utcnow)
     expiry_date = Column(DateTime)
     city_town = Column(String(100))
-    status = Column(String(50))  # e.g., 'Active', 'Completed', 'Cancelled'
-    emergency_type = Column(String(50))  # 'Emergency', 'Urgent', 'Normal'
+    status = Column(String(50))
+    emergency_type = Column(String(50))
     
     # Relationships
     user = relationship("User", foreign_keys=[uid], back_populates="services_requested")
@@ -71,14 +77,14 @@ class Payment(Base):
     pid = Column(Integer, primary_key=True, index=True)
     username = Column(String(100))
     worker_name = Column(String(100))
-    status = Column(String(50))  # 'Pending', 'Completed', 'Failed'
+    status = Column(String(50))
     sid = Column(Integer, ForeignKey("services.sid"))
     date = Column(DateTime, default=datetime.utcnow)
-    time = Column(String(20))  # Store time as string or use DateTime
+    time = Column(String(20))
     amount = Column(Float)
     uid = Column(Integer, ForeignKey("users.uid"))
     wid = Column(Integer, ForeignKey("workers.wid"))
-    payment_method = Column(String(50))  # 'Cash', 'Card', 'UPI', etc.
+    payment_method = Column(String(50))
     
     # Relationships
     user = relationship("User", foreign_keys=[uid], back_populates="payments")
@@ -97,7 +103,7 @@ class History(Base):
     worker_name = Column(String(100))
     date = Column(DateTime, default=datetime.utcnow)
     payment_amount = Column(Float)
-    payment_status = Column(String(50))  # 'Paid', 'Unpaid', 'Refunded'
+    payment_status = Column(String(50))
     
     # Relationships
     user = relationship("User", foreign_keys=[uid], back_populates="history")
