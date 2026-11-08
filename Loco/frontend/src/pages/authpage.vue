@@ -40,7 +40,7 @@ const handleSubmit = async () => {
       if (payload.role === 'provider') {
         router.push('/dashboard')
       } else {
-        router.push('/home')
+        router.push('/dashboard')
       }
     } else {
       await register(formData.value)
@@ -100,17 +100,8 @@ const handleSubmit = async () => {
             {{ errorMessage }}
           </div>
 
-          <!-- Full Name -->
-          <div class="relative">
-            <User class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-            <input 
-              v-model="formData.name" 
-              type="text" 
-              placeholder="Full Name" 
-              required 
-              class="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition"
-            />
-          </div>
+         
+          
 
           <!-- Email -->
           <div class="relative">
