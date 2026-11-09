@@ -17,7 +17,7 @@ const formData = ref({
   phone: '',
   city_town: '',
   country: '',
-  role: '' 
+  role: 'user' // Default to user
 })
 
 const toggleMode = () => {
@@ -34,7 +34,7 @@ const handleSubmit = async () => {
       const res = await login({ email: formData.value.email, password: formData.value.password })
       localStorage.setItem('token', res.data.access_token)
       
-      // Decode token to get role (simple split for demo, ideally use a JWT decoder)
+      // Decode token to get role
       const payload = JSON.parse(atob(res.data.access_token.split('.')[1]))
       
       if (payload.role === 'provider') {
@@ -100,10 +100,19 @@ const handleSubmit = async () => {
             {{ errorMessage }}
           </div>
 
-         
-          
+          <!-- Full Name (Signup ONLY) -->
+          <div v-if="!isLogin" class="relative">
+            <User class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+            <input 
+              v-model="formData.name" 
+              type="text" 
+              placeholder="Full Name" 
+              required 
+              class="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition"
+            />
+          </div>
 
-          <!-- Email -->
+          <!-- Email (Always Visible) -->
           <div class="relative">
             <Mail class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
             <input 
@@ -150,7 +159,7 @@ const handleSubmit = async () => {
             />
           </div>
 
-          <!-- Password -->
+          <!-- Password (Always Visible) -->
           <div class="relative">
             <Lock class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
             <input 
